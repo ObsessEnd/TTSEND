@@ -11,6 +11,9 @@ let voices = [];
 let db = null;
 let activeUtterance = null;
 let consecutiveErrors = 0;
+let onlineAudioPlayer = null;
+let onlineChunks = [];
+let currentChunkIndex = 0;
 
 // Cấu hình mặc định
 const config = {
@@ -304,54 +307,60 @@ function parseTxtFile(text, filename) {
 // ==========================================
 // 5. TRÌNH ĐỌC TEXT-TO-SPEECH (TTS)
 // ==========================================
+// ==========================================
+// 5. TRÌNH ĐỌC TEXT-TO-SPEECH (TTS) MULTI-ENGINE
+// ==========================================
 function initSpeech() {
-    if (!('speechSynthesis' in window)) {
-        alert("Rất tiếc, trình duyệt của bạn không hỗ trợ tính năng đọc thành tiếng (TTS).");
-        return;
-    }
-
     // Tải danh sách giọng đọc
     function populateVoices() {
-        voices = window.speechSynthesis.getVoices();
+        if ('speechSynthesis' in window) {
+            voices = window.speechSynthesis.getVoices();
+        }
         const voiceSelect = document.getElementById('voice-select');
         if (!voiceSelect) return;
 
         voiceSelect.innerHTML = '';
-        
-        // Tùy chọn Tự động chọn Tiếng Việt
+
+        // 1. Tùy chọn Giọng Nữ Google Online (Mặc định khuyên dùng cho máy Trung Quốc/Mobile)
+        const optGoogleFemale = document.createElement('option');
+        optGoogleFemale.value = 'Google_Vi_Female';
+        optGoogleFemale.textContent = '🔊 Giọng Nữ Tiếng Việt (Google Online - Khuyên dùng cho máy Trung Quốc/Mobile)';
+        voiceSelect.appendChild(optGoogleFemale);
+
+        // 2. Tùy chọn ResponsiveVoice Giọng Nữ
+        const optRespFemale = document.createElement('option');
+        optRespFemale.value = 'Responsive_Vi_Female';
+        optRespFemale.textContent = '🔊 Giọng Nữ Tiếng Việt (ResponsiveVoice - Dự phòng 2)';
+        voiceSelect.appendChild(optRespFemale);
+
+        // 3. Tùy chọn Web Speech Tiếng Việt Tự Động
         const autoOption = document.createElement('option');
         autoOption.value = 'Auto_Vi';
-        autoOption.textContent = 'Tiếng Việt Tự Động (Tốt nhất cho Mobile / PC)';
-        if (config.voiceName === 'Auto_Vi' || !config.voiceName || config.voiceName === 'GoogleTranslate_Vi') {
-            autoOption.selected = true;
-        }
+        autoOption.textContent = '🌐 Giọng Tiếng Việt Máy/Hệ Thống (Web Speech API)';
         voiceSelect.appendChild(autoOption);
 
-        // Sắp xếp đưa giọng Tiếng Việt (vi-VN) lên đầu
+        // Đưa các giọng tiếng Việt tìm được trong hệ thống lên đầu
         const viVoices = voices.filter(v => v.lang && v.lang.toLowerCase().includes('vi'));
         const otherVoices = voices.filter(v => !v.lang || !v.lang.toLowerCase().includes('vi'));
-        
         const sortedVoices = [...viVoices, ...otherVoices];
 
         sortedVoices.forEach(voice => {
             const option = document.createElement('option');
             option.value = voice.name;
-            option.textContent = `${voice.name} (${voice.lang})${voice.localService ? ' [Offline]' : ''}`;
-            
-            if (voice.name === config.voiceName) {
-                option.selected = true;
-            }
+            option.textContent = `💻 ${voice.name} (${voice.lang})${voice.localService ? ' [Offline]' : ''}`;
             voiceSelect.appendChild(option);
         });
 
-        if (!config.voiceName || config.voiceName === 'GoogleTranslate_Vi') {
-            config.voiceName = 'Auto_Vi';
+        // Thiết lập giá trị được chọn
+        if (!config.voiceName || config.voiceName === 'GoogleTranslate_Vi' || config.voiceName === 'Auto_Vi') {
+            config.voiceName = 'Google_Vi_Female';
             saveConfig();
         }
+        voiceSelect.value = config.voiceName;
     }
 
     populateVoices();
-    if (speechSynthesis.onvoiceschanged !== undefined) {
+    if ('speechSynthesis' in window && speechSynthesis.onvoiceschanged !== undefined) {
         speechSynthesis.onvoiceschanged = populateVoices;
     }
 }
@@ -393,48 +402,151 @@ function speakParagraph(index) {
     scrollParagraphIntoView(index);
     saveReadingProgress();
 
-    // Hủy liên kết event của utterance cũ để tránh race condition khi cancel
-    if (activeUtterance) {
-        activeUtterance.onend = null;
-        activeUtterance.onerror = null;
-        activeUtterance = null;
-    }
-
-    // Dừng giọng đọc hiện tại
-    window.speechSynthesis.cancel();
+    // Dừng tất cả âm thanh đang phát trước đó
+    stopAllAudio();
 
     const text = chapter.paragraphs[index];
     if (!text || text.trim() === "") {
-        // Nếu đoạn văn rỗng, tự chuyển qua đoạn sau
         speakParagraph(index + 1);
+        return;
+    }
+
+    // Phân luồng Engine theo Lựa chọn giọng đọc
+    if (config.voiceName === 'Google_Vi_Female') {
+        speakViaGoogleOnline(text, index);
+    } else if (config.voiceName === 'Responsive_Vi_Female') {
+        speakViaResponsiveVoice(text, index);
+    } else {
+        speakViaWebSpeech(text, index);
+    }
+}
+
+// --- ENGINE 1: GOOGLE ONLINE FEMALE (Dùng no-referrer bypass CORS) ---
+function speakViaGoogleOnline(text, index) {
+    onlineChunks = chunkTextForTTS(text, 170);
+    currentChunkIndex = 0;
+
+    if (onlineChunks.length === 0) {
+        speakParagraph(index + 1);
+        return;
+    }
+
+    playNextGoogleChunk(index);
+}
+
+function playNextGoogleChunk(paragraphIndex) {
+    if (!isPlaying) return;
+
+    if (currentChunkIndex >= onlineChunks.length) {
+        consecutiveErrors = 0;
+        speakParagraph(paragraphIndex + 1);
+        return;
+    }
+
+    const chunkText = onlineChunks[currentChunkIndex];
+    const encoded = encodeURIComponent(chunkText);
+    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=vi&client=tw-ob&q=${encoded}`;
+
+    const audio = new Audio();
+    audio.referrerPolicy = "no-referrer"; // Bỏ Referer header để không bị Google chặn HTTP 403 / CORS
+    audio.src = ttsUrl;
+    audio.defaultPlaybackRate = config.rate || 1.0;
+    audio.playbackRate = config.rate || 1.0;
+    onlineAudioPlayer = audio;
+
+    audio.onended = () => {
+        currentChunkIndex++;
+        playNextGoogleChunk(paragraphIndex);
+    };
+
+    audio.onerror = (err) => {
+        console.warn("Lỗi audio Google Online, thử dự phòng ResponsiveVoice...", err);
+        if (window.responsiveVoice) {
+            responsiveVoice.speak(chunkText, "Vietnamese Female", {
+                rate: config.rate || 1.0,
+                pitch: config.pitch || 1.0,
+                onend: () => {
+                    currentChunkIndex++;
+                    playNextGoogleChunk(paragraphIndex);
+                },
+                onerror: () => {
+                    currentChunkIndex++;
+                    playNextGoogleChunk(paragraphIndex);
+                }
+            });
+        } else {
+            currentChunkIndex++;
+            playNextGoogleChunk(paragraphIndex);
+        }
+    };
+
+    audio.play().catch(err => {
+        console.warn("Không thể autoplay Google Audio, thử dự phòng ResponsiveVoice:", err);
+        if (window.responsiveVoice) {
+            responsiveVoice.speak(chunkText, "Vietnamese Female", {
+                rate: config.rate || 1.0,
+                pitch: config.pitch || 1.0,
+                onend: () => {
+                    currentChunkIndex++;
+                    playNextGoogleChunk(paragraphIndex);
+                }
+            });
+        }
+    });
+
+    updatePlayBtnState(true);
+}
+
+// --- ENGINE 2: RESPONSIVEVOICE (Giọng Nữ chuẩn) ---
+function speakViaResponsiveVoice(text, index) {
+    if (!window.responsiveVoice) {
+        speakViaWebSpeech(text, index);
+        return;
+    }
+
+    responsiveVoice.speak(text, "Vietnamese Female", {
+        rate: config.rate || 1.0,
+        pitch: config.pitch || 1.0,
+        onend: () => {
+            consecutiveErrors = 0;
+            if (isPlaying) {
+                speakParagraph(index + 1);
+            }
+        },
+        onerror: (err) => {
+            console.warn("Lỗi ResponsiveVoice:", err);
+            speakViaWebSpeech(text, index);
+        }
+    });
+    updatePlayBtnState(true);
+}
+
+// --- ENGINE 3: WEB SPEECH API (Máy / Hệ thống) ---
+function speakViaWebSpeech(text, index) {
+    if (!('speechSynthesis' in window)) {
+        stopSpeech();
         return;
     }
 
     const utterance = new SpeechSynthesisUtterance(text);
     activeUtterance = utterance;
-    
-    // Luôn luôn thiết lập ngôn ngữ Tiếng Việt làm chuẩn
     utterance.lang = 'vi-VN';
 
-    // Tìm giọng đọc đã chọn
-    if (config.voiceName && config.voiceName !== 'Auto_Vi' && config.voiceName !== 'GoogleTranslate_Vi') {
+    if (config.voiceName && config.voiceName !== 'Auto_Vi') {
         const selectedVoice = voices.find(v => v.name === config.voiceName);
         if (selectedVoice) {
             utterance.voice = selectedVoice;
         }
     } else {
-        // Thử chọn giọng tiếng Việt bất kỳ có sẵn trong danh sách nếu có
         const viVoice = voices.find(v => v.lang && v.lang.toLowerCase().includes('vi'));
         if (viVoice) {
             utterance.voice = viVoice;
         }
     }
-    
-    // Cài đặt thông số tốc độ & cao độ
+
     utterance.rate = config.rate || 1.0;
     utterance.pitch = config.pitch || 1.0;
 
-    // Lắng nghe sự kiện kết thúc để đọc tiếp đoạn sau
     utterance.onend = () => {
         consecutiveErrors = 0;
         activeUtterance = null;
@@ -445,17 +557,14 @@ function speakParagraph(index) {
 
     utterance.onerror = (e) => {
         activeUtterance = null;
-        console.warn("Sự kiện TTS error:", e.error);
+        console.warn("Lỗi WebSpeech:", e.error);
 
-        // Bỏ qua lỗi bị tạm dừng / bị hủy do bấm nút stop hay chuyển đoạn
         if (e.error === 'canceled' || e.error === 'interrupted' || !isPlaying) {
             return;
         }
 
         consecutiveErrors++;
-        // Nếu gặp quá nhiều lỗi liên tiếp (không có giọng đọc / trình duyệt chặn), dừng hẳn để tránh nhảy đoạn loạn xạ
         if (consecutiveErrors >= 3) {
-            console.error("Gặp 3 lỗi đọc liên tiếp. Dừng phát âm.");
             stopSpeech();
             consecutiveErrors = 0;
             return;
@@ -468,7 +577,6 @@ function speakParagraph(index) {
         }, 400);
     };
 
-    // Đảm bảo trình duyệt không ở trạng thái paused
     if (window.speechSynthesis.paused) {
         window.speechSynthesis.resume();
     }
@@ -477,14 +585,32 @@ function speakParagraph(index) {
     updatePlayBtnState(true);
 }
 
+function stopAllAudio() {
+    if (activeUtterance) {
+        activeUtterance.onend = null;
+        activeUtterance.onerror = null;
+        activeUtterance = null;
+    }
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+    }
+    if (window.responsiveVoice) {
+        responsiveVoice.cancel();
+    }
+    if (onlineAudioPlayer) {
+        onlineAudioPlayer.pause();
+        onlineAudioPlayer.onended = null;
+        onlineAudioPlayer.onerror = null;
+        onlineAudioPlayer = null;
+    }
+}
+
 function togglePlay() {
     if (!currentNovel) return;
     
     if (isPlaying) {
-        // Đang phát -> Tạm dừng
         stopSpeech();
     } else {
-        // Đang tạm dừng -> Phát tiếp từ vị trí hiện tại
         isPlaying = true;
         consecutiveErrors = 0;
         if (currentParagraphIndex < 0) {
@@ -496,14 +622,42 @@ function togglePlay() {
 
 function stopSpeech() {
     consecutiveErrors = 0;
-    if (activeUtterance) {
-        activeUtterance.onend = null;
-        activeUtterance.onerror = null;
-        activeUtterance = null;
-    }
-    window.speechSynthesis.cancel();
+    stopAllAudio();
     isPlaying = false;
     updatePlayBtnState(false);
+}
+
+// Chia tách văn bản thành các câu nhỏ (<170 kí tự) cho API Google Online
+function chunkTextForTTS(text, maxLength) {
+    const sentences = text.match(/[^.!?]+[.!?]*|.+/g) || [text];
+    const chunks = [];
+    let currentChunk = "";
+
+    for (let sentence of sentences) {
+        const clean = sentence.trim();
+        if (clean === "") continue;
+
+        if (clean.length > maxLength) {
+            const words = clean.split(/\s+/);
+            for (let word of words) {
+                if ((currentChunk + " " + word).trim().length <= maxLength) {
+                    currentChunk = (currentChunk + " " + word).trim();
+                } else {
+                    if (currentChunk) chunks.push(currentChunk);
+                    currentChunk = word;
+                }
+            }
+        } else {
+            if ((currentChunk + " " + clean).trim().length <= maxLength) {
+                currentChunk = (currentChunk + " " + clean).trim();
+            } else {
+                if (currentChunk) chunks.push(currentChunk);
+                currentChunk = clean;
+            }
+        }
+    }
+    if (currentChunk) chunks.push(currentChunk);
+    return chunks;
 }
 
 function updatePlayBtnState(playing) {
