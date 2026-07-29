@@ -445,10 +445,14 @@ function playNextGoogleChunk(paragraphIndex) {
 
     const chunkText = onlineChunks[currentChunkIndex];
     const encoded = encodeURIComponent(chunkText);
-    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=vi&client=tw-ob&q=${encoded}`;
+    
+    // Sử dụng API gtx ổn định hơn, không bị lỗi 403
+    const ttsUrl = `https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=vi&q=${encoded}`;
+    // Dự phòng Youdao API cho máy ở khu vực chặn Google
+    const youdaoUrl = `https://dict.youdao.com/dictvoice?audio=${encoded}&le=vi`;
 
-    const audio = new Audio();
-    audio.referrerPolicy = "no-referrer"; // Bỏ Referer header để không bị Google chặn HTTP 403 / CORS
+    let audio = new Audio();
+    audio.referrerPolicy = "no-referrer"; 
     audio.src = ttsUrl;
     audio.defaultPlaybackRate = config.rate || 1.0;
     audio.playbackRate = config.rate || 1.0;
@@ -460,38 +464,48 @@ function playNextGoogleChunk(paragraphIndex) {
     };
 
     audio.onerror = (err) => {
-        console.warn("Lỗi audio Google Online, thử dự phòng ResponsiveVoice...", err);
-        if (window.responsiveVoice) {
-            responsiveVoice.speak(chunkText, "Vietnamese Female", {
-                rate: config.rate || 1.0,
-                pitch: config.pitch || 1.0,
-                onend: () => {
-                    currentChunkIndex++;
-                    playNextGoogleChunk(paragraphIndex);
-                },
-                onerror: () => {
-                    currentChunkIndex++;
-                    playNextGoogleChunk(paragraphIndex);
-                }
-            });
-        } else {
+        console.warn("Lỗi audio Google Online, thử dự phòng Youdao...", err);
+        
+        // Fallback 1: Youdao API
+        let fallbackAudio = new Audio();
+        fallbackAudio.referrerPolicy = "no-referrer";
+        fallbackAudio.src = youdaoUrl;
+        fallbackAudio.defaultPlaybackRate = config.rate || 1.0;
+        fallbackAudio.playbackRate = config.rate || 1.0;
+        onlineAudioPlayer = fallbackAudio;
+
+        fallbackAudio.onended = () => {
             currentChunkIndex++;
             playNextGoogleChunk(paragraphIndex);
-        }
+        };
+
+        fallbackAudio.onerror = () => {
+            console.warn("Lỗi Youdao, thử dự phòng ResponsiveVoice...");
+            if (window.responsiveVoice) {
+                responsiveVoice.speak(chunkText, "Vietnamese Female", {
+                    rate: config.rate || 1.0,
+                    pitch: config.pitch || 1.0,
+                    onend: () => {
+                        currentChunkIndex++;
+                        playNextGoogleChunk(paragraphIndex);
+                    },
+                    onerror: () => {
+                        currentChunkIndex++;
+                        playNextGoogleChunk(paragraphIndex);
+                    }
+                });
+            } else {
+                currentChunkIndex++;
+                playNextGoogleChunk(paragraphIndex);
+            }
+        };
+        
+        fallbackAudio.play().catch(e => console.warn("Lỗi play Youdao:", e));
     };
 
     audio.play().catch(err => {
-        console.warn("Không thể autoplay Google Audio, thử dự phòng ResponsiveVoice:", err);
-        if (window.responsiveVoice) {
-            responsiveVoice.speak(chunkText, "Vietnamese Female", {
-                rate: config.rate || 1.0,
-                pitch: config.pitch || 1.0,
-                onend: () => {
-                    currentChunkIndex++;
-                    playNextGoogleChunk(paragraphIndex);
-                }
-            });
-        }
+        // Tự động gọi onerror để trigger fallback nếu play() bị chặn
+        audio.dispatchEvent(new Event("error"));
     });
 
     updatePlayBtnState(true);
