@@ -313,49 +313,19 @@ function parseTxtFile(text, filename) {
 function initSpeech() {
     // Tải danh sách giọng đọc
     function populateVoices() {
-        if ('speechSynthesis' in window) {
-            voices = window.speechSynthesis.getVoices();
-        }
         const voiceSelect = document.getElementById('voice-select');
         if (!voiceSelect) return;
 
         voiceSelect.innerHTML = '';
 
-        // 1. Tùy chọn Giọng Nữ Google Online (Mặc định khuyên dùng cho máy Trung Quốc/Mobile)
+        // Tùy chọn duy nhất và tốt nhất cho máy Trung Quốc
         const optGoogleFemale = document.createElement('option');
         optGoogleFemale.value = 'Google_Vi_Female';
-        optGoogleFemale.textContent = '🔊 Giọng Nữ Tiếng Việt (Google Online - Khuyên dùng cho máy Trung Quốc/Mobile)';
+        optGoogleFemale.textContent = '🔊 Giọng Nữ Tiếng Việt (Google Online - Bắt buộc cho máy TQ)';
         voiceSelect.appendChild(optGoogleFemale);
 
-        // 2. Tùy chọn ResponsiveVoice Giọng Nữ
-        const optRespFemale = document.createElement('option');
-        optRespFemale.value = 'Responsive_Vi_Female';
-        optRespFemale.textContent = '🔊 Giọng Nữ Tiếng Việt (ResponsiveVoice - Dự phòng 2)';
-        voiceSelect.appendChild(optRespFemale);
-
-        // 3. Tùy chọn Web Speech Tiếng Việt Tự Động
-        const autoOption = document.createElement('option');
-        autoOption.value = 'Auto_Vi';
-        autoOption.textContent = '🌐 Giọng Tiếng Việt Máy/Hệ Thống (Web Speech API)';
-        voiceSelect.appendChild(autoOption);
-
-        // Đưa các giọng tiếng Việt tìm được trong hệ thống lên đầu
-        const viVoices = voices.filter(v => v.lang && v.lang.toLowerCase().includes('vi'));
-        const otherVoices = voices.filter(v => !v.lang || !v.lang.toLowerCase().includes('vi'));
-        const sortedVoices = [...viVoices, ...otherVoices];
-
-        sortedVoices.forEach(voice => {
-            const option = document.createElement('option');
-            option.value = voice.name;
-            option.textContent = `💻 ${voice.name} (${voice.lang})${voice.localService ? ' [Offline]' : ''}`;
-            voiceSelect.appendChild(option);
-        });
-
-        // Thiết lập giá trị được chọn
-        if (!config.voiceName || config.voiceName === 'GoogleTranslate_Vi' || config.voiceName === 'Auto_Vi') {
-            config.voiceName = 'Google_Vi_Female';
-            saveConfig();
-        }
+        config.voiceName = 'Google_Vi_Female';
+        saveConfig();
         voiceSelect.value = config.voiceName;
     }
 
@@ -446,14 +416,18 @@ function playNextGoogleChunk(paragraphIndex) {
     const chunkText = onlineChunks[currentChunkIndex];
     const encoded = encodeURIComponent(chunkText);
     
-    // Sử dụng API gtx ổn định hơn, không bị lỗi 403
-    const ttsUrl = `https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=vi&q=${encoded}`;
-    // Dự phòng Youdao API cho máy ở khu vực chặn Google
-    const youdaoUrl = `https://dict.youdao.com/dictvoice?audio=${encoded}&le=vi`;
+    // Sử dụng API dict-chrome-ex của Google ít bị chặn nhất
+    const directUrl = `https://translate.googleapis.com/translate_tts?client=dict-chrome-ex&ie=UTF-8&tl=vi&q=${encoded}`;
+    // Proxy URL để lách luật mạng nội địa Trung Quốc nếu URL gốc bị chặn
+    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(directUrl)}`;
 
-    let audio = new Audio();
-    audio.referrerPolicy = "no-referrer"; 
-    audio.src = ttsUrl;
+    // Sử dụng thẻ audio cố định để tránh bị chặn autoplay trên mobile
+    let audio = document.getElementById('global-audio-player');
+    if (!audio) {
+        audio = new Audio(); // Fallback nếu chưa có thẻ trên HTML
+    }
+    
+    audio.src = directUrl; // Thử đường dẫn gốc trước
     audio.defaultPlaybackRate = config.rate || 1.0;
     audio.playbackRate = config.rate || 1.0;
     onlineAudioPlayer = audio;
@@ -464,47 +438,24 @@ function playNextGoogleChunk(paragraphIndex) {
     };
 
     audio.onerror = (err) => {
-        console.warn("Lỗi audio Google Online, thử dự phòng Youdao...", err);
+        console.warn("Lỗi đường dẫn gốc Google, chuyển sang dùng Proxy...", err);
         
-        // Fallback 1: Youdao API
-        let fallbackAudio = new Audio();
-        fallbackAudio.referrerPolicy = "no-referrer";
-        fallbackAudio.src = youdaoUrl;
-        fallbackAudio.defaultPlaybackRate = config.rate || 1.0;
-        fallbackAudio.playbackRate = config.rate || 1.0;
-        onlineAudioPlayer = fallbackAudio;
-
-        fallbackAudio.onended = () => {
+        // Cố gắng dùng Proxy để vượt tường lửa
+        audio.onerror = () => {
+            console.warn("Cả Proxy cũng bị chặn, bỏ qua đoạn này.");
             currentChunkIndex++;
             playNextGoogleChunk(paragraphIndex);
         };
-
-        fallbackAudio.onerror = () => {
-            console.warn("Lỗi Youdao, thử dự phòng ResponsiveVoice...");
-            if (window.responsiveVoice) {
-                responsiveVoice.speak(chunkText, "Vietnamese Female", {
-                    rate: config.rate || 1.0,
-                    pitch: config.pitch || 1.0,
-                    onend: () => {
-                        currentChunkIndex++;
-                        playNextGoogleChunk(paragraphIndex);
-                    },
-                    onerror: () => {
-                        currentChunkIndex++;
-                        playNextGoogleChunk(paragraphIndex);
-                    }
-                });
-            } else {
-                currentChunkIndex++;
-                playNextGoogleChunk(paragraphIndex);
-            }
-        };
         
-        fallbackAudio.play().catch(e => console.warn("Lỗi play Youdao:", e));
+        audio.src = proxyUrl;
+        audio.play().catch(e => {
+            console.warn("Proxy cũng bị từ chối phát:", e);
+            audio.dispatchEvent(new Event("error"));
+        });
     };
 
     audio.play().catch(err => {
-        // Tự động gọi onerror để trigger fallback nếu play() bị chặn
+        // Tự động gọi onerror để trigger Proxy nếu play() bị chặn
         audio.dispatchEvent(new Event("error"));
     });
 
