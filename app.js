@@ -416,49 +416,59 @@ function playNextGoogleChunk(paragraphIndex) {
     const chunkText = onlineChunks[currentChunkIndex];
     const encoded = encodeURIComponent(chunkText);
     
-    // Sử dụng API dict-chrome-ex của Google ít bị chặn nhất
-    const directUrl = `https://translate.googleapis.com/translate_tts?client=dict-chrome-ex&ie=UTF-8&tl=vi&q=${encoded}`;
-    // Proxy URL để lách luật mạng nội địa Trung Quốc nếu URL gốc bị chặn
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(directUrl)}`;
+    // Các nguồn phát âm thanh từ ưu tiên cao đến thấp
+    const sources = [
+        `https://translate.googleapis.com/translate_tts?client=dict-chrome-ex&ie=UTF-8&tl=vi&q=${encoded}`,
+        `https://dict.youdao.com/dictvoice?audio=${encoded}&le=vi`,
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://translate.googleapis.com/translate_tts?client=dict-chrome-ex&ie=UTF-8&tl=vi&q=${encoded}`)}`
+    ];
 
-    // Sử dụng thẻ audio cố định để tránh bị chặn autoplay trên mobile
+    let currentSourceIndex = 0;
     let audio = document.getElementById('global-audio-player');
     if (!audio) {
-        audio = new Audio(); // Fallback nếu chưa có thẻ trên HTML
+        audio = new Audio();
     }
-    
-    audio.src = directUrl; // Thử đường dẫn gốc trước
-    audio.defaultPlaybackRate = config.rate || 1.0;
-    audio.playbackRate = config.rate || 1.0;
     onlineAudioPlayer = audio;
+
+    const tryNextSource = () => {
+        if (currentSourceIndex >= sources.length) {
+            // Tất cả các nguồn đều bị chặn hoặc lỗi
+            alert("Lỗi: Máy của bạn đã chặn mọi luồng âm thanh web (Cả Google, Youdao và Proxy). Vui lòng thử dùng trình duyệt khác như Chrome/Edge thay vì trình duyệt mặc định của máy.");
+            isPlaying = false;
+            updatePlayBtnState(false);
+            return;
+        }
+
+        audio.src = sources[currentSourceIndex];
+        audio.defaultPlaybackRate = config.rate || 1.0;
+        audio.playbackRate = config.rate || 1.0;
+        
+        // Bắt buộc gọi load() trên mobile browser
+        audio.load();
+
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(e => {
+                console.warn(`Nguồn ${currentSourceIndex} bị từ chối:`, e);
+                currentSourceIndex++;
+                tryNextSource();
+            });
+        }
+    };
 
     audio.onended = () => {
         currentChunkIndex++;
         playNextGoogleChunk(paragraphIndex);
     };
 
-    audio.onerror = (err) => {
-        console.warn("Lỗi đường dẫn gốc Google, chuyển sang dùng Proxy...", err);
-        
-        // Cố gắng dùng Proxy để vượt tường lửa
-        audio.onerror = () => {
-            console.warn("Cả Proxy cũng bị chặn, bỏ qua đoạn này.");
-            currentChunkIndex++;
-            playNextGoogleChunk(paragraphIndex);
-        };
-        
-        audio.src = proxyUrl;
-        audio.play().catch(e => {
-            console.warn("Proxy cũng bị từ chối phát:", e);
-            audio.dispatchEvent(new Event("error"));
-        });
+    audio.onerror = () => {
+        console.warn(`Nguồn ${currentSourceIndex} bị lỗi tải.`);
+        currentSourceIndex++;
+        tryNextSource();
     };
 
-    audio.play().catch(err => {
-        // Tự động gọi onerror để trigger Proxy nếu play() bị chặn
-        audio.dispatchEvent(new Event("error"));
-    });
-
+    // Bắt đầu thử nguồn đầu tiên
+    tryNextSource();
     updatePlayBtnState(true);
 }
 
