@@ -416,7 +416,7 @@ function playNextGoogleChunk(paragraphIndex) {
     const chunkText = onlineChunks[currentChunkIndex];
     const encoded = encodeURIComponent(chunkText);
     
-    // Các nguồn phát âm thanh từ ưu tiên cao đến thấp
+    // Các nguồn phát âm thanh
     const sources = [
         `https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=vi&q=${encoded}`,
         `https://translate.google.com/translate_tts?client=tw-ob&ie=UTF-8&tl=vi&q=${encoded}`,
@@ -433,6 +433,9 @@ function playNextGoogleChunk(paragraphIndex) {
     }
     onlineAudioPlayer = audio;
 
+    // CỰC KỲ QUAN TRỌNG: Bỏ Referer để Google không chặn (Lỗi 403)
+    audio.referrerPolicy = "no-referrer";
+
     // Reset handlers
     audio.onerror = null;
     audio.onended = null;
@@ -447,14 +450,14 @@ function playNextGoogleChunk(paragraphIndex) {
         if (timeoutId) clearTimeout(timeoutId);
         
         console.warn(`Nguồn ${currentSourceIndex} thất bại do: ${reason}. Chuyển nguồn...`);
-        audio.src = ""; // Huỷ tải luồng hiện tại để giải phóng bộ nhớ/mạng
+        audio.src = ""; 
         currentSourceIndex++;
         tryNextSource();
     };
 
     const tryNextSource = () => {
         if (currentSourceIndex >= sources.length) {
-            alert("Lỗi mạng: Không thể kết nối đến máy chủ âm thanh (Treo mạng/Đứt kết nối). Bạn hãy thử dùng VPN hoặc 4G để đường truyền ổn định hơn!");
+            alert("Lỗi mạng: Không thể kết nối đến máy chủ âm thanh. Vui lòng thử dùng VPN hoặc đổi sang trình duyệt khác!");
             isPlaying = false;
             updatePlayBtnState(false);
             return;
@@ -467,26 +470,25 @@ function playNextGoogleChunk(paragraphIndex) {
         
         audio.load();
 
-        // Đặt đồng hồ đếm ngược 5 giây. Nếu mạng bị Firewall treo (không báo lỗi nhưng cũng không chạy), nó sẽ tự động ngắt.
+        // Đồng hồ đếm ngược 5s chống treo đơ mạng
         timeoutId = setTimeout(() => {
-            handleSourceFailed("Timeout (Quá thời gian chờ tải 5s)");
+            handleSourceFailed("Timeout (Quá 5s không phản hồi)");
         }, 5000);
-
-        audio.onplaying = () => {
-            if (!isSourceHandled) {
-                isSourceHandled = true; // Đánh dấu là đã tải thành công
-                if (timeoutId) clearTimeout(timeoutId);
-            }
-        };
 
         const playPromise = audio.play();
         if (playPromise !== undefined) {
-            playPromise.catch(e => {
+            playPromise.then(() => {
+                // Đã phát thành công, hủy đồng hồ đếm ngược
+                if (!isSourceHandled) {
+                    isSourceHandled = true;
+                    if (timeoutId) clearTimeout(timeoutId);
+                }
+            }).catch(e => {
                 if (e.name === 'NotAllowedError') {
                     if (timeoutId) clearTimeout(timeoutId);
                     isSourceHandled = true;
                     console.warn(`Bị chặn Autoplay:`, e);
-                    alert("Trình duyệt chặn phát âm thanh. Vui lòng CHẠM MÀN HÌNH (nhấp vào dòng chữ đang tô vàng) 1 lần nữa để cấp quyền.");
+                    alert("Trình duyệt chặn phát âm thanh tự động. Vui lòng CHẠM MÀN HÌNH (nhấp vào đoạn văn) 1 lần nữa để cấp quyền.");
                     isPlaying = false;
                     updatePlayBtnState(false);
                 } else {
@@ -497,6 +499,8 @@ function playNextGoogleChunk(paragraphIndex) {
     };
 
     audio.onended = () => {
+        if (timeoutId) clearTimeout(timeoutId);
+        isSourceHandled = true;
         currentChunkIndex++;
         playNextGoogleChunk(paragraphIndex);
     };
