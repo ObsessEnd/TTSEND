@@ -433,38 +433,64 @@ function playNextGoogleChunk(paragraphIndex) {
     }
     onlineAudioPlayer = audio;
 
-    // Tránh việc lỗi gọi trùng lặp (double skip)
+    // Reset handlers
     audio.onerror = null;
     audio.onended = null;
+    audio.onplaying = null;
+
+    let timeoutId = null;
+    let isSourceHandled = false;
+
+    const handleSourceFailed = (reason) => {
+        if (isSourceHandled) return;
+        isSourceHandled = true;
+        if (timeoutId) clearTimeout(timeoutId);
+        
+        console.warn(`Nguồn ${currentSourceIndex} thất bại do: ${reason}. Chuyển nguồn...`);
+        audio.src = ""; // Huỷ tải luồng hiện tại để giải phóng bộ nhớ/mạng
+        currentSourceIndex++;
+        tryNextSource();
+    };
 
     const tryNextSource = () => {
         if (currentSourceIndex >= sources.length) {
-            // Tất cả các nguồn đều bị chặn hoặc lỗi
-            alert("Lỗi mạng: Không thể lấy file âm thanh (Cả 4 server đều bị chặn hoặc lỗi). Bạn hãy thử dùng VPN hoặc đổi sang trình duyệt Microsoft Edge/Chrome!");
+            alert("Lỗi mạng: Không thể kết nối đến máy chủ âm thanh (Treo mạng/Đứt kết nối). Bạn hãy thử dùng VPN hoặc 4G để đường truyền ổn định hơn!");
             isPlaying = false;
             updatePlayBtnState(false);
             return;
         }
 
+        isSourceHandled = false;
         audio.src = sources[currentSourceIndex];
         audio.defaultPlaybackRate = config.rate || 1.0;
         audio.playbackRate = config.rate || 1.0;
         
-        // Bắt buộc gọi load() trên mobile browser
         audio.load();
+
+        // Đặt đồng hồ đếm ngược 5 giây. Nếu mạng bị Firewall treo (không báo lỗi nhưng cũng không chạy), nó sẽ tự động ngắt.
+        timeoutId = setTimeout(() => {
+            handleSourceFailed("Timeout (Quá thời gian chờ tải 5s)");
+        }, 5000);
+
+        audio.onplaying = () => {
+            if (!isSourceHandled) {
+                isSourceHandled = true; // Đánh dấu là đã tải thành công
+                if (timeoutId) clearTimeout(timeoutId);
+            }
+        };
 
         const playPromise = audio.play();
         if (playPromise !== undefined) {
             playPromise.catch(e => {
-                // Xử lý riêng lỗi Autoplay bị chặn
                 if (e.name === 'NotAllowedError') {
+                    if (timeoutId) clearTimeout(timeoutId);
+                    isSourceHandled = true;
                     console.warn(`Bị chặn Autoplay:`, e);
                     alert("Trình duyệt chặn phát âm thanh. Vui lòng CHẠM MÀN HÌNH (nhấp vào dòng chữ đang tô vàng) 1 lần nữa để cấp quyền.");
                     isPlaying = false;
                     updatePlayBtnState(false);
                 } else {
-                    console.warn(`Nguồn ${currentSourceIndex} bị lỗi kỹ thuật:`, e);
-                    // Không gọi tryNextSource() ở đây vì audio.onerror sẽ lo việc xử lý lỗi mạng
+                    handleSourceFailed(`Play Promise bị từ chối (${e.name})`);
                 }
             });
         }
@@ -476,12 +502,9 @@ function playNextGoogleChunk(paragraphIndex) {
     };
 
     audio.onerror = () => {
-        console.warn(`Nguồn ${currentSourceIndex} bị lỗi tải mạng/media (onerror). Chuyển sang nguồn dự phòng...`);
-        currentSourceIndex++;
-        tryNextSource();
+        handleSourceFailed("Lỗi tải mạng/media (onerror)");
     };
 
-    // Bắt đầu thử nguồn đầu tiên
     tryNextSource();
     updatePlayBtnState(true);
 }
