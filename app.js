@@ -418,22 +418,29 @@ function playNextGoogleChunk(paragraphIndex) {
     
     // Các nguồn phát âm thanh từ ưu tiên cao đến thấp
     const sources = [
-        `https://translate.googleapis.com/translate_tts?client=dict-chrome-ex&ie=UTF-8&tl=vi&q=${encoded}`,
+        `https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=vi&q=${encoded}`,
+        `https://translate.google.com/translate_tts?client=tw-ob&ie=UTF-8&tl=vi&q=${encoded}`,
         `https://dict.youdao.com/dictvoice?audio=${encoded}&le=vi`,
-        `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://translate.googleapis.com/translate_tts?client=dict-chrome-ex&ie=UTF-8&tl=vi&q=${encoded}`)}`
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=vi&q=${encoded}`)}`
     ];
 
     let currentSourceIndex = 0;
     let audio = document.getElementById('global-audio-player');
     if (!audio) {
         audio = new Audio();
+        audio.id = 'global-audio-player';
+        document.body.appendChild(audio);
     }
     onlineAudioPlayer = audio;
+
+    // Tránh việc lỗi gọi trùng lặp (double skip)
+    audio.onerror = null;
+    audio.onended = null;
 
     const tryNextSource = () => {
         if (currentSourceIndex >= sources.length) {
             // Tất cả các nguồn đều bị chặn hoặc lỗi
-            alert("Lỗi: Máy của bạn đã chặn mọi luồng âm thanh web (Cả Google, Youdao và Proxy). Vui lòng thử dùng trình duyệt khác như Chrome/Edge thay vì trình duyệt mặc định của máy.");
+            alert("Lỗi mạng: Không thể lấy file âm thanh (Cả 4 server đều bị chặn hoặc lỗi). Bạn hãy thử dùng VPN hoặc đổi sang trình duyệt Microsoft Edge/Chrome!");
             isPlaying = false;
             updatePlayBtnState(false);
             return;
@@ -449,9 +456,16 @@ function playNextGoogleChunk(paragraphIndex) {
         const playPromise = audio.play();
         if (playPromise !== undefined) {
             playPromise.catch(e => {
-                console.warn(`Nguồn ${currentSourceIndex} bị từ chối:`, e);
-                currentSourceIndex++;
-                tryNextSource();
+                // Xử lý riêng lỗi Autoplay bị chặn
+                if (e.name === 'NotAllowedError') {
+                    console.warn(`Bị chặn Autoplay:`, e);
+                    alert("Trình duyệt chặn phát âm thanh. Vui lòng CHẠM MÀN HÌNH (nhấp vào dòng chữ đang tô vàng) 1 lần nữa để cấp quyền.");
+                    isPlaying = false;
+                    updatePlayBtnState(false);
+                } else {
+                    console.warn(`Nguồn ${currentSourceIndex} bị lỗi kỹ thuật:`, e);
+                    // Không gọi tryNextSource() ở đây vì audio.onerror sẽ lo việc xử lý lỗi mạng
+                }
             });
         }
     };
@@ -462,7 +476,7 @@ function playNextGoogleChunk(paragraphIndex) {
     };
 
     audio.onerror = () => {
-        console.warn(`Nguồn ${currentSourceIndex} bị lỗi tải.`);
+        console.warn(`Nguồn ${currentSourceIndex} bị lỗi tải mạng/media (onerror). Chuyển sang nguồn dự phòng...`);
         currentSourceIndex++;
         tryNextSource();
     };
