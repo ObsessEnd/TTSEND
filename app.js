@@ -351,11 +351,13 @@ function initSpeech() {
         }
 
         // Lấy thêm các giọng đọc Offline có sẵn trên hệ điều hành (Đặc biệt cho Windows Laptop)
-        const voices = speechSynthesis.getVoices();
-        const viVoices = voices.filter(v => v.lang && v.lang.toLowerCase().includes('vi'));
-        const otherVoices = voices.filter(v => !v.lang || !v.lang.toLowerCase().includes('vi'));
-        
-        const sortedVoices = [...viVoices, ...otherVoices];
+        let sortedVoices = [];
+        if ('speechSynthesis' in window) {
+            const voices = speechSynthesis.getVoices();
+            const viVoices = voices.filter(v => v.lang && v.lang.toLowerCase().includes('vi'));
+            const otherVoices = voices.filter(v => !v.lang || !v.lang.toLowerCase().includes('vi'));
+            sortedVoices = [...viVoices, ...otherVoices];
+        }
         
         if (sortedVoices.length > 0) {
             const optGroup = document.createElement('optgroup');
