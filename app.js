@@ -210,6 +210,24 @@ function loadChapter(index, autoPlay = false) {
             
             container.appendChild(p);
         });
+        
+        // Hỗ trợ Audify tự động đọc và nhảy chương
+        const paginationDiv = document.createElement('div');
+        paginationDiv.className = 'chapter-pagination';
+        
+        const prevBtn = document.createElement('button');
+        prevBtn.textContent = '« Chương trước';
+        prevBtn.onclick = () => loadChapter(index - 1);
+        if (index === 0) prevBtn.disabled = true;
+
+        const nextBtn = document.createElement('button');
+        nextBtn.textContent = 'Chương tiếp »';
+        nextBtn.onclick = () => loadChapter(index + 1);
+        if (index === currentNovel.chapters.length - 1) nextBtn.disabled = true;
+
+        paginationDiv.appendChild(prevBtn);
+        paginationDiv.appendChild(nextBtn);
+        container.appendChild(paginationDiv);
     }
 
     // Đồng bộ danh sách chương trong Sidebar
@@ -318,15 +336,46 @@ function initSpeech() {
 
         voiceSelect.innerHTML = '';
 
-        // Tùy chọn duy nhất và tốt nhất cho máy Trung Quốc
+        // Luôn có Google Online (dành cho điện thoại TQ)
         const optGoogleFemale = document.createElement('option');
         optGoogleFemale.value = 'Google_Vi_Female';
-        optGoogleFemale.textContent = '🔊 Giọng Nữ Tiếng Việt (Google Online - Bắt buộc cho máy TQ)';
+        optGoogleFemale.textContent = '🔊 Giọng Nữ Tiếng Việt (Google Online - Bắt buộc cho ĐT Trung Quốc)';
         voiceSelect.appendChild(optGoogleFemale);
 
-        config.voiceName = 'Google_Vi_Female';
-        saveConfig();
-        voiceSelect.value = config.voiceName;
+        // Hỗ trợ ResponsiveVoice
+        if (window.responsiveVoice) {
+            const optResponsive = document.createElement('option');
+            optResponsive.value = 'Responsive_Vi_Female';
+            optResponsive.textContent = '🌐 Giọng Nữ (ResponsiveVoice - Hỗ trợ tốt Laptop)';
+            voiceSelect.appendChild(optResponsive);
+        }
+
+        // Lấy thêm các giọng đọc Offline có sẵn trên hệ điều hành (Đặc biệt cho Windows Laptop)
+        const voices = speechSynthesis.getVoices();
+        const viVoices = voices.filter(v => v.lang && v.lang.toLowerCase().includes('vi'));
+        const otherVoices = voices.filter(v => !v.lang || !v.lang.toLowerCase().includes('vi'));
+        
+        const sortedVoices = [...viVoices, ...otherVoices];
+        
+        if (sortedVoices.length > 0) {
+            const optGroup = document.createElement('optgroup');
+            optGroup.label = "Giọng đọc hệ thống (Offline)";
+            sortedVoices.forEach(voice => {
+                const option = document.createElement('option');
+                option.value = voice.name;
+                option.textContent = `💻 ${voice.name} (${voice.lang})${voice.localService ? ' [Offline]' : ''}`;
+                optGroup.appendChild(option);
+            });
+            voiceSelect.appendChild(optGroup);
+        }
+
+        // Khôi phục cài đặt giọng đã lưu
+        if (config.voiceName) {
+            voiceSelect.value = config.voiceName;
+        } else {
+            config.voiceName = 'Google_Vi_Female';
+            saveConfig();
+        }
     }
 
     populateVoices();
