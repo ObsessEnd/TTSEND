@@ -34,22 +34,32 @@ lucide.createIcons();
 // 2. KHỞI TẠO INDEXEDDB (Để lưu truyện tự tải lên)
 // ==========================================
 function initDB() {
-    return new Promise((resolve, reject) => {
-        const request = indexedDB.open("NovelReaderDB", 1);
-        request.onupgradeneeded = (e) => {
-            const db = e.target.result;
-            if (!db.objectStoreNames.contains("novels")) {
-                db.createObjectStore("novels", { keyPath: "title" });
-            }
-        };
-        request.onsuccess = (e) => {
-            db = e.target.result;
-            resolve(db);
-        };
-        request.onerror = (e) => {
-            console.error("Lỗi khởi tạo IndexedDB:", e.target.error);
-            reject(e.target.error);
-        };
+    return new Promise((resolve) => {
+        if (!window.indexedDB) {
+            console.warn("Trình duyệt không hỗ trợ IndexedDB.");
+            resolve(null);
+            return;
+        }
+        try {
+            const request = indexedDB.open("NovelReaderDB", 1);
+            request.onupgradeneeded = (e) => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains("novels")) {
+                    db.createObjectStore("novels", { keyPath: "title" });
+                }
+            };
+            request.onsuccess = (e) => {
+                db = e.target.result;
+                resolve(db);
+            };
+            request.onerror = (e) => {
+                console.error("Lỗi khởi tạo IndexedDB:", e.target.error);
+                resolve(null); // Tránh văng lỗi (crash) toàn app
+            };
+        } catch (e) {
+            console.error("Ngoại lệ khi mở IndexedDB (có thể do chế độ Ẩn danh):", e);
+            resolve(null);
+        }
     });
 }
 
