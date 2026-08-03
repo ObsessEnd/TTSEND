@@ -24,7 +24,8 @@ const config = {
     pitch: 1.0,
     voiceName: '',
     autoNextChapter: true,
-    currentNovelTitle: 'default'
+    currentNovelTitle: 'default',
+    disableWebTTS: false
 };
 
 // Khởi tạo Lucide Icons
@@ -214,6 +215,7 @@ function loadChapter(index, autoPlay = false) {
             
             // Lắng nghe sự kiện click/chạm để đọc từ đoạn văn này
             p.addEventListener('click', () => {
+                if (config.disableWebTTS) return;
                 isPlaying = true;
                 speakParagraph(i);
             });
@@ -1012,6 +1014,17 @@ function setupEventListeners() {
         config.autoNextChapter = e.target.checked;
         saveConfig();
     });
+
+    const disableWebTTSCheckbox = document.getElementById('disable-web-tts');
+    if (disableWebTTSCheckbox) {
+        disableWebTTSCheckbox.addEventListener('change', (e) => {
+            config.disableWebTTS = e.target.checked;
+            saveConfig();
+            if (config.disableWebTTS) {
+                stopSpeech(); // Ngừng đọc ngay lập tức nếu đang đọc
+            }
+        });
+    }
 
     // 7.7 Display Settings Sync
     document.querySelectorAll('.theme-option').forEach(btn => {
