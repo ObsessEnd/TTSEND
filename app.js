@@ -102,7 +102,11 @@ function loadConfig() {
 }
 
 function saveConfig() {
-    localStorage.setItem('novel_reader_config', JSON.stringify(config));
+    try {
+        localStorage.setItem('novel_reader_config', JSON.stringify(config));
+    } catch (e) {
+        console.warn("Không thể lưu cấu hình (có thể do WebView chặn):", e);
+    }
 }
 
 function applyDisplayConfig() {
@@ -126,6 +130,11 @@ function applyDisplayConfig() {
     }
     document.getElementById('font-size-slider').value = config.fontSize;
     document.getElementById('font-size-value').textContent = `${config.fontSize}px`;
+
+    const disableWebTTSCheckbox = document.getElementById('disable-web-tts');
+    if (disableWebTTSCheckbox) {
+        disableWebTTSCheckbox.checked = config.disableWebTTS || false;
+    }
 
     // Áp dụng Giãn dòng
     if (container) {
@@ -418,6 +427,8 @@ function scrollParagraphIntoView(index, behavior = 'smooth') {
 
 // Phát âm đoạn văn cụ thể
 function speakParagraph(index) {
+    if (config.disableWebTTS) return;
+    
     if (!currentNovel) return;
     const chapter = currentNovel.chapters[currentChapterIndex];
     if (!chapter || index < 0 || index >= chapter.paragraphs.length) {
