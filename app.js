@@ -238,12 +238,18 @@ function loadChapter(index, autoPlay = false) {
         
         const prevBtn = document.createElement('button');
         prevBtn.textContent = '« Chương trước';
-        prevBtn.onclick = () => loadChapter(index - 1);
+        prevBtn.onclick = () => {
+            loadChapter(index - 1);
+            document.getElementById('reader-container').scrollTop = 0;
+        };
         if (index === 0) prevBtn.disabled = true;
 
         const nextBtn = document.createElement('button');
         nextBtn.textContent = 'Chương tiếp »';
-        nextBtn.onclick = () => loadChapter(index + 1);
+        nextBtn.onclick = () => {
+            loadChapter(index + 1);
+            document.getElementById('reader-container').scrollTop = 0;
+        };
         if (index === currentNovel.chapters.length - 1) nextBtn.disabled = true;
 
         paginationDiv.appendChild(prevBtn);
