@@ -1133,6 +1133,47 @@ function setupEventListeners() {
     });
 }
 
+// Thiết lập thư viện truyện có sẵn
+function setupLibrary() {
+    const select = document.getElementById('built-in-stories');
+    if (!select || !window.defaultStories) return;
+    
+    // Tạo option mặc định
+    const defaultOpt = document.createElement('option');
+    defaultOpt.value = "";
+    defaultOpt.textContent = "-- Chọn truyện có sẵn --";
+    select.appendChild(defaultOpt);
+    
+    window.defaultStories.forEach((story, index) => {
+        const opt = document.createElement('option');
+        opt.value = index;
+        opt.textContent = story.title;
+        select.appendChild(opt);
+    });
+    
+    select.addEventListener('change', async (e) => {
+        const index = e.target.value;
+        if (index === "") return;
+        
+        const selectedStory = window.defaultStories[index];
+        
+        // Lưu vào IndexedDB để dùng offline
+        await saveNovelToDB(selectedStory);
+        
+        // Đóng sidebar
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebar-overlay').classList.remove('open');
+        
+        // Ngừng đọc và load truyện
+        stopSpeech();
+        currentParagraphIndex = -1;
+        loadNovel(selectedStory);
+        
+        // Reset select
+        select.value = "";
+    });
+}
+
 // ==========================================
 // 8. KHỞI CHẠY ỨNG DỤNG
 // ==========================================
@@ -1145,6 +1186,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     
     // 3. Thiết lập Event Listeners
     setupEventListeners();
+    setupLibrary();
     
     // 4. Khởi tạo Database truyện
     await initDB();

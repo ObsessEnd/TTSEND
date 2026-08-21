@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TTS Novel Reader - Nghe Đọc Truyện Chữ</title>
+    <title>TTS Novel Reader - Nghe Äá»c Truyá»‡n Chá»¯</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,8 +25,8 @@
         <!-- Sidebar - Chapter Directory -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h2 class="sidebar-title">Mục Lục <span id="app-version" style="font-size: 0.6em; background: #8B4513; color: white; padding: 2px 6px; border-radius: 4px; margin-left: 8px; vertical-align: middle;">v8</span></h2>
-                <button class="icon-btn btn-close-sidebar" id="close-sidebar-btn" title="Đóng mục lục">
+                <h2 class="sidebar-title">Má»¥c Lá»¥c <span id="app-version" style="font-size: 0.6em; background: #8B4513; color: white; padding: 2px 6px; border-radius: 4px; margin-left: 8px; vertical-align: middle;">v9</span></h2>
+                <button class="icon-btn btn-close-sidebar" id="close-sidebar-btn" title="ÄÃ³ng má»¥c lá»¥c">
                     <i data-lucide="x"></i>
                 </button>
             </div>
@@ -34,9 +34,16 @@
             <div class="sidebar-actions">
                 <label class="upload-btn" for="file-upload">
                     <i data-lucide="file-up"></i>
-                    <span>Tải truyện (.txt)</span>
+                    <span>Táº£i truyá»‡n (.txt)</span>
                 </label>
                 <input type="file" id="file-upload" accept=".txt" style="display: none;">
+                
+                <div style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 15px;" id="built-in-stories-container">
+                    <label for="built-in-stories" style="font-size: 0.85em; font-weight: 600; opacity: 0.8; display: block; margin-bottom: 8px;">Hoáº·c Ä‘á»c truyá»‡n cÃ³ sáºµn:</label>
+                    <select id="built-in-stories" class="form-control" style="width: 100%; font-size: 0.9em; padding: 8px; border-radius: 6px;">
+                        <!-- Options loaded dynamically -->
+                    </select>
+                </div>
             </div>
             
             <div class="chapter-list-container">
@@ -53,33 +60,33 @@
         <main class="main-content">
             <header class="main-header">
                 <div class="header-left">
-                    <button class="icon-btn" id="open-sidebar-btn" title="Mở mục lục">
+                    <button class="icon-btn" id="open-sidebar-btn" title="Má»Ÿ má»¥c lá»¥c">
                         <i data-lucide="menu"></i>
                     </button>
-                    <h1 class="novel-title" id="novel-title">Đang tải...</h1>
+                    <h1 class="novel-title" id="novel-title">Äang táº£i...</h1>
                 </div>
                 <div class="header-right">
-                    <button class="btn btn-primary" id="add-bookmark-btn" title="Đánh dấu đoạn này">
+                    <button class="btn btn-primary" id="add-bookmark-btn" title="ÄÃ¡nh dáº¥u Ä‘oáº¡n nÃ y">
                         <i data-lucide="bookmark"></i>
-                        <span class="desktop-only">Đánh dấu</span>
+                        <span class="desktop-only">ÄÃ¡nh dáº¥u</span>
                     </button>
                 </div>
             </header>
 
             <div class="reader-scroll-container" id="reader-container">
                 <div class="reader-body">
-                    <h2 class="chapter-title" id="chapter-title">Chọn hoặc tải truyện để bắt đầu</h2>
+                    <h2 class="chapter-title" id="chapter-title">Chá»n hoáº·c táº£i truyá»‡n Ä‘á»ƒ báº¯t Ä‘áº§u</h2>
                     <div class="paragraphs-container" id="paragraphs-container">
                         <!-- Paragraphs will be rendered here -->
                         <div class="welcome-box">
-                            <h3>Chào mừng bạn đến với TTS Novel Reader!</h3>
-                            <p>Ứng dụng này đã được nạp sẵn truyện <strong>"Xuyên qua thành phản diện, thích nhất ngay mặt NTR"</strong>.</p>
-                            <p><strong>Hướng dẫn sử dụng nhanh:</strong></p>
+                            <h3>ChÃ o má»«ng báº¡n Ä‘áº¿n vá»›i TTS Novel Reader!</h3>
+                            <p>á»¨ng dá»¥ng nÃ y Ä‘Ã£ Ä‘Æ°á»£c náº¡p sáºµn truyá»‡n <strong>"XuyÃªn qua thÃ nh pháº£n diá»‡n, thÃ­ch nháº¥t ngay máº·t NTR"</strong>.</p>
+                            <p><strong>HÆ°á»›ng dáº«n sá»­ dá»¥ng nhanh:</strong></p>
                             <ul>
-                                <li>Bấm <strong>Phím cách (Space)</strong> hoặc nút Play để nghe đọc.</li>
-                                <li><strong>Click/Chạm trực tiếp</strong> vào bất cứ đoạn văn nào để bắt đầu nghe từ đó. Đoạn đang đọc sẽ được <strong>tô màu vàng</strong>.</li>
-                                <li>Sử dụng các phím mũi tên: <strong>Trái / Phải</strong> để tua qua lại giữa các đoạn văn, <strong>Lên / Xuống</strong> để đổi chương.</li>
-                                <li>Nhấp vào biểu tượng bánh răng ở thanh công cụ dưới để chỉnh giọng đọc, tốc độ và cao độ (pitch).</li>
+                                <li>Báº¥m <strong>PhÃ­m cÃ¡ch (Space)</strong> hoáº·c nÃºt Play Ä‘á»ƒ nghe Ä‘á»c.</li>
+                                <li><strong>Click/Cháº¡m trá»±c tiáº¿p</strong> vÃ o báº¥t cá»© Ä‘oáº¡n vÄƒn nÃ o Ä‘á»ƒ báº¯t Ä‘áº§u nghe tá»« Ä‘Ã³. Äoáº¡n Ä‘ang Ä‘á»c sáº½ Ä‘Æ°á»£c <strong>tÃ´ mÃ u vÃ ng</strong>.</li>
+                                <li>Sá»­ dá»¥ng cÃ¡c phÃ­m mÅ©i tÃªn: <strong>TrÃ¡i / Pháº£i</strong> Ä‘á»ƒ tua qua láº¡i giá»¯a cÃ¡c Ä‘oáº¡n vÄƒn, <strong>LÃªn / Xuá»‘ng</strong> Ä‘á»ƒ Ä‘á»•i chÆ°Æ¡ng.</li>
+                                <li>Nháº¥p vÃ o biá»ƒu tÆ°á»£ng bÃ¡nh rÄƒng á»Ÿ thanh cÃ´ng cá»¥ dÆ°á»›i Ä‘á»ƒ chá»‰nh giá»ng Ä‘á»c, tá»‘c Ä‘á»™ vÃ  cao Ä‘á»™ (pitch).</li>
                             </ul>
                         </div>
                     </div>
@@ -93,13 +100,13 @@
                 
                 <!-- Playback controls -->
                 <div class="playback-controls">
-                    <button class="icon-btn ctrl-btn" id="prev-btn" title="Đoạn trước (Mũi tên Trái)">
+                    <button class="icon-btn ctrl-btn" id="prev-btn" title="Äoáº¡n trÆ°á»›c (MÅ©i tÃªn TrÃ¡i)">
                         <i data-lucide="skip-back"></i>
                     </button>
-                    <button class="icon-btn ctrl-btn play-btn" id="play-btn" title="Phát / Tạm dừng (Phím Cách)">
+                    <button class="icon-btn ctrl-btn play-btn" id="play-btn" title="PhÃ¡t / Táº¡m dá»«ng (PhÃ­m CÃ¡ch)">
                         <i data-lucide="play" id="play-icon"></i>
                     </button>
-                    <button class="icon-btn ctrl-btn" id="next-btn" title="Đoạn sau (Mũi tên Phải)">
+                    <button class="icon-btn ctrl-btn" id="next-btn" title="Äoáº¡n sau (MÅ©i tÃªn Pháº£i)">
                         <i data-lucide="skip-forward"></i>
                     </button>
                 </div>
@@ -108,13 +115,13 @@
 
                 <!-- Secondary controls (voice settings, styling, bookmarks) -->
                 <div class="secondary-controls">
-                    <button class="icon-btn tool-btn" id="voice-settings-btn" title="Cài đặt giọng đọc">
+                    <button class="icon-btn tool-btn" id="voice-settings-btn" title="CÃ i Ä‘áº·t giá»ng Ä‘á»c">
                         <i data-lucide="volume-2"></i>
                     </button>
-                    <button class="icon-btn tool-btn" id="display-settings-btn" title="Cài đặt hiển thị">
+                    <button class="icon-btn tool-btn" id="display-settings-btn" title="CÃ i Ä‘áº·t hiá»ƒn thá»‹">
                         <i data-lucide="settings"></i>
                     </button>
-                    <button class="icon-btn tool-btn" id="bookmarks-panel-btn" title="Dấu trang đã lưu">
+                    <button class="icon-btn tool-btn" id="bookmarks-panel-btn" title="Dáº¥u trang Ä‘Ã£ lÆ°u">
                         <i data-lucide="list-music"></i>
                     </button>
                 </div>
@@ -125,17 +132,17 @@
             
             <!-- 1. Voice Settings Popup -->
             <div class="settings-popup hidden" id="voice-settings-popup">
-                <h3 class="popup-title">Cài đặt giọng đọc</h3>
+                <h3 class="popup-title">CÃ i Ä‘áº·t giá»ng Ä‘á»c</h3>
                 <div class="popup-form">
                     <div class="form-group">
-                        <label for="voice-select">Giọng đọc</label>
+                        <label for="voice-select">Giá»ng Ä‘á»c</label>
                         <select id="voice-select" class="form-control">
                             <!-- Voices loaded dynamically -->
                         </select>
                     </div>
                     <div class="form-group">
                         <div class="label-with-val">
-                            <label for="rate-slider">Tốc độ đọc</label>
+                            <label for="rate-slider">Tá»‘c Ä‘á»™ Ä‘á»c</label>
                             <span class="value-display" id="rate-value">1.0x</span>
                         </div>
                         <input type="range" id="rate-slider" min="0.5" max="3" step="0.1" value="1.0">
@@ -143,45 +150,45 @@
                     
                     <div class="form-group checkbox-group" style="margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 15px;">
                         <input type="checkbox" id="disable-web-tts" style="accent-color: var(--primary-color); transform: scale(1.2);">
-                        <label for="disable-web-tts" style="font-weight: 600; cursor: pointer; margin-left: 5px;">Tắt giọng đọc của Web</label>
-                        <p style="font-size: 0.85em; margin-top: 5px; opacity: 0.8;">Bật tùy chọn này nếu bạn dùng Audify. Khi chạm/nhấp đúp vào văn bản, web sẽ không tự động phát tiếng đè lên Audify.</p>
+                        <label for="disable-web-tts" style="font-weight: 600; cursor: pointer; margin-left: 5px;">Táº¯t giá»ng Ä‘á»c cá»§a Web</label>
+                        <p style="font-size: 0.85em; margin-top: 5px; opacity: 0.8;">Báº­t tÃ¹y chá»n nÃ y náº¿u báº¡n dÃ¹ng Audify. Khi cháº¡m/nháº¥p Ä‘Ãºp vÃ o vÄƒn báº£n, web sáº½ khÃ´ng tá»± Ä‘á»™ng phÃ¡t tiáº¿ng Ä‘Ã¨ lÃªn Audify.</p>
                     </div>
                     <div class="form-group">
                         <div class="label-with-val">
-                            <label for="pitch-slider">Cao độ (Pitch/Tần số)</label>
+                            <label for="pitch-slider">Cao Ä‘á»™ (Pitch/Táº§n sá»‘)</label>
                             <span class="value-display" id="pitch-value">1.0</span>
                         </div>
                         <input type="range" id="pitch-slider" min="0.5" max="2" step="0.1" value="1.0">
                     </div>
                     <div class="form-group checkbox-group">
                         <input type="checkbox" id="auto-next-chapter" checked>
-                        <label for="auto-next-chapter">Tự động chuyển chương khi đọc hết</label>
+                        <label for="auto-next-chapter">Tá»± Ä‘á»™ng chuyá»ƒn chÆ°Æ¡ng khi Ä‘á»c háº¿t</label>
                     </div>
                 </div>
             </div>
 
             <!-- 2. Display Settings Popup -->
             <div class="settings-popup hidden" id="display-settings-popup">
-                <h3 class="popup-title">Cài đặt hiển thị</h3>
+                <h3 class="popup-title">CÃ i Ä‘áº·t hiá»ƒn thá»‹</h3>
                 <div class="popup-form">
                     <div class="form-group">
-                        <label>Giao diện nền</label>
+                        <label>Giao diá»‡n ná»n</label>
                         <div class="theme-selector">
-                            <button class="theme-option theme-light-btn" data-theme="light">Sáng</button>
+                            <button class="theme-option theme-light-btn" data-theme="light">SÃ¡ng</button>
                             <button class="theme-option theme-sepia-btn active" data-theme="sepia">Sepia</button>
-                            <button class="theme-option theme-dark-btn" data-theme="dark">Tối</button>
+                            <button class="theme-option theme-dark-btn" data-theme="dark">Tá»‘i</button>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="label-with-val">
-                            <label for="font-size-slider">Cỡ chữ</label>
+                            <label for="font-size-slider">Cá»¡ chá»¯</label>
                             <span class="value-display" id="font-size-value">18px</span>
                         </div>
                         <input type="range" id="font-size-slider" min="14" max="28" step="1" value="18">
                     </div>
                     <div class="form-group">
                         <div class="label-with-val">
-                            <label for="line-height-slider">Giãn dòng</label>
+                            <label for="line-height-slider">GiÃ£n dÃ²ng</label>
                             <span class="value-display" id="line-height-value">1.6</span>
                         </div>
                         <input type="range" id="line-height-slider" min="1.3" max="2.2" step="0.1" value="1.6">
@@ -191,11 +198,11 @@
 
             <!-- 3. Bookmarks Popup -->
             <div class="settings-popup hidden" id="bookmarks-popup">
-                <h3 class="popup-title">Dấu trang đã lưu</h3>
+                <h3 class="popup-title">Dáº¥u trang Ä‘Ã£ lÆ°u</h3>
                 <div class="bookmarks-list-container">
                     <ul class="bookmarks-list" id="bookmarks-list">
                         <!-- Bookmarks loaded dynamically -->
-                        <li class="empty-msg">Chưa có đánh dấu nào.</li>
+                        <li class="empty-msg">ChÆ°a cÃ³ Ä‘Ã¡nh dáº¥u nÃ o.</li>
                     </ul>
                 </div>
             </div>
@@ -204,11 +211,11 @@
 
     </div>
 
-    <!-- Audio player cố định để tránh bị chặn autoplay trên mobile -->
+    <!-- Audio player cá»‘ Ä‘á»‹nh Ä‘á»ƒ trÃ¡nh bá»‹ cháº·n autoplay trÃªn mobile -->
     <audio id="global-audio-player" style="display: none;"></audio>
 
     <!-- Preloaded novel data -->
-    <script src="book_data.js?v=7"></script>
+    <script src="book_data.js?v=9"></script>
     
     <!-- Application Script -->
     <script src="app.js?v=8"></script>
