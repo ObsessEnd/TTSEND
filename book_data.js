@@ -1,4 +1,5 @@
-// Tự động tạo bởi Script\nwindow.defaultStories = [
+// Tự động tạo bởi Script
+window.defaultStories = [
   {
     "title": "Vương giả vinh quang dâm loạn học viện (1-3 chương kết thúc)",
     "chapters": [
@@ -2605,4 +2606,5 @@
       }
     ]
   }
-];\nwindow.defaultStory = window.defaultStories[0];\n
+];
+window.defaultStory = window.defaultStories[0];
