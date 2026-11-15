@@ -1,4 +1,1140 @@
 {
+  "Lab 1 - Bai 3.1 & 4.1: Trang Kiem Tra Cau Hinh PHP phpinfo()": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab1_3.1",
+      "!lab1_4.1",
+      "!lab1_4.1_phpinfo"
+    ],
+    "body": [
+      "<?php",
+      "phpinfo();",
+      "?>"
+    ],
+    "description": "Lab 1 - Bài 3.1 & 4.1: Kiểm tra thông tin cấu hình Apache, PHP, MySQL bằng phpinfo()"
+  },
+  "Lab 1 - Bai 5.1: Cau Hinh VirtualHost Trong httpd.conf": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab1_5.1",
+      "!lab1_5.1_virtualhost"
+    ],
+    "body": [
+      "<VirtualHost *:80>",
+      "    ServerAdmin admin@localhost",
+      "    DocumentRoot \"c:/wamp64/www/myweb\"",
+      "    ServerName myweb.local",
+      "    <Directory \"c:/wamp64/www/myweb\">",
+      "        Options Indexes FollowSymLinks",
+      "        AllowOverride All",
+      "        Require all granted",
+      "    </Directory>",
+      "</VirtualHost>"
+    ],
+    "description": "Lab 1 - Bài 5.1: Cấu hình Virtual Host trong file httpd.conf của Apache"
+  },
+  "Lab 1 - Bai 5.2: File .htaccess Rewrite URL, Chan IP, Chan Hotlink, Doi Trang Chu, Cam Duyet Thu Muc": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab1_5.2",
+      "!lab1_5.2_htaccess"
+    ],
+    "body": [
+      "RewriteEngine On",
+      "RewriteRule ^news/([0-9]+)\\.html\\$ index.php?mod=news&id=\\$1 [L,QSA]",
+      "",
+      "Order Allow,Deny",
+      "Allow from all",
+      "Deny from 234.45.",
+      "",
+      "RewriteCond %{HTTP_REFERER} !^\\$",
+      "RewriteCond %{HTTP_REFERER} !^http://(www\\.)?localhost/ [NC]",
+      "RewriteRule \\.(jpg|jpeg|png|gif)\\$ - [F,NC]",
+      "",
+      "DirectoryIndex myindex.php index.php",
+      "Options -Indexes"
+    ],
+    "description": "Lab 1 - Bài 5.2: Tạo file .htaccess (Rewrite news/1.html, chặn IP 234.45, chặn hotlink ảnh, đổi trang chủ myindex.php, cấm duyệt thư mục)"
+  },
+  "Lab 2 - Bai 4.1: Xoa global Trong lab2_2.php (Bien Cuc Bo vs Toan Cuc)": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab2_4.1",
+      "!lab2_4.1_xoa_global"
+    ],
+    "body": [
+      "<?php",
+      "\\$a = 1;",
+      "\\$kq = 0;",
+      "function f() {",
+      "\t\\$GLOBALS['b'] = 2;",
+      "\t\\$kq = \\$GLOBALS['a'] + \\$GLOBALS['b'];",
+      "}",
+      "f();",
+      "echo \"a = \\$a<br>\";",
+      "echo \"b = \\$b<br>\";",
+      "echo \"kq = \\$kq<br>\";",
+      "?>"
+    ],
+    "description": "Lab 2 - Bài 4.1: Xóa global $kq trong hàm f() -> $kq bên ngoài vẫn bằng 0 vì $kq trong hàm là biến cục bộ"
+  },
+  "Lab 2 - Bai 4.2: Khai Bao Hang So define('PI', 3.14) Thay Cho const": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab2_4.2",
+      "!lab2_4.2_define_pi"
+    ],
+    "body": [
+      "<?php",
+      "define(\"PI\", 3.14);",
+      "\\$r = 10;",
+      "echo \"Diện tích hình tròn bán kính \\$r là: \" . (\\$r * \\$r * PI) . \"<br>\";",
+      "echo \"Chu vi hình tròn bán kính \\$r là: \" . (2 * \\$r * PI);",
+      "?>"
+    ],
+    "description": "Lab 2 - Bài 4.2: Thay const PI = 3.14 bằng hàm define('PI', 3.14) tính diện tích và chu vi hình tròn"
+  },
+  "Lab 2 - Bai 4.3: Phan Biet Toan Tu So Sanh == Va === (lab2_4.php)": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab2_4.3",
+      "!lab2_4.3_sosanh_bang"
+    ],
+    "body": [
+      "<?php",
+      "\\$a = 1;",
+      "\\$b = 2;",
+      "\\$x = \"1\";",
+      "\\$s1 = \"Xin\";",
+      "\\$s2 = \"chào\";",
+      "\\$s = \\$s1 . \" \" . \\$s2;",
+      "echo \"a + b = \" . (\\$a + \\$b) . \"<br>\";",
+      "echo \"a + x = \" . (\\$a + \\$x) . \"<br>\";",
+      "echo \"x + a = \" . (\\$x + \\$a) . \"<br>\";",
+      "echo \"Ghép chuỗi: \\$s<br>\";",
+      "if (\\$a == \\$x)",
+      "\techo \"a và x giống nhau\";",
+      "else",
+      "\techo \"a và x khác nhau\";",
+      "?>"
+    ],
+    "description": "Lab 2 - Bài 4.3: Sửa === thành == ở dòng 21 để so sánh giá trị sau ép kiểu (xuất 'a và x giống nhau')"
+  },
+  "Lab 2 - Bai 4.4 -> 4.9: Kiem Tra isset($x) Va Phan Biet include, include_once, require, require_once": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab2_4.4",
+      "!lab2_4.5",
+      "!lab2_4.6",
+      "!lab2_4.7",
+      "!lab2_4.8",
+      "!lab2_4.9",
+      "!lab2_4.4_include_require"
+    ],
+    "body": [
+      "<?php",
+      "include(\"lab2_5a.php\");",
+      "include_once(\"lab2_5b.php\");",
+      "",
+      "if (isset(\\$x))",
+      "\techo \"Giá trị của x là: \\$x\";",
+      "else",
+      "\techo \"Biến x không tồn tại\";",
+      "?>"
+    ],
+    "description": "Lab 2 - Bài 4.4 đến 4.9: Kiểm tra isset($x) và so sánh include, include_once, require, require_once"
+  },
+  "Lab 2 - Bai 5.1: Tinh Phan Nguyen Va Phan Du Cua 2 So Nguyen $a Va $b": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab2_5.1",
+      "!lab2_5.1_phannguyen_phandu"
+    ],
+    "body": [
+      "<?php",
+      "\\$a = 17;",
+      "\\$b = 5;",
+      "\\$phanNguyen = (int)(\\$a / \\$b);",
+      "\\$phanDu     = \\$a % \\$b;",
+      "echo \"a = \\$a, b = \\$b<br>\";",
+      "echo \"Phần nguyên của \\$a / \\$b là: \\$phanNguyen<br>\";",
+      "echo \"Phần dư của \\$a / \\$b là: \\$phanDu\";",
+      "?>"
+    ],
+    "description": "Lab 2 - Bài 5.1: Khai báo 2 số nguyên $a và $b, in ra phần nguyên và phần dư của $a/$b"
+  },
+  "Lab 2 - Bai 5.2: Kiem Tra Bien $a La So Nguyen Hay So Thuc": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab2_5.2",
+      "!lab2_5.2_kiemtra_nguyen_thuc"
+    ],
+    "body": [
+      "<?php",
+      "\\$a = 12.5;",
+      "if (is_int(\\$a)) {",
+      "\techo \"\\$a là số nguyên\";",
+      "} elseif (is_float(\\$a)) {",
+      "\techo \"\\$a là số thực\";",
+      "} else {",
+      "\techo \"\\$a không phải kiểu số\";",
+      "}",
+      "?>"
+    ],
+    "description": "Lab 2 - Bài 5.2: Kiểm tra biến $a chứa giá trị là số nguyên (is_int) hay số thực (is_float)"
+  },
+  "Lab 2 - Bai 5.3: Giai Phuong Trinh Bac 2 (ax^2 + bx + c = 0)": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab2_5.3",
+      "!lab2_5.3_phuongtrinh_bac2"
+    ],
+    "body": [
+      "<?php",
+      "\\$a = 1;",
+      "\\$b = -5;",
+      "\\$c = 6;",
+      "",
+      "if (\\$a == 0) {",
+      "\tif (\\$b == 0) {",
+      "\t\techo \\$c == 0 ? \"Phương trình vô số nghiệm\" : \"Phương trình vô nghiệm\";",
+      "\t} else {",
+      "\t\techo \"Phương trình có 1 nghiệm x = \" . (-\\$c / \\$b);",
+      "\t}",
+      "} else {",
+      "\t\\$delta = \\$b * \\$b - 4 * \\$a * \\$c;",
+      "\tif (\\$delta < 0) {",
+      "\t\techo \"Phương trình vô nghiệm\";",
+      "\t} elseif (\\$delta == 0) {",
+      "\t\techo \"Phương trình có nghiệm kép x1 = x2 = \" . (-\\$b / (2 * \\$a));",
+      "\t} else {",
+      "\t\t\\$x1 = (-\\$b + sqrt(\\$delta)) / (2 * \\$a);",
+      "\t\t\\$x2 = (-\\$b - sqrt(\\$delta)) / (2 * \\$a);",
+      "\t\techo \"Phương trình có 2 nghiệm phân biệt: x1 = \\$x1, x2 = \\$x2\";",
+      "\t}",
+      "}",
+      "?>"
+    ],
+    "description": "Lab 2 - Bài 5.3: Giải phương trình bậc 2 ax^2 + bx + c = 0 đầy đủ các trường hợp"
+  },
+  "Lab 3 - Bai 4.1: Vong Lap for Tinh Tong Cac So Chan Tu 2 Den 100": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab3_4.1",
+      "!lab3_4.1_tongsochan_2_100"
+    ],
+    "body": [
+      "<?php",
+      "\\$tong = 0;",
+      "for (\\$i = 2; \\$i <= 100; \\$i += 2) {",
+      "\t\\$tong += \\$i;",
+      "}",
+      "echo \"Tổng các số chẵn từ 2 đến 100 là: \\$tong\";",
+      "?>"
+    ],
+    "description": "Lab 3 - Bài 4.1: Sử dụng vòng lặp for để tính tổng các số chẵn từ 2 đến 100"
+  },
+  "Lab 3 - Bai 4.2: Vong Lap while Tim n Nho Nhat Sao Cho 1 + 2 + ... + n > 1000": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab3_4.2",
+      "!lab3_4.2_tim_n_nhonhat_1000"
+    ],
+    "body": [
+      "<?php",
+      "\\$n = 0;",
+      "\\$s = 0;",
+      "while (\\$s <= 1000) {",
+      "\t\\$n++;",
+      "\t\\$s += \\$n;",
+      "}",
+      "echo \"n nhỏ nhất để 1 + 2 + ... + n > 1000 là: n = \\$n (Tổng = \\$s)\";",
+      "?>"
+    ],
+    "description": "Lab 3 - Bài 4.2: Sử dụng while tìm n nhỏ nhất sao cho 1 + 2 + ... + n > 1000"
+  },
+  "Lab 3 - Bai 4.3: Ham Kiem Tra So Nguyen To Dung Vong Lap do...while": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab3_4.3",
+      "!lab3_4.3_nguyento_dowhile"
+    ],
+    "body": [
+      "<?php",
+      "function kiemtranguyento(\\$x) {",
+      "\tif (\\$x < 2) return false;",
+      "\tif (\\$x == 2) return true;",
+      "\t\\$i = 2;",
+      "\tdo {",
+      "\t\tif (\\$x % \\$i == 0) return false;",
+      "\t\t\\$i++;",
+      "\t} while (\\$i <= sqrt(\\$x));",
+      "\treturn true;",
+      "}",
+      "",
+      "\\$n = 17;",
+      "echo kiemtranguyento(\\$n) ? \"\\$n là số nguyên tố\" : \"\\$n không phải số nguyên tố\";",
+      "?>"
+    ],
+    "description": "Lab 3 - Bài 4.3: Viết lại hàm kiemtranguyento($x) trong lab3_4.php sử dụng do...while thay cho for"
+  },
+  "Lab 3 - Bai 4.4: Ham BCC($n, $colorHead, $color1, $color2) Va BanCo($size) Return Chuoi HTML": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab3_4.4",
+      "!lab3_4.4_bcc_banco_return"
+    ],
+    "body": [
+      "<?php",
+      "function BCC(\\$n, \\$colorHead = \"#cccccc\", \\$color1 = \"#ffffff\", \\$color2 = \"#eeeeee\") {",
+      "\t\\$html = \"<table border='1' cellpadding='5' cellspacing='0'>\";",
+      "\t\\$html .= \"<tr bgcolor='\\$colorHead'><th colspan='3'>Bảng cửu chương \\$n</th></tr>\";",
+      "\tfor (\\$i = 1; \\$i <= 10; \\$i++) {",
+      "\t\t\\$bg = (\\$i % 2 != 0) ? \\$color1 : \\$color2;",
+      "\t\t\\$html .= \"<tr bgcolor='\\$bg'><td>\\$n</td><td>\\$i</td><td>\" . (\\$n * \\$i) . \"</td></tr>\";",
+      "\t}",
+      "\t\\$html .= \"</table>\";",
+      "\treturn \\$html;",
+      "}",
+      "",
+      "function BanCo(\\$size = 8) {",
+      "\t\\$html = \"<table border='1' cellspacing='0' cellpadding='0'>\";",
+      "\tfor (\\$i = 1; \\$i <= \\$size; \\$i++) {",
+      "\t\t\\$html .= \"<tr>\";",
+      "\t\tfor (\\$j = 1; \\$j <= \\$size; \\$j++) {",
+      "\t\t\t\\$bg   = ((\\$i + \\$j) % 2 == 0) ? \"#ffffff\" : \"#000000\";",
+      "\t\t\t\\$text = ((\\$i + \\$j) % 2 == 0) ? \"#000000\" : \"#ffffff\";",
+      "\t\t\t\\$html .= \"<td width='45' height='45' bgcolor='\\$bg' style='color:\\$text;text-align:center;'>\\$i-\\$j</td>\";",
+      "\t\t}",
+      "\t\t\\$html .= \"</tr>\";",
+      "\t}",
+      "\t\\$html .= \"</table>\";",
+      "\treturn \\$html;",
+      "}",
+      "",
+      "echo BCC(6);",
+      "echo \"<br>\";",
+      "echo BanCo(8);",
+      "?>"
+    ],
+    "description": "Lab 3 - Bài 4.4: Hàm BCC nhận $n, $colorHead, $color1, $color2 (dòng đầu, dòng lẻ, dòng chẵn) và BanCo($size) trả về chuỗi HTML"
+  },
+  "Lab 3 - Bai 5.1: Xuat n So Nguyen To Dau Tien": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab3_5.1",
+      "!lab3_5.1_n_songuyento_dautien"
+    ],
+    "body": [
+      "<?php",
+      "function laNguyenTo(\\$x) {",
+      "\tif (\\$x < 2) return false;",
+      "\tfor (\\$i = 2; \\$i <= sqrt(\\$x); \\$i++) {",
+      "\t\tif (\\$x % \\$i == 0) return false;",
+      "\t}",
+      "\treturn true;",
+      "}",
+      "",
+      "\\$n   = 10;",
+      "\\$dem = 0;",
+      "\\$so  = 2;",
+      "echo \"\\$n số nguyên tố đầu tiên là: \";",
+      "while (\\$dem < \\$n) {",
+      "\tif (laNguyenTo(\\$so)) {",
+      "\t\techo \\$so . \" \";",
+      "\t\t\\$dem++;",
+      "\t}",
+      "\t\\$so++;",
+      "}",
+      "?>"
+    ],
+    "description": "Lab 3 - Bài 5.1: Xuất n số nguyên tố đầu tiên"
+  },
+  "Lab 3 - Bai 5.2: Ham Kiem Tra Chuoi Doi Xung (Palindrome)": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab3_5.2",
+      "!lab3_5.2_chuoi_doixung"
+    ],
+    "body": [
+      "<?php",
+      "function kiemTraDoiXung(\\$s) {",
+      "\t\\$len = strlen(\\$s);",
+      "\tfor (\\$i = 0; \\$i < (int)(\\$len / 2); \\$i++) {",
+      "\t\tif (\\$s[\\$i] !== \\$s[\\$len - 1 - \\$i]) {",
+      "\t\t\treturn false;",
+      "\t\t}",
+      "\t}",
+      "\treturn true;",
+      "}",
+      "",
+      "\\$s = \"abcba\";",
+      "echo kiemTraDoiXung(\\$s) ? \"\\$s là chuỗi đối xứng\" : \"\\$s là chuỗi không đối xứng\";",
+      "?>"
+    ],
+    "description": "Lab 3 - Bài 5.2: Viết hàm kiểm tra một chuỗi có đối xứng không (ví dụ abcba)"
+  },
+  "Lab 3 - Bai 5.3: Ham Tinh Tong Cac Chu So Co Trong Mot Chuoi (ngay15thang7nam2015 -> 21)": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab3_5.3",
+      "!lab3_5.3_tong_chuso_trongchuoi"
+    ],
+    "body": [
+      "<?php",
+      "function tongChuSoTrongChuoi(\\$s) {",
+      "\t\\$tong = 0;",
+      "\tfor (\\$i = 0; \\$i < strlen(\\$s); \\$i++) {",
+      "\t\tif (ctype_digit(\\$s[\\$i])) {",
+      "\t\t\t\\$tong += (int)\\$s[\\$i];",
+      "\t\t}",
+      "\t}",
+      "\treturn \\$tong;",
+      "}",
+      "",
+      "\\$s = \"ngay15thang7nam2015\";",
+      "echo \"Tổng các chữ số trong chuỗi '\\$s' là: \" . tongChuSoTrongChuoi(\\$s);",
+      "?>"
+    ],
+    "description": "Lab 3 - Bài 5.3: Tính tổng các chữ số có trong chuỗi (ngay15thang7nam2015 -> 1+5+7+2+0+1+5 = 21)"
+  },
+  "Lab 3 - Bai 5.4: Ham Xuat Hinh Chu Nhat Rong Chieu Dai d Va Chieu Rong r": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab3_5.4",
+      "!lab3_5.4_hinhchunhat_rong"
+    ],
+    "body": [
+      "<?php",
+      "function hinhChuNhatRong(\\$d, \\$r) {",
+      "\techo \"<pre>\";",
+      "\tfor (\\$i = 1; \\$i <= \\$r; \\$i++) {",
+      "\t\tfor (\\$j = 1; \\$j <= \\$d; \\$j++) {",
+      "\t\t\tif (\\$i == 1 || \\$i == \\$r || \\$j == 1 || \\$j == \\$d) {",
+      "\t\t\t\techo \"* \";",
+      "\t\t\t} else {",
+      "\t\t\t\techo \"  \";",
+      "\t\t\t}",
+      "\t\t}",
+      "\t\techo \"\\n\";",
+      "\t}",
+      "\techo \"</pre>\";",
+      "}",
+      "",
+      "hinhChuNhatRong(6, 4);",
+      "?>"
+    ],
+    "description": "Lab 3 - Bài 5.4: Xuất hình chữ nhật rỗng có chiều dài d và chiều rộng r bằng dấu *"
+  },
+  "Lab 3 - Bai 5.5: Ham Tinh Tong Cac So Co Trong Mot Chuoi (ngay15thang7nam2015 -> 15+7+2015 = 2037)": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab3_5.5",
+      "!lab3_5.5_tong_cacso_trongchuoi"
+    ],
+    "body": [
+      "<?php",
+      "function tongCacSoTrongChuoi(\\$s) {",
+      "\tpreg_match_all('/\\d+/', \\$s, \\$matches);",
+      "\treturn array_sum(\\$matches[0]);",
+      "}",
+      "",
+      "\\$s = \"ngay15thang7nam2015\";",
+      "echo \"Tổng các số trong chuỗi '\\$s' là: \" . tongCacSoTrongChuoi(\\$s);",
+      "?>"
+    ],
+    "description": "Lab 3 - Bài 5.5: Tính tổng các số có trong chuỗi (ngay15thang7nam2015 -> 15+7+2015 = 2037)"
+  },
+  "Lab 3 - Bai 5.6: Ham Loai Bo Khoang Trang Du Thua Trong Mot Chuoi": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab3_5.6",
+      "!lab3_5.6_xoa_khoangtrang_thua"
+    ],
+    "body": [
+      "<?php",
+      "function xoaKhoangTrangThua(\\$s) {",
+      "\treturn preg_replace('/\\s+/', ' ', trim(\\$s));",
+      "}",
+      "",
+      "\\$s = \"   Lap   trinh    Web   PHP   \";",
+      "echo \"Chuỗi sau khi xử lý: '\" . xoaKhoangTrangThua(\\$s) . \"'\";",
+      "?>"
+    ],
+    "description": "Lab 3 - Bài 5.6: Loại bỏ các khoảng trắng dư thừa ở đầu, cuối và giữa các từ trong chuỗi"
+  },
+  "Lab 4 - Bai 4.1: Kiem Tra Phan Tu Co Trong Mang Khong, Xoa Hoac Thay Doi Va print_r()": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab4_4.1",
+      "!lab4_4.1_kiemtra_sua_xoa_phantu"
+    ],
+    "body": [
+      "<?php",
+      "\\$arr = array(\"a\" => 10, \"b\" => 20, \"c\" => 30, \"d\" => 40);",
+      "\\$keyCanTim = \"b\";",
+      "",
+      "if (isset(\\$arr[\\$keyCanTim])) {",
+      "\t\\$arr[\\$keyCanTim] = 99;",
+      "\tunset(\\$arr[\"c\"]);",
+      "}",
+      "echo \"<pre>\";",
+      "print_r(\\$arr);",
+      "echo \"</pre>\";",
+      "?>"
+    ],
+    "description": "Lab 4 - Bài 4.1: Kiểm tra một phần tử có trong mảng không, nếu có thì xóa hoặc thay đổi rồi print_r()"
+  },
+  "Lab 4 - Bai 4.2: Dem So Phan Tu Duong Cua Mang $a Va Tao Mang $c Luu Phan Tu Duong Tu Mang $b": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab4_4.2",
+      "!lab4_4.2_dem_loc_soduong"
+    ],
+    "body": [
+      "<?php",
+      "\\$a = array(-3, 5, -1, 8, 0, 12);",
+      "\\$demDuong = 0;",
+      "foreach (\\$a as \\$v) {",
+      "\tif (\\$v > 0) \\$demDuong++;",
+      "}",
+      "echo \"Số phần tử dương trong mảng a là: \\$demDuong<br>\";",
+      "",
+      "\\$b = array(\"a\" => 2, \"b\" => 4, \"c\" => -5, \"d\" => 0);",
+      "\\$c = array();",
+      "foreach (\\$b as \\$k => \\$v) {",
+      "\tif (\\$v > 0) {",
+      "\t\t\\$c[\\$k] = \\$v;",
+      "\t}",
+      "}",
+      "echo \"<pre>\";",
+      "print_r(\\$c);",
+      "echo \"</pre>\";",
+      "?>"
+    ],
+    "description": "Lab 4 - Bài 4.2: Đếm số phần tử dương của mảng $a và tạo mảng $c lưu các phần tử dương từ mảng $b"
+  },
+  "Lab 4 - Bai 4.3: Sap Xep Mang Theo Chieu Giam Dan (rsort, arsort, krsort)": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab4_4.3",
+      "!lab4_4.3_sapxep_giamdan"
+    ],
+    "body": [
+      "<?php",
+      "\\$a = array(4, 1, 9, 2, 7);",
+      "rsort(\\$a);",
+      "echo \"Mảng a giảm dần: \";",
+      "print_r(\\$a);",
+      "echo \"<br>\";",
+      "",
+      "\\$b = array(\"x\" => 15, \"y\" => 40, \"z\" => 25);",
+      "arsort(\\$b);",
+      "echo \"Mảng kết hợp b giảm dần theo giá trị (giữ key): \";",
+      "print_r(\\$b);",
+      "?>"
+    ],
+    "description": "Lab 4 - Bài 4.3: Sử dụng hàm rsort() và arsort() để sắp xếp mảng theo chiều giảm dần"
+  },
+  "Lab 4 - Bai 5.1: Ham showArray($arr) In Mang 1 Chieu Ra Bang HTML (Index - Value)": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab4_5.1",
+      "!lab4_5.1_ham_showarray_1chieu"
+    ],
+    "body": [
+      "<?php",
+      "function showArray(\\$arr) {",
+      "\techo \"<table border='1' cellpadding='5' cellspacing='0'>\";",
+      "\techo \"<tr><th>Index</th><th>Value</th></tr>\";",
+      "\tforeach (\\$arr as \\$k => \\$v) {",
+      "\t\techo \"<tr><td>\" . htmlspecialchars((string)\\$k) . \"</td><td>\" . htmlspecialchars((string)\\$v) . \"</td></tr>\";",
+      "\t}",
+      "\techo \"</table>\";",
+      "}",
+      "",
+      "\\$a = array(\"sp1\" => \"Điện thoại\", \"sp2\" => \"Laptop\", \"sp3\" => \"Máy tính bảng\");",
+      "showArray(\\$a);",
+      "?>"
+    ],
+    "description": "Lab 4 - Bài 5.1: Hàm showArray($arr) in mảng 1 chiều ra bảng HTML gồm 2 cột Index và Value"
+  },
+  "Lab 4 - Bai 5.2: Ham Duyet Va In Danh Sach Mang 2 Chieu $arr San Pham Ra Bang HTML": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab4_5.2",
+      "!lab4_5.2_in_mang_2chieu_sanpham"
+    ],
+    "body": [
+      "<?php",
+      "\\$arr = array();",
+      "\\$r = array(\"id\" => \"sp1\", \"name\" => \"Sản phẩm 1\");",
+      "\\$arr[] = \\$r;",
+      "\\$r = array(\"id\" => \"sp2\", \"name\" => \"Sản phẩm 2\");",
+      "\\$arr[] = \\$r;",
+      "\\$r = array(\"id\" => \"sp3\", \"name\" => \"Sản phẩm 3\");",
+      "\\$arr[] = \\$r;",
+      "",
+      "function inDanhSachSanPham(\\$arr) {",
+      "\techo \"<table border='1' cellpadding='5' cellspacing='0'>\";",
+      "\techo \"<tr><th>Stt</th><th>Mã Sản Phẩm</th><th>Tên Sản Phẩm</th></tr>\";",
+      "\t\\$stt = 1;",
+      "\tforeach (\\$arr as \\$sp) {",
+      "\t\techo \"<tr>\";",
+      "\t\techo \"<td>\" . \\$stt++ . \"</td>\";",
+      "\t\techo \"<td>\" . htmlspecialchars(\\$sp['id']) . \"</td>\";",
+      "\t\techo \"<td>\" . htmlspecialchars(\\$sp['name']) . \"</td>\";",
+      "\t\techo \"</tr>\";",
+      "\t}",
+      "\techo \"</table>\";",
+      "}",
+      "",
+      "inDanhSachSanPham(\\$arr);",
+      "?>"
+    ],
+    "description": "Lab 4 - Bài 5.2: Duyệt và in danh sách mảng 2 chiều $arr (id, name) ra bảng HTML (Stt, Mã Sản Phẩm, Tên Sản Phẩm)"
+  },
+  "Lab 4 - Bai 5.3: Lay Ngau Nhien m Cau Hoi Trong Danh Sach n Cau Hoi Trac Nghiem (array_rand)": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab4_5.3",
+      "!lab4_5.3_tracnghiem_ngaunhien"
+    ],
+    "body": [
+      "<?php",
+      "\\$questions = array(",
+      "\tarray(\"q\" => \"PHP viết tắt của từ gì?\", \"a\" => \"PHP: Hypertext Preprocessor\", \"b\" => \"Personal Home Page\", \"c\" => \"Private Home Page\", \"d\" => \"Public Host Page\"),",
+      "\tarray(\"q\" => \"Biến trong PHP bắt đầu bằng ký tự nào?\", \"a\" => \"\\$\", \"b\" => \"@\", \"c\" => \"#\", \"d\" => \"&\"),",
+      "\tarray(\"q\" => \"Hàm nào dùng để đếm số phần tử mảng?\", \"a\" => \"count()\", \"b\" => \"strlen()\", \"c\" => \"substr()\", \"d\" => \"trim()\"),",
+      "\tarray(\"q\" => \"Mảng lưu dữ liệu gửi bằng phương thức POST là?\", \"a\" => \"POST\", \"b\" => \"GET\", \"c\" => \"FILES\", \"d\" => \"SESSION\"),",
+      "\tarray(\"q\" => \"Hàm nào tách chuỗi thành mảng?\", \"a\" => \"explode()\", \"b\" => \"implode()\", \"c\" => \"md5()\", \"d\" => \"sha1()\")",
+      ");",
+      "",
+      "\\$m = 3;",
+      "\\$randKeys = (array)array_rand(\\$questions, \\$m);",
+      "\\$stt = 1;",
+      "foreach (\\$randKeys as \\$k) {",
+      "\t\\$item = \\$questions[\\$k];",
+      "\techo \"<p><b>Câu \" . \\$stt++ . \": \" . htmlspecialchars(\\$item['q']) . \"</b><br>\";",
+      "\techo \"A. \" . htmlspecialchars(\\$item['a']) . \"<br>\";",
+      "\techo \"B. \" . htmlspecialchars(\\$item['b']) . \"<br>\";",
+      "\techo \"C. \" . htmlspecialchars(\\$item['c']) . \"<br>\";",
+      "\techo \"D. \" . htmlspecialchars(\\$item['d']) . \"</p>\";",
+      "}",
+      "?>"
+    ],
+    "description": "Lab 4 - Bài 5.3: Xây dựng mảng n câu hỏi trắc nghiệm và lấy ngẫu nhiên m câu hỏi (m < n) bằng array_rand()"
+  },
+  "Lab 5 - Bai 4.1: Nhan Du Lieu Qua URL QueryString ($_GET['id']) Tu Danh Sach Link San Pham": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab5_4.1",
+      "!lab5_4.1_link_get_id_sanpham"
+    ],
+    "body": [
+      "<?php",
+      "\\$arr = array(",
+      "\tarray(\"id\" => 1, \"name\" => \"Product1\"),",
+      "\tarray(\"id\" => 2, \"name\" => \"Product2\"),",
+      "\tarray(\"id\" => 3, \"name\" => \"Product3\"),",
+      "\tarray(\"id\" => 4, \"name\" => \"Product4\")",
+      ");",
+      "",
+      "foreach (\\$arr as \\$r) {",
+      "\techo '<a href=\"?id=' . \\$r['id'] . '\">' . htmlspecialchars(\\$r['name']) . '</a><br>';",
+      "}",
+      "",
+      "if (isset(\\$_GET['id'])) {",
+      "\techo \"<hr>Giá trị id nhận được là: \" . htmlspecialchars(\\$_GET['id']);",
+      "}",
+      "?>"
+    ],
+    "description": "Lab 5 - Bài 4.1: Từ mảng $arr in ra các liên kết gửi id qua URL (?id=1) và nhận hiển thị id được chọn"
+  },
+  "Lab 5 - Bai 4.2: Form Tim Kiem San Pham Bang GET (Textbox, Radio Gan Dung/Chinh Xac, Combobox Loai)": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab5_4.2",
+      "!lab5_4.2_form_timkiem_sanpham_get"
+    ],
+    "body": [
+      "<?php",
+      "\\$tenSP   = trim(\\$_GET['ten_sp'] ?? '');",
+      "\\$cachTim = \\$_GET['cach_tim'] ?? 'gan_dung';",
+      "\\$loai    = \\$_GET['loai'] ?? 'tatca';",
+      "?>",
+      "<form action=\"\" method=\"get\">",
+      "\tTên sản phẩm: <input type=\"text\" name=\"ten_sp\" value=\"<?= htmlspecialchars(\\$tenSP) ?>\"><br>",
+      "\tCách tìm:",
+      "\t<input type=\"radio\" name=\"cach_tim\" value=\"gan_dung\" <?= \\$cachTim === 'gan_dung' ? 'checked' : '' ?>> Gần đúng",
+      "\t<input type=\"radio\" name=\"cach_tim\" value=\"chinh_xac\" <?= \\$cachTim === 'chinh_xac' ? 'checked' : '' ?>> Chính xác<br>",
+      "\tLoại sản phẩm:",
+      "\t<select name=\"loai\">",
+      "\t\t<option value=\"tatca\" <?= \\$loai === 'tatca' ? 'selected' : '' ?>>Tất cả</option>",
+      "\t\t<option value=\"loai1\" <?= \\$loai === 'loai1' ? 'selected' : '' ?>>Loại 1</option>",
+      "\t\t<option value=\"loai2\" <?= \\$loai === 'loai2' ? 'selected' : '' ?>>Loại 2</option>",
+      "\t\t<option value=\"loai3\" <?= \\$loai === 'loai3' ? 'selected' : '' ?>>Loại 3</option>",
+      "\t</select><br>",
+      "\t<input type=\"submit\" name=\"sm\" value=\"Tìm kiếm\">",
+      "</form>",
+      "<?php if (isset(\\$_GET['sm'])): ?>",
+      "\t<hr>",
+      "\tTên sản phẩm: <?= htmlspecialchars(\\$tenSP) ?><br>",
+      "\tCách tìm: <?= \\$cachTim === 'chinh_xac' ? 'Chính xác' : 'Gần đúng' ?><br>",
+      "\t<?php if (\\$loai !== 'tatca'): ?>",
+      "\t\tLoại sản phẩm: <?= htmlspecialchars(\\$loai) ?><br>",
+      "\t<?php endif; ?>",
+      "<?php endif; ?>"
+    ],
+    "description": "Lab 5 - Bài 4.2: Form GET tìm kiếm sản phẩm (Tên SP, Cách tìm gần đúng/chính xác, Loại sản phẩm tatca/loai1/loai2/loai3)"
+  },
+  "Lab 5 - Bai 4.3: Form Dang Ky Thanh Vien (Ten DN, Mat Khau, Nhap Lai MK, Gioi Tinh, So Thich, Hinh Anh, Tinh)": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab5_4.3",
+      "!lab5_4.3_form_dangky_thanhvien"
+    ],
+    "body": [
+      "<?php",
+      "\\$sm       = \\$_SERVER['REQUEST_METHOD'] === 'POST';",
+      "\\$user     = trim(\\$_POST['user'] ?? '');",
+      "\\$pass     = \\$_POST['pass'] ?? '';",
+      "\\$repass   = \\$_POST['repass'] ?? '';",
+      "\\$gioitinh = \\$_POST['gioitinh'] ?? '';",
+      "\\$sothich  = isset(\\$_POST['sothich']) && is_array(\\$_POST['sothich']) ? \\$_POST['sothich'] : array();",
+      "\\$tinh     = \\$_POST['tinh'] ?? '';",
+      "\\$err      = '';",
+      "\\$tenHinh  = '';",
+      "",
+      "if (\\$sm) {",
+      "\tif (\\$user === '' || \\$pass === '' || \\$repass === '' || \\$gioitinh === '' || \\$tinh === '') {",
+      "\t\t\\$err .= 'Vui lòng nhập đầy đủ các thông tin bắt buộc (*)!<br>';",
+      "\t}",
+      "\tif (\\$pass !== \\$repass) {",
+      "\t\t\\$err .= 'Mật khẩu và nhập lại mật khẩu không trùng nhau!<br>';",
+      "\t}",
+      "\tif (isset(\\$_FILES['hinh']) && (\\$_FILES['hinh']['name'] ?? '') !== '') {",
+      "\t\t\\$ext = strtolower(pathinfo(\\$_FILES['hinh']['name'], PATHINFO_EXTENSION));",
+      "\t\tif (!in_array(\\$ext, array('jpg', 'png', 'bmp', 'gif'), true)) {",
+      "\t\t\t\\$err .= 'Hình ảnh chỉ chấp nhận đuôi .jpg, .png, .bmp, .gif!<br>';",
+      "\t\t} elseif (\\$_FILES['hinh']['error'] === 0) {",
+      "\t\t\tif (!is_dir('image')) mkdir('image', 0777, true);",
+      "\t\t\t\\$tenHinh = \\$_FILES['hinh']['name'];",
+      "\t\t\tmove_uploaded_file(\\$_FILES['hinh']['tmp_name'], 'image/' . \\$tenHinh);",
+      "\t\t}",
+      "\t}",
+      "}",
+      "?>",
+      "<form action=\"\" method=\"post\" enctype=\"multipart/form-data\">",
+      "\tTên đăng nhập (*): <input type=\"text\" name=\"user\" value=\"<?= htmlspecialchars(\\$user) ?>\"><br>",
+      "\tMật khẩu (*): <input type=\"password\" name=\"pass\"><br>",
+      "\tNhập lại mật khẩu (*): <input type=\"password\" name=\"repass\"><br>",
+      "\tGiới tính (*):",
+      "\t<input type=\"radio\" name=\"gioitinh\" value=\"Nam\" <?= \\$gioitinh === 'Nam' ? 'checked' : '' ?>> Nam",
+      "\t<input type=\"radio\" name=\"gioitinh\" value=\"Nữ\" <?= \\$gioitinh === 'Nữ' ? 'checked' : '' ?>> Nữ<br>",
+      "\tSở thích:",
+      "\t<input type=\"checkbox\" name=\"sothich[]\" value=\"Thể thao\" <?= in_array('Thể thao', \\$sothich) ? 'checked' : '' ?>> Thể thao",
+      "\t<input type=\"checkbox\" name=\"sothich[]\" value=\"Du lịch\" <?= in_array('Du lịch', \\$sothich) ? 'checked' : '' ?>> Du lịch<br>",
+      "\tHình ảnh (tùy chọn): <input type=\"file\" name=\"hinh\"><br>",
+      "\tTỉnh (*):",
+      "\t<select name=\"tinh\">",
+      "\t\t<option value=\"\">-- Chọn tỉnh --</option>",
+      "\t\t<option value=\"TP.HCM\" <?= \\$tinh === 'TP.HCM' ? 'selected' : '' ?>>TP.HCM</option>",
+      "\t\t<option value=\"Hà Nội\" <?= \\$tinh === 'Hà Nội' ? 'selected' : '' ?>>Hà Nội</option>",
+      "\t\t<option value=\"Đà Nẵng\" <?= \\$tinh === 'Đà Nẵng' ? 'selected' : '' ?>>Đà Nẵng</option>",
+      "\t</select><br>",
+      "\t<input type=\"submit\" value=\"Đăng ký\">",
+      "\t<input type=\"reset\" value=\"Reset\">",
+      "</form>",
+      "<?php if (\\$sm): ?>",
+      "\t<?php if (\\$err !== ''): ?>",
+      "\t\t<p style=\"color:red;\"><?= \\$err ?></p>",
+      "\t<?php else: ?>",
+      "\t\t<hr>",
+      "\t\tTên đăng nhập: <?= htmlspecialchars(\\$user) ?><br>",
+      "\t\tGiới tính: <?= htmlspecialchars(\\$gioitinh) ?><br>",
+      "\t\tSở thích: <?= htmlspecialchars(implode(', ', \\$sothich)) ?><br>",
+      "\t\tTỉnh: <?= htmlspecialchars(\\$tinh) ?><br>",
+      "\t\t<?php if (\\$tenHinh !== ''): ?>",
+      "\t\t\tHình ảnh:<br><img src=\"image/<?= htmlspecialchars(\\$tenHinh) ?>\" width=\"150\">",
+      "\t\t<?php endif; ?>",
+      "\t<?php endif; ?>",
+      "<?php endif; ?>"
+    ],
+    "description": "Lab 5 - Bài 4.3: Form đăng ký thành viên kiểm tra các trường (*), mật khẩu trùng nhau và đuôi file hình (.jpg, .png, .bmp, .gif)"
+  },
+  "Lab 5 - Bai 4.4: Dieu Huong Module Admin (mod.php) Bang $_GET['mod']": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab5_4.4",
+      "!lab5_4.4_dieu_huong_module_admin"
+    ],
+    "body": [
+      "<?php",
+      "\\$mod = \\$_GET['mod'] ?? 'home';",
+      "switch (\\$mod) {",
+      "\tcase 'loai':",
+      "\t\tinclude 'module/loai/index.php';",
+      "\t\tbreak;",
+      "\tcase 'nhaxb':",
+      "\t\tinclude 'module/nhaxb/index.php';",
+      "\t\tbreak;",
+      "\tcase 'sach':",
+      "\t\tinclude 'module/sach/index.php';",
+      "\t\tbreak;",
+      "\tcase 'order':",
+      "\t\tinclude 'module/order/index.php';",
+      "\t\tbreak;",
+      "\tcase 'user':",
+      "\t\tinclude 'module/user/index.php';",
+      "\t\tbreak;",
+      "\tdefault:",
+      "\t\tinclude 'module/home.php';",
+      "\t\tbreak;",
+      "}",
+      "?>"
+    ],
+    "description": "Lab 5 - Bài 4.4: Điều hướng các chức năng trong admin (loai, nhaxb, sach, order, user) bằng tham số URL mod"
+  },
+  "Lab 5 - Bai 5.1: Form Giu Nguyen Gia Tri Vua Nhap Khi Submit Tren Cung 1 File (Sticky Form)": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab5_5.1",
+      "!lab5_5.1_form_giu_gia_tri_sticky"
+    ],
+    "body": [
+      "<?php",
+      "\\$hoten    = trim(\\$_POST['hoten'] ?? '');",
+      "\\$gioitinh = \\$_POST['gioitinh'] ?? '';",
+      "\\$st       = isset(\\$_POST['st']) && is_array(\\$_POST['st']) ? \\$_POST['st'] : array();",
+      "?>",
+      "<form action=\"\" method=\"post\">",
+      "\tHọ tên: <input type=\"text\" name=\"hoten\" value=\"<?= htmlspecialchars(\\$hoten) ?>\"><br>",
+      "\tGiới tính:",
+      "\t<input type=\"radio\" name=\"gioitinh\" value=\"Nam\" <?= \\$gioitinh === 'Nam' ? 'checked' : '' ?>> Nam",
+      "\t<input type=\"radio\" name=\"gioitinh\" value=\"Nữ\" <?= \\$gioitinh === 'Nữ' ? 'checked' : '' ?>> Nữ<br>",
+      "\tSở thích:",
+      "\t<input type=\"checkbox\" name=\"st[]\" value=\"Thể thao\" <?= in_array('Thể thao', \\$st) ? 'checked' : '' ?>> Thể thao",
+      "\t<input type=\"checkbox\" name=\"st[]\" value=\"Du lịch\" <?= in_array('Du lịch', \\$st) ? 'checked' : '' ?>> Du lịch<br>",
+      "\t<input type=\"submit\" name=\"sm\" value=\"Gửi\">",
+      "</form>",
+      "<?php if (isset(\\$_POST['sm'])): ?>",
+      "\t<hr>",
+      "\tHọ tên: <?= htmlspecialchars(\\$hoten) ?><br>",
+      "\tGiới tính: <?= htmlspecialchars(\\$gioitinh) ?><br>",
+      "\tSở thích: <?= htmlspecialchars(implode(', ', \\$st)) ?>",
+      "<?php endif; ?>"
+    ],
+    "description": "Lab 5 - Bài 5.1: Form và in kết quả trên cùng 1 file, giữ nguyên các giá trị vừa nhập sau khi bấm Submit"
+  },
+  "Lab 5 - Bai 5.2: Upload Nhieu Hinh Anh Cung Luc (multiple input file)": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab5_5.2",
+      "!lab5_5.2_upload_nhieu_hinh"
+    ],
+    "body": [
+      "<?php",
+      "\\$uploadedFiles = array();",
+      "if (\\$_SERVER['REQUEST_METHOD'] === 'POST' && isset(\\$_FILES['hinh'])) {",
+      "\tif (!is_dir('image')) mkdir('image', 0777, true);",
+      "\t\\$names = \\$_FILES['hinh']['name'];",
+      "\t\\$tmps  = \\$_FILES['hinh']['tmp_name'];",
+      "\t\\$errs  = \\$_FILES['hinh']['error'];",
+      "\tfor (\\$i = 0; \\$i < count(\\$names); \\$i++) {",
+      "\t\tif (\\$errs[\\$i] === 0 && \\$names[\\$i] !== '') {",
+      "\t\t\t\\$ext = strtolower(pathinfo(\\$names[\\$i], PATHINFO_EXTENSION));",
+      "\t\t\tif (in_array(\\$ext, array('jpg', 'jpeg', 'png', 'gif', 'bmp'), true)) {",
+      "\t\t\t\tmove_uploaded_file(\\$tmps[\\$i], 'image/' . \\$names[\\$i]);",
+      "\t\t\t\t\\$uploadedFiles[] = \\$names[\\$i];",
+      "\t\t\t}",
+      "\t\t}",
+      "\t}",
+      "}",
+      "?>",
+      "<form action=\"\" method=\"post\" enctype=\"multipart/form-data\">",
+      "\tChọn nhiều hình ảnh: <input type=\"file\" name=\"hinh[]\" multiple><br>",
+      "\t<input type=\"submit\" value=\"Upload\">",
+      "</form>",
+      "<?php foreach (\\$uploadedFiles as \\$f): ?>",
+      "\t<p><?= htmlspecialchars(\\$f) ?><br><img src=\"image/<?= htmlspecialchars(\\$f) ?>\" width=\"150\"></p>",
+      "<?php endforeach; ?>"
+    ],
+    "description": "Lab 5 - Bài 5.2: Cho phép chọn và upload nhiều hình ảnh cùng lúc lên server"
+  },
+  "Lab 5 - Bai 5.3: Form Dang Ky Kiem Tra Bang JavaScript Truoc Khi Kiem Tra Tren Server": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab5_5.3",
+      "!lab5_5.3_dangky_kiemtra_js_server"
+    ],
+    "body": [
+      "<?php",
+      "\\$sm   = \\$_SERVER['REQUEST_METHOD'] === 'POST';",
+      "\\$user = trim(\\$_POST['user'] ?? '');",
+      "\\$pass = \\$_POST['pass'] ?? '';",
+      "\\$re   = \\$_POST['repass'] ?? '';",
+      "\\$tinh = \\$_POST['tinh'] ?? '';",
+      "\\$err  = '';",
+      "if (\\$sm) {",
+      "\tif (\\$user === '' || \\$pass === '' || \\$tinh === '') \\$err .= 'Vui lòng nhập đủ thông tin!<br>';",
+      "\tif (\\$pass !== \\$re) \\$err .= 'Mật khẩu nhập lại không khớp!<br>';",
+      "}",
+      "?>",
+      "<script>",
+      "function checkForm(f) {",
+      "\tif (f.user.value.trim() === '' || f.pass.value === '' || f.tinh.value === '') {",
+      "\t\talert('Vui lòng nhập đầy đủ các trường bắt buộc (*)!');",
+      "\t\treturn false;",
+      "\t}",
+      "\tif (f.pass.value !== f.repass.value) {",
+      "\t\talert('Mật khẩu và nhập lại mật khẩu phải trùng nhau!');",
+      "\t\treturn false;",
+      "\t}",
+      "\treturn true;",
+      "}",
+      "</script>",
+      "<form action=\"\" method=\"post\" onsubmit=\"return checkForm(this);\">",
+      "\tTên đăng nhập (*): <input type=\"text\" name=\"user\" value=\"<?= htmlspecialchars(\\$user) ?>\"><br>",
+      "\tMật khẩu (*): <input type=\"password\" name=\"pass\"><br>",
+      "\tNhập lại mật khẩu (*): <input type=\"password\" name=\"repass\"><br>",
+      "\tTỉnh (*):",
+      "\t<select name=\"tinh\">",
+      "\t\t<option value=\"\">-- Chọn tỉnh --</option>",
+      "\t\t<option value=\"TP.HCM\" <?= \\$tinh === 'TP.HCM' ? 'selected' : '' ?>>TP.HCM</option>",
+      "\t\t<option value=\"Hà Nội\" <?= \\$tinh === 'Hà Nội' ? 'selected' : '' ?>>Hà Nội</option>",
+      "\t</select><br>",
+      "\t<input type=\"submit\" value=\"Đăng ký\">",
+      "</form>",
+      "<?php if (\\$sm): ?>",
+      "\t<?= \\$err !== '' ? \"<p style='color:red;'>\\$err</p>\" : \"<p>Đăng ký thành công: \" . htmlspecialchars(\\$user) . \"</p>\" ?>",
+      "<?php endif; ?>"
+    ],
+    "description": "Lab 5 - Bài 5.3: Trang đăng ký thành viên kiểm tra dữ liệu bằng JavaScript (onsubmit) kết hợp kiểm tra trên Server PHP"
+  },
+  "Lab 6 - Bai 3.1: Kiem Tra Du Lieu Chuoi (Username >= 6, Mat Khau >= 8, Ho Ten >= 2 Tu Viet Hoa Chu Dau)": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab6_3.1",
+      "!lab6_3.1_kiemtra_chuoi_coban"
+    ],
+    "body": [
+      "<?php",
+      "\\$sm     = \\$_SERVER['REQUEST_METHOD'] === 'POST';",
+      "\\$user   = trim(\\$_POST['user'] ?? '');",
+      "\\$pass   = \\$_POST['pass'] ?? '';",
+      "\\$repass = \\$_POST['repass'] ?? '';",
+      "\\$hoten  = trim(\\$_POST['hoten'] ?? '');",
+      "\\$err    = '';",
+      "",
+      "if (\\$sm) {",
+      "\tif (strlen(\\$user) < 6) \\$err .= 'Tên đăng nhập tối thiểu 6 ký tự!<br>';",
+      "\tif (strlen(\\$pass) < 8 || \\$pass !== \\$repass) \\$err .= 'Mật khẩu tối thiểu 8 ký tự và phải trùng nhau!<br>';",
+      "\t\\$tu = \\$hoten === '' ? array() : preg_split('/\\s+/u', \\$hoten);",
+      "\tif (count(\\$tu) < 2) \\$err .= 'Họ tên phải có ít nhất 2 từ!<br>';",
+      "}",
+      "?>",
+      "<form action=\"\" method=\"post\">",
+      "\tTên đăng nhập: <input type=\"text\" name=\"user\" value=\"<?= htmlspecialchars(\\$user) ?>\"><br>",
+      "\tMật khẩu: <input type=\"password\" name=\"pass\"><br>",
+      "\tNhập lại mật khẩu: <input type=\"password\" name=\"repass\"><br>",
+      "\tHọ tên: <input type=\"text\" name=\"hoten\" value=\"<?= htmlspecialchars(\\$hoten) ?>\"><br>",
+      "\t<input type=\"submit\" value=\"Kiểm tra\">",
+      "</form>",
+      "<?php if (\\$sm): ?>",
+      "\t<?php if (\\$err !== ''): ?>",
+      "\t\t<p style=\"color:red;\"><?= \\$err ?></p>",
+      "\t<?php else: ?>",
+      "\t\t<p>Tên đăng nhập: <?= htmlspecialchars(\\$user) ?><br>",
+      "\t\tHọ tên: <?= htmlspecialchars(ucwords(mb_strtolower(\\$hoten, 'UTF-8'))) ?></p>",
+      "\t<?php endif; ?>",
+      "<?php endif; ?>"
+    ],
+    "description": "Lab 6 - Bài 3.1: Kiểm tra tên đăng nhập >= 6 ký tự, mật khẩu >= 8 ký tự khớp nhau, họ tên >= 2 từ và in hoa ký tự đầu mỗi từ (ucwords)"
+  },
+  "Lab 6 - Bai 3.2: Ham Lay Phan Mo Rong Cua File Va Ham Tao Mat Khau Ngau Nhien n Ky Tu": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab6_3.2",
+      "!lab6_3.2_lay_duoi_file_matkhau_ngaunhien"
+    ],
+    "body": [
+      "<?php",
+      "function layPhanMoRong(\\$fileName) {",
+      "\t\\$pos = strrpos(\\$fileName, '.');",
+      "\treturn \\$pos === false ? '' : substr(\\$fileName, \\$pos + 1);",
+      "}",
+      "",
+      "function taoMatKhauNgauNhien(\\$n = 8) {",
+      "\t\\$s = \"abcdefghijkmlnopqrstuvxyz0123456789\";",
+      "\treturn substr(str_shuffle(str_repeat(\\$s, 3)), 0, \\$n);",
+      "}",
+      "",
+      "?>",
+      "<form action=\"\" method=\"post\" enctype=\"multipart/form-data\">",
+      "\tChọn file: <input type=\"file\" name=\"f\"><br>",
+      "\t<input type=\"submit\" name=\"sm\" value=\"Gửi\">",
+      "</form>",
+      "<?php if (isset(\\$_POST['sm']) && isset(\\$_FILES['f'])): ?>",
+      "\tPhần mở rộng file: <?= htmlspecialchars(layPhanMoRong(\\$_FILES['f']['name'] ?? '')) ?><br>",
+      "\tMật khẩu ngẫu nhiên: <?= htmlspecialchars(taoMatKhauNgauNhien(8)) ?>",
+      "<?php endif; ?>"
+    ],
+    "description": "Lab 6 - Bài 3.2: Hàm trả về phần mở rộng của file upload và hàm phát sinh mật khẩu ngẫu nhiên n ký tự bằng str_shuffle"
+  },
+  "Lab 6 - Bai 4.1: Ma Hoa Mat Khau SHA1 + MD5 Va Xu Ly Textarea thong_tin (strip_tags, nl2br, addslashes)": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab6_4.1",
+      "!lab6_4.1_mahoa_sha1_md5_xuly_textarea"
+    ],
+    "body": [
+      "<?php",
+      "\\$sm       = \\$_SERVER['REQUEST_METHOD'] === 'POST';",
+      "\\$user     = trim(\\$_POST['user'] ?? '');",
+      "\\$pass     = \\$_POST['pass'] ?? '';",
+      "\\$repass   = \\$_POST['repass'] ?? '';",
+      "\\$hoten    = trim(\\$_POST['hoten'] ?? '');",
+      "\\$thongtin = \\$_POST['thong_tin'] ?? '';",
+      "\\$err      = '';",
+      "",
+      "if (\\$sm) {",
+      "\tif (strlen(\\$user) < 6) \\$err .= 'Tên đăng nhập tối thiểu 6 ký tự!<br>';",
+      "\tif (strlen(\\$pass) < 8 || \\$pass !== \\$repass) \\$err .= 'Mật khẩu tối thiểu 8 ký tự và trùng nhau!<br>';",
+      "\tif (str_word_count(\\$hoten) < 2) \\$err .= 'Họ tên phải có ít nhất 2 từ!<br>';",
+      "}",
+      "?>",
+      "<form action=\"\" method=\"post\">",
+      "\tTên đăng nhập: <input type=\"text\" name=\"user\" value=\"<?= htmlspecialchars(\\$user) ?>\"><br>",
+      "\tMật khẩu: <input type=\"password\" name=\"pass\"><br>",
+      "\tNhập lại mật khẩu: <input type=\"password\" name=\"repass\"><br>",
+      "\tHọ tên: <input type=\"text\" name=\"hoten\" value=\"<?= htmlspecialchars(\\$hoten) ?>\"><br>",
+      "\tThông tin:<br><textarea name=\"thong_tin\" rows=\"4\" cols=\"40\"><?= htmlspecialchars(\\$thongtin) ?></textarea><br>",
+      "\t<input type=\"submit\" value=\"Gửi\">",
+      "</form>",
+      "<?php if (\\$sm): ?>",
+      "\t<?php if (\\$err !== ''): ?>",
+      "\t\t<p style=\"color:red;\"><?= \\$err ?></p>",
+      "\t<?php else: ?>",
+      "\t\t<?php",
+      "\t\t\\$noHtml      = strip_tags(\\$thongtin);",
+      "\t\t\\$withSlashes = addslashes(\\$noHtml);",
+      "\t\t\\$cleanText   = stripslashes(\\$withSlashes);",
+      "\t\t?>",
+      "\t\t<hr>",
+      "\t\tHọ tên: <?= htmlspecialchars(ucwords(strtolower(\\$hoten))) ?><br>",
+      "\t\tMật khẩu SHA1: <?= sha1(\\$pass) ?><br>",
+      "\t\tMật khẩu SHA1 + MD5: <?= sha1(md5(\\$pass)) ?><br>",
+      "\t\tThông tin (addslashes): <?= htmlspecialchars(\\$withSlashes) ?><br>",
+      "\t\tThông tin đã xử lý:<br><?= nl2br(htmlspecialchars(\\$cleanText)) ?>",
+      "\t<?php endif; ?>",
+      "<?php endif; ?>"
+    ],
+    "description": "Lab 6 - Bài 4.1: In mật khẩu mã hóa SHA1 + MD5, thêm textarea thong_tin (strip_tags, nl2br, addslashes, stripslashes)"
+  },
+  "Lab 6 - Bai 4.2: Kiem Tra Du Lieu Form Bang Regular Expression (Mat Khau Manh, SDT, Ngay Sinh dd/mm/yyyy)": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab6_4.2",
+      "!lab6_4.2_regex_matkhau_sdt_ngaysinh"
+    ],
+    "body": [
+      "<?php",
+      "\\$sm       = \\$_SERVER['REQUEST_METHOD'] === 'POST';",
+      "\\$username = trim(\\$_POST['username'] ?? '');",
+      "\\$email    = trim(\\$_POST['email'] ?? '');",
+      "\\$password = \\$_POST['password'] ?? '';",
+      "\\$phone    = trim(\\$_POST['phone'] ?? '');",
+      "\\$birthday = trim(\\$_POST['birthday'] ?? '');",
+      "\\$err      = '';",
+      "",
+      "if (\\$sm) {",
+      "\tif (!preg_match('/^[a-zA-Z0-9.]{6,}\\$/', \\$username)) {",
+      "\t\t\\$err .= 'Username tối thiểu 6 ký tự và chỉ chứa chữ, số, dấu chấm!<br>';",
+      "\t}",
+      "\tif (!preg_match('/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,10}\\$/', \\$email)) {",
+      "\t\t\\$err .= 'Email không hợp lệ!<br>';",
+      "\t}",
+      "\tif (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}\\$/', \\$password)) {",
+      "\t\t\\$err .= 'Mật khẩu phải tối thiểu 8 ký tự, có ít nhất 1 số, 1 chữ hoa, 1 chữ thường!<br>';",
+      "\t}",
+      "\tif (!preg_match('/^\\d+\\$/', \\$phone)) {",
+      "\t\t\\$err .= 'Số điện thoại chỉ được phép nhập số!<br>';",
+      "\t}",
+      "\tif (!preg_match('/^(0[1-9]|[12]\\d|3[01])[\\/-](0[1-9]|1[0-2])[\\/-]\\d{4}\\$/', \\$birthday)) {",
+      "\t\t\\$err .= 'Ngày sinh phải có định dạng dd/mm/yyyy hoặc dd-mm-yyyy!<br>';",
+      "\t}",
+      "}",
+      "?>",
+      "<form action=\"\" method=\"post\">",
+      "\tUsername: <input type=\"text\" name=\"username\" value=\"<?= htmlspecialchars(\\$username) ?>\"><br>",
+      "\tEmail: <input type=\"text\" name=\"email\" value=\"<?= htmlspecialchars(\\$email) ?>\"><br>",
+      "\tMật khẩu: <input type=\"password\" name=\"password\"><br>",
+      "\tSố điện thoại: <input type=\"text\" name=\"phone\" value=\"<?= htmlspecialchars(\\$phone) ?>\"><br>",
+      "\tNgày sinh (dd/mm/yyyy): <input type=\"text\" name=\"birthday\" value=\"<?= htmlspecialchars(\\$birthday) ?>\"><br>",
+      "\t<input type=\"submit\" value=\"Kiểm tra\">",
+      "</form>",
+      "<?php if (\\$sm): ?>",
+      "\t<?= \\$err !== '' ? \"<p style='color:red;'>\\$err</p>\" : \"<p style='color:green;'>Tất cả dữ liệu hợp lệ!</p>\" ?>",
+      "<?php endif; ?>"
+    ],
+    "description": "Lab 6 - Bài 4.2: Kiểm tra Regex cho Username, Email, Mật khẩu (>=8 ký tự, đủ chữ hoa, thường, số), SĐT và Ngày sinh (dd/mm/yyyy hoặc dd-mm-yyyy)"
+  },
+  "Lab 6 - Bai 4.3 & 5.2: Quet Tieu De Tin Tuc Tu Website Bang file_get_contents Va preg_match_all": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab6_4.3",
+      "!lab6_5.2",
+      "!lab6_4.3_quet_tin_file_get_contents_regex"
+    ],
+    "body": [
+      "<?php",
+      "\\$url = \"https://vnexpress.net/the-thao\";",
+      "\\$content = @file_get_contents(\\$url);",
+      "if (!\\$content) {",
+      "\t\\$content = '<div class=\"title_news\"><a href=\"#\">Tin thể thao mẫu số 1</a></div><div class=\"title_news\"><a href=\"#\">Tin thể thao mẫu số 2</a></div>';",
+      "}",
+      "",
+      "\\$pattern = '/<div class=\"title_news\">(.*)<\\/div>/imsU';",
+      "preg_match_all(\\$pattern, \\$content, \\$arr);",
+      "?>",
+      "<table border=\"1\" cellpadding=\"5\" cellspacing=\"0\">",
+      "\t<tr><th>STT</th><th>Tiêu đề tin</th></tr>",
+      "\t<?php foreach (\\$arr[1] as \\$i => \\$tin): ?>",
+      "\t<tr>",
+      "\t\t<td><?= \\$i + 1 ?></td>",
+      "\t\t<td><?= strip_tags(\\$tin, '<a>') ?></td>",
+      "\t</tr>",
+      "\t<?php endforeach; ?>",
+      "</table>"
+    ],
+    "description": "Lab 6 - Bài 4.3 & 5.2: Dùng file_get_contents() và preg_match_all() lọc các thẻ tiêu đề tin tức và hiển thị ra bảng HTML"
+  },
+  "Lab 6 - Bai 5.1: Tim Kiem Va Loc Link, Email, Dien Thoai, Kiem Tra Ten Hinh Anh Bang Regex": {
+    "scope": "php,html",
+    "prefix": [
+      "!lab6_5.1",
+      "!lab6_5.1_loc_link_email_sdt_tenhinh"
+    ],
+    "body": [
+      "<?php",
+      "\\$html = '<a href=\"https://stu.edu.vn\">STU</a> Liên hệ: info@stu.edu.vn, support@gmail.com. ĐT: 0912345678, (028)38505520.';",
+      "",
+      "preg_match_all('/href=[\"\\']([^\"\\']+)[\"\\']/i', \\$html, \\$links);",
+      "preg_match_all('/[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,10}/', \\$html, \\$emails);",
+      "preg_match_all('/(\\(0\\d{1,2}\\)|0\\d{1,2})?\\s?\\d{7,8}/', \\$html, \\$phones);",
+      "",
+      "\\$tenHinh = \"anh_bia_01.jpg\";",
+      "\\$hopLeHinh = preg_match('/^[a-zA-Z0-9_-]+\\.(jpg|jpeg|png|gif)\\$/i', \\$tenHinh);",
+      "",
+      "echo \"Links: \"; print_r(\\$links[1]); echo \"<br>\";",
+      "echo \"Emails: \"; print_r(\\$emails[0]); echo \"<br>\";",
+      "echo \"Phones: \"; print_r(\\$phones[0]); echo \"<br>\";",
+      "echo \"Tên hình '\\$tenHinh': \" . (\\$hopLeHinh ? \"Hợp lệ\" : \"Không hợp lệ\");",
+      "?>"
+    ],
+    "description": "Lab 6 - Bài 5.1: Lọc tất cả các link, email, số điện thoại trong trang web và kiểm tra tên file hình ảnh đúng quy định bằng Regex"
+  },
   "De 2 (Thay Thinh) Cau 1: Form Dang Ky Hoi Thao AI/IoT/Web + Kiem Tra Ho Ten >= 2 Tu, MSSV 8 So, Mat Khau >= 6 Ky Tu (workshop.php)": {
     "scope": "php,html",
     "prefix": [
