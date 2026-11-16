@@ -1,23 +1,20 @@
 {
-  "Lab 1 - Bai 3.1 & 4.1: Trang Kiem Tra Cau Hinh PHP phpinfo()": {
+  "Lab 1 (3.1 & 4.1): Kiểm tra cấu hình PHP phpinfo()": {
     "scope": "php,html",
     "prefix": [
-      "!lab1_3.1",
-      "!lab1_4.1",
-      "!lab1_4.1_phpinfo"
+      "!lab1_4.1"
     ],
     "body": [
       "<?php",
       "phpinfo();",
       "?>"
     ],
-    "description": "Lab 1 - Bài 3.1 & 4.1: Kiểm tra thông tin cấu hình Apache, PHP, MySQL bằng phpinfo()"
+    "description": "Xuất trang phpinfo() kiểm tra phiên bản Apache, PHP, MySQL"
   },
-  "Lab 1 - Bai 5.1: Cau Hinh VirtualHost Trong httpd.conf": {
+  "Lab 1 (5.1): Cấu hình VirtualHost trong httpd.conf": {
     "scope": "php,html",
     "prefix": [
-      "!lab1_5.1",
-      "!lab1_5.1_virtualhost"
+      "!lab1_5.1"
     ],
     "body": [
       "<VirtualHost *:80>",
@@ -31,36 +28,42 @@
       "    </Directory>",
       "</VirtualHost>"
     ],
-    "description": "Lab 1 - Bài 5.1: Cấu hình Virtual Host trong file httpd.conf của Apache"
+    "description": "Tạo tên miền ảo myweb.local trỏ về thư mục c:/wamp64/www/myweb"
   },
-  "Lab 1 - Bai 5.2: File .htaccess Rewrite URL, Chan IP, Chan Hotlink, Doi Trang Chu, Cam Duyet Thu Muc": {
+  "Lab 1 (5.2): .htaccess (Rewrite, Chặn IP/Hotlink, Bảo vệ)": {
     "scope": "php,html",
     "prefix": [
-      "!lab1_5.2",
-      "!lab1_5.2_htaccess"
+      "!lab1_5.2"
     ],
     "body": [
       "RewriteEngine On",
       "RewriteRule ^news/([0-9]+)\\.html\\$ index.php?mod=news&id=\\$1 [L,QSA]",
       "",
-      "Order Allow,Deny",
-      "Allow from all",
-      "Deny from 234.45.",
+      "# Chan IP (Apache 2.4 dung RequireAll / neu Apache 2.2 dung Deny from)",
+      "<RequireAll>",
+      "\tRequire all granted",
+      "\tRequire not ip 234.45",
+      "</RequireAll>",
       "",
       "RewriteCond %{HTTP_REFERER} !^\\$",
       "RewriteCond %{HTTP_REFERER} !^http://(www\\.)?localhost/ [NC]",
       "RewriteRule \\.(jpg|jpeg|png|gif)\\$ - [F,NC]",
       "",
       "DirectoryIndex myindex.php index.php",
-      "Options -Indexes"
+      "Options -Indexes",
+      "",
+      "# Dat mat khau bao ve thu muc (bo # khi dung)",
+      "# AuthType Basic",
+      "# AuthName \"Restricted\"",
+      "# AuthUserFile c:/wamp64/.htpasswd",
+      "# Require valid-user"
     ],
-    "description": "Lab 1 - Bài 5.2: Tạo file .htaccess (Rewrite news/1.html, chặn IP 234.45, chặn hotlink ảnh, đổi trang chủ myindex.php, cấm duyệt thư mục)"
+    "description": "Rewrite news/1.html, chặn IP 234.45, chống hotlink ảnh, đổi DirectoryIndex, cấm duyệt thư mục & mẫu Auth mật khẩu"
   },
-  "Lab 2 - Bai 4.1: Xoa global Trong lab2_2.php (Bien Cuc Bo vs Toan Cuc)": {
+  "Lab 2 (4.1): Biến cục bộ vs Toàn cục (bỏ global)": {
     "scope": "php,html",
     "prefix": [
-      "!lab2_4.1",
-      "!lab2_4.1_xoa_global"
+      "!lab2_4.1"
     ],
     "body": [
       "<?php",
@@ -76,13 +79,12 @@
       "echo \"kq = \\$kq<br>\";",
       "?>"
     ],
-    "description": "Lab 2 - Bài 4.1: Xóa global $kq trong hàm f() -> $kq bên ngoài vẫn bằng 0 vì $kq trong hàm là biến cục bộ"
+    "description": "Minh họa bỏ global $kq khiến $kq bên ngoài hàm f() giữ nguyên 0"
   },
-  "Lab 2 - Bai 4.2: Khai Bao Hang So define('PI', 3.14) Thay Cho const": {
+  "Lab 2 (4.2): Khai báo hằng số define('PI', 3.14)": {
     "scope": "php,html",
     "prefix": [
-      "!lab2_4.2",
-      "!lab2_4.2_define_pi"
+      "!lab2_4.2"
     ],
     "body": [
       "<?php",
@@ -92,13 +94,12 @@
       "echo \"Chu vi hình tròn bán kính \\$r là: \" . (2 * \\$r * PI);",
       "?>"
     ],
-    "description": "Lab 2 - Bài 4.2: Thay const PI = 3.14 bằng hàm define('PI', 3.14) tính diện tích và chu vi hình tròn"
+    "description": "Thay const PI bằng define('PI', 3.14) tính chu vi & diện tích hình tròn"
   },
-  "Lab 2 - Bai 4.3: Phan Biet Toan Tu So Sanh == Va === (lab2_4.php)": {
+  "Lab 2 (4.3): So sánh == vs === (ép kiểu chuỗi/số)": {
     "scope": "php,html",
     "prefix": [
-      "!lab2_4.3",
-      "!lab2_4.3_sosanh_bang"
+      "!lab2_4.3"
     ],
     "body": [
       "<?php",
@@ -118,37 +119,30 @@
       "\techo \"a và x khác nhau\";",
       "?>"
     ],
-    "description": "Lab 2 - Bài 4.3: Sửa === thành == ở dòng 21 để so sánh giá trị sau ép kiểu (xuất 'a và x giống nhau')"
+    "description": "Phân biệt == (so sánh giá trị sau ép kiểu) và === (so sánh cả kiểu dữ liệu)"
   },
-  "Lab 2 - Bai 4.4 -> 4.9: Kiem Tra isset($x) Va Phan Biet include, include_once, require, require_once": {
+  "Lab 2 (4.4–4.9): isset() & include / require (_once)": {
     "scope": "php,html",
     "prefix": [
-      "!lab2_4.4",
-      "!lab2_4.5",
-      "!lab2_4.6",
-      "!lab2_4.7",
-      "!lab2_4.8",
-      "!lab2_4.9",
-      "!lab2_4.4_include_require"
+      "!lab2_4.4"
     ],
     "body": [
       "<?php",
+      "// include / include_once: thieu file chi bao Warning va chay tiep",
+      "// require / require_once: thieu file dung chuong trinh ngay (Fatal error)",
       "include(\"lab2_5a.php\");",
       "include_once(\"lab2_5b.php\");",
+      "// require_once(\"lab2_5b.php\");",
       "",
-      "if (isset(\\$x))",
-      "\techo \"Giá trị của x là: \\$x\";",
-      "else",
-      "\techo \"Biến x không tồn tại\";",
+      "echo isset(\\$x) ? \"Giá trị x = \\$x\" : \"Biến x không tồn tại\";",
       "?>"
     ],
-    "description": "Lab 2 - Bài 4.4 đến 4.9: Kiểm tra isset($x) và so sánh include, include_once, require, require_once"
+    "description": "Kiểm tra isset($x) và phân biệt include (warning nếu thiếu file) với require (fatal error) và bản _once"
   },
-  "Lab 2 - Bai 5.1: Tinh Phan Nguyen Va Phan Du Cua 2 So Nguyen $a Va $b": {
+  "Lab 2 (5.1): Tính phần nguyên & phần dư của $a / $b": {
     "scope": "php,html",
     "prefix": [
-      "!lab2_5.1",
-      "!lab2_5.1_phannguyen_phandu"
+      "!lab2_5.1"
     ],
     "body": [
       "<?php",
@@ -161,13 +155,12 @@
       "echo \"Phần dư của \\$a / \\$b là: \\$phanDu\";",
       "?>"
     ],
-    "description": "Lab 2 - Bài 5.1: Khai báo 2 số nguyên $a và $b, in ra phần nguyên và phần dư của $a/$b"
+    "description": "Chia lấy phần nguyên (int)($a/$b) và phần dư $a % $b"
   },
-  "Lab 2 - Bai 5.2: Kiem Tra Bien $a La So Nguyen Hay So Thuc": {
+  "Lab 2 (5.2): Kiểm tra số nguyên (is_int) hay số thực": {
     "scope": "php,html",
     "prefix": [
-      "!lab2_5.2",
-      "!lab2_5.2_kiemtra_nguyen_thuc"
+      "!lab2_5.2"
     ],
     "body": [
       "<?php",
@@ -181,13 +174,12 @@
       "}",
       "?>"
     ],
-    "description": "Lab 2 - Bài 5.2: Kiểm tra biến $a chứa giá trị là số nguyên (is_int) hay số thực (is_float)"
+    "description": "Kiểm tra kiểu biến $a bằng is_int() và is_float()"
   },
-  "Lab 2 - Bai 5.3: Giai Phuong Trinh Bac 2 (ax^2 + bx + c = 0)": {
+  "Lab 2 (5.3): Giải phương trình bậc 2 (ax² + bx + c = 0)": {
     "scope": "php,html",
     "prefix": [
-      "!lab2_5.3",
-      "!lab2_5.3_phuongtrinh_bac2"
+      "!lab2_5.3"
     ],
     "body": [
       "<?php",
@@ -215,13 +207,12 @@
       "}",
       "?>"
     ],
-    "description": "Lab 2 - Bài 5.3: Giải phương trình bậc 2 ax^2 + bx + c = 0 đầy đủ các trường hợp"
+    "description": "Xét đủ a = 0, delta < 0, delta = 0 (nghiệm kép) và delta > 0 (2 nghiệm)"
   },
-  "Lab 3 - Bai 4.1: Vong Lap for Tinh Tong Cac So Chan Tu 2 Den 100": {
+  "Lab 3 (4.1): Tổng các số chẵn từ 2 đến 100 (for)": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_4.1",
-      "!lab3_4.1_tongsochan_2_100"
+      "!lab3_4.1"
     ],
     "body": [
       "<?php",
@@ -232,13 +223,12 @@
       "echo \"Tổng các số chẵn từ 2 đến 100 là: \\$tong\";",
       "?>"
     ],
-    "description": "Lab 3 - Bài 4.1: Sử dụng vòng lặp for để tính tổng các số chẵn từ 2 đến 100"
+    "description": "Dùng vòng lặp for cộng các số chẵn từ 2 đến 100"
   },
-  "Lab 3 - Bai 4.2: Vong Lap while Tim n Nho Nhat Sao Cho 1 + 2 + ... + n > 1000": {
+  "Lab 3 (4.2): Tìm n nhỏ nhất để 1+2+...+n > 1000": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_4.2",
-      "!lab3_4.2_tim_n_nhonhat_1000"
+      "!lab3_4.2"
     ],
     "body": [
       "<?php",
@@ -251,13 +241,12 @@
       "echo \"n nhỏ nhất để 1 + 2 + ... + n > 1000 là: n = \\$n (Tổng = \\$s)\";",
       "?>"
     ],
-    "description": "Lab 3 - Bài 4.2: Sử dụng while tìm n nhỏ nhất sao cho 1 + 2 + ... + n > 1000"
+    "description": "Dùng vòng lặp while tìm số nguyên dương n nhỏ nhất có tổng vượt 1000"
   },
-  "Lab 3 - Bai 4.3: Ham Kiem Tra So Nguyen To Dung Vong Lap do...while": {
+  "Lab 3 (4.3): Hàm kiểm tra số nguyên tố (do...while)": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_4.3",
-      "!lab3_4.3_nguyento_dowhile"
+      "!lab3_4.3"
     ],
     "body": [
       "<?php",
@@ -276,13 +265,12 @@
       "echo kiemtranguyento(\\$n) ? \"\\$n là số nguyên tố\" : \"\\$n không phải số nguyên tố\";",
       "?>"
     ],
-    "description": "Lab 3 - Bài 4.3: Viết lại hàm kiemtranguyento($x) trong lab3_4.php sử dụng do...while thay cho for"
+    "description": "Kiểm tra số nguyên tố trong hàm bằng vòng lặp do...while"
   },
-  "Lab 3 - Bai 4.4: Ham BCC($n, $colorHead, $color1, $color2) Va BanCo($size) Return Chuoi HTML": {
+  "Lab 3 (4.4): Hàm BCC() & BanCo() trả về bảng HTML": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_4.4",
-      "!lab3_4.4_bcc_banco_return"
+      "!lab3_4.4"
     ],
     "body": [
       "<?php",
@@ -317,13 +305,12 @@
       "echo BanCo(8);",
       "?>"
     ],
-    "description": "Lab 3 - Bài 4.4: Hàm BCC nhận $n, $colorHead, $color1, $color2 (dòng đầu, dòng lẻ, dòng chẵn) và BanCo($size) trả về chuỗi HTML"
+    "description": "Hàm bảng cửu chương theo màu dòng lẻ/chẵn và bàn cờ vua kích thước $size return HTML"
   },
-  "Lab 3 - Bai 5.1: Xuat n So Nguyen To Dau Tien": {
+  "Lab 3 (5.1): In n số nguyên tố đầu tiên": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_5.1",
-      "!lab3_5.1_n_songuyento_dautien"
+      "!lab3_5.1"
     ],
     "body": [
       "<?php",
@@ -348,13 +335,12 @@
       "}",
       "?>"
     ],
-    "description": "Lab 3 - Bài 5.1: Xuất n số nguyên tố đầu tiên"
+    "description": "Viết hàm kiểm tra nguyên tố và in ra n số nguyên tố đầu tiên"
   },
-  "Lab 3 - Bai 5.2: Ham Kiem Tra Chuoi Doi Xung (Palindrome)": {
+  "Lab 3 (5.2): Kiểm tra chuỗi đối xứng (abcba)": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_5.2",
-      "!lab3_5.2_chuoi_doixung"
+      "!lab3_5.2"
     ],
     "body": [
       "<?php",
@@ -372,13 +358,12 @@
       "echo kiemTraDoiXung(\\$s) ? \"\\$s là chuỗi đối xứng\" : \"\\$s là chuỗi không đối xứng\";",
       "?>"
     ],
-    "description": "Lab 3 - Bài 5.2: Viết hàm kiểm tra một chuỗi có đối xứng không (ví dụ abcba)"
+    "description": "So sánh ký tự đầu và cuối để kiểm tra chuỗi Palindrome"
   },
-  "Lab 3 - Bai 5.3: Ham Tinh Tong Cac Chu So Co Trong Mot Chuoi (ngay15thang7nam2015 -> 21)": {
+  "Lab 3 (5.3): Tổng từng chữ số trong chuỗi (-> 21)": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_5.3",
-      "!lab3_5.3_tong_chuso_trongchuoi"
+      "!lab3_5.3"
     ],
     "body": [
       "<?php",
@@ -396,13 +381,12 @@
       "echo \"Tổng các chữ số trong chuỗi '\\$s' là: \" . tongChuSoTrongChuoi(\\$s);",
       "?>"
     ],
-    "description": "Lab 3 - Bài 5.3: Tính tổng các chữ số có trong chuỗi (ngay15thang7nam2015 -> 1+5+7+2+0+1+5 = 21)"
+    "description": "Tách từng ký tự số (ctype_digit) trong chuỗi và tính tổng"
   },
-  "Lab 3 - Bai 5.4: Ham Xuat Hinh Chu Nhat Rong Chieu Dai d Va Chieu Rong r": {
+  "Lab 3 (5.4): Vẽ hình chữ nhật rỗng bằng dấu *": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_5.4",
-      "!lab3_5.4_hinhchunhat_rong"
+      "!lab3_5.4"
     ],
     "body": [
       "<?php",
@@ -424,13 +408,12 @@
       "hinhChuNhatRong(6, 4);",
       "?>"
     ],
-    "description": "Lab 3 - Bài 5.4: Xuất hình chữ nhật rỗng có chiều dài d và chiều rộng r bằng dấu *"
+    "description": "Xuất hình chữ nhật rỗng chiều dài d, chiều rộng r trong thẻ <pre>"
   },
-  "Lab 3 - Bai 5.5: Ham Tinh Tong Cac So Co Trong Mot Chuoi (ngay15thang7nam2015 -> 15+7+2015 = 2037)": {
+  "Lab 3 (5.5): Tổng các con số trong chuỗi (-> 2037)": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_5.5",
-      "!lab3_5.5_tong_cacso_trongchuoi"
+      "!lab3_5.5"
     ],
     "body": [
       "<?php",
@@ -443,13 +426,12 @@
       "echo \"Tổng các số trong chuỗi '\\$s' là: \" . tongCacSoTrongChuoi(\\$s);",
       "?>"
     ],
-    "description": "Lab 3 - Bài 5.5: Tính tổng các số có trong chuỗi (ngay15thang7nam2015 -> 15+7+2015 = 2037)"
+    "description": "Dùng preg_match_all('/\\d+/', ...) gom các con số và tính array_sum"
   },
-  "Lab 3 - Bai 5.6: Ham Loai Bo Khoang Trang Du Thua Trong Mot Chuoi": {
+  "Lab 3 (5.6): Xóa khoảng trắng dư thừa trong chuỗi": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_5.6",
-      "!lab3_5.6_xoa_khoangtrang_thua"
+      "!lab3_5.6"
     ],
     "body": [
       "<?php",
@@ -461,13 +443,12 @@
       "echo \"Chuỗi sau khi xử lý: '\" . xoaKhoangTrangThua(\\$s) . \"'\";",
       "?>"
     ],
-    "description": "Lab 3 - Bài 5.6: Loại bỏ các khoảng trắng dư thừa ở đầu, cuối và giữa các từ trong chuỗi"
+    "description": "Dùng trim + preg_replace('/\\s+/', ' ', ...) chuẩn hóa khoảng trắng"
   },
-  "Lab 4 - Bai 4.1: Kiem Tra Phan Tu Co Trong Mang Khong, Xoa Hoac Thay Doi Va print_r()": {
+  "Lab 4 (4.1): Tìm, sửa giá trị & xóa phần tử mảng": {
     "scope": "php,html",
     "prefix": [
-      "!lab4_4.1",
-      "!lab4_4.1_kiemtra_sua_xoa_phantu"
+      "!lab4_4.1"
     ],
     "body": [
       "<?php",
@@ -483,13 +464,12 @@
       "echo \"</pre>\";",
       "?>"
     ],
-    "description": "Lab 4 - Bài 4.1: Kiểm tra một phần tử có trong mảng không, nếu có thì xóa hoặc thay đổi rồi print_r()"
+    "description": "Kiểm tra isset($arr[$key]), sửa hoặc unset phần tử và print_r()"
   },
-  "Lab 4 - Bai 4.2: Dem So Phan Tu Duong Cua Mang $a Va Tao Mang $c Luu Phan Tu Duong Tu Mang $b": {
+  "Lab 4 (4.2): Đếm & lọc phần tử > 0 sang mảng mới": {
     "scope": "php,html",
     "prefix": [
-      "!lab4_4.2",
-      "!lab4_4.2_dem_loc_soduong"
+      "!lab4_4.2"
     ],
     "body": [
       "<?php",
@@ -512,35 +492,33 @@
       "echo \"</pre>\";",
       "?>"
     ],
-    "description": "Lab 4 - Bài 4.2: Đếm số phần tử dương của mảng $a và tạo mảng $c lưu các phần tử dương từ mảng $b"
+    "description": "Đếm số phần tử dương trong $a và lọc phần tử dương của $b sang $c giữ nguyên key"
   },
-  "Lab 4 - Bai 4.3: Sap Xep Mang Theo Chieu Giam Dan (rsort, arsort, krsort)": {
+  "Lab 4 (4.3): Sắp xếp giảm dần (rsort, arsort, krsort)": {
     "scope": "php,html",
     "prefix": [
-      "!lab4_4.3",
-      "!lab4_4.3_sapxep_giamdan"
+      "!lab4_4.3"
     ],
     "body": [
       "<?php",
       "\\$a = array(4, 1, 9, 2, 7);",
       "rsort(\\$a);",
-      "echo \"Mảng a giảm dần: \";",
-      "print_r(\\$a);",
-      "echo \"<br>\";",
+      "echo \"Giảm dần rsort: \"; print_r(\\$a); echo \"<br>\";",
       "",
       "\\$b = array(\"x\" => 15, \"y\" => 40, \"z\" => 25);",
       "arsort(\\$b);",
-      "echo \"Mảng kết hợp b giảm dần theo giá trị (giữ key): \";",
-      "print_r(\\$b);",
+      "echo \"Giảm theo giá trị arsort (giữ key): \"; print_r(\\$b); echo \"<br>\";",
+      "",
+      "krsort(\\$b);",
+      "echo \"Giảm theo key krsort: \"; print_r(\\$b);",
       "?>"
     ],
-    "description": "Lab 4 - Bài 4.3: Sử dụng hàm rsort() và arsort() để sắp xếp mảng theo chiều giảm dần"
+    "description": "Sắp xếp mảng giảm dần theo giá trị (rsort/arsort) và theo key (krsort)"
   },
-  "Lab 4 - Bai 5.1: Ham showArray($arr) In Mang 1 Chieu Ra Bang HTML (Index - Value)": {
+  "Lab 4 (5.1): Hàm showArray() in mảng 1D thành bảng": {
     "scope": "php,html",
     "prefix": [
-      "!lab4_5.1",
-      "!lab4_5.1_ham_showarray_1chieu"
+      "!lab4_5.1"
     ],
     "body": [
       "<?php",
@@ -557,13 +535,12 @@
       "showArray(\\$a);",
       "?>"
     ],
-    "description": "Lab 4 - Bài 5.1: Hàm showArray($arr) in mảng 1 chiều ra bảng HTML gồm 2 cột Index và Value"
+    "description": "Hàm showArray($arr) duyệt mảng 1 chiều thành bảng 2 cột Index - Value"
   },
-  "Lab 4 - Bai 5.2: Ham Duyet Va In Danh Sach Mang 2 Chieu $arr San Pham Ra Bang HTML": {
+  "Lab 4 (5.2): In mảng 2 chiều sản phẩm (STT, Mã, Tên)": {
     "scope": "php,html",
     "prefix": [
-      "!lab4_5.2",
-      "!lab4_5.2_in_mang_2chieu_sanpham"
+      "!lab4_5.2"
     ],
     "body": [
       "<?php",
@@ -592,13 +569,12 @@
       "inDanhSachSanPham(\\$arr);",
       "?>"
     ],
-    "description": "Lab 4 - Bài 5.2: Duyệt và in danh sách mảng 2 chiều $arr (id, name) ra bảng HTML (Stt, Mã Sản Phẩm, Tên Sản Phẩm)"
+    "description": "Duyệt mảng 2 chiều $arr in ra bảng HTML 3 cột STT, Mã SP, Tên SP"
   },
-  "Lab 4 - Bai 5.3: Lay Ngau Nhien m Cau Hoi Trong Danh Sach n Cau Hoi Trac Nghiem (array_rand)": {
+  "Lab 4 (5.3): Lấy ngẫu nhiên m câu trắc nghiệm (array_rand)": {
     "scope": "php,html",
     "prefix": [
-      "!lab4_5.3",
-      "!lab4_5.3_tracnghiem_ngaunhien"
+      "!lab4_5.3"
     ],
     "body": [
       "<?php",
@@ -623,13 +599,12 @@
       "}",
       "?>"
     ],
-    "description": "Lab 4 - Bài 5.3: Xây dựng mảng n câu hỏi trắc nghiệm và lấy ngẫu nhiên m câu hỏi (m < n) bằng array_rand()"
+    "description": "Dùng array_rand lấy ngẫu nhiên m câu hỏi từ ngân hàng n câu và in đáp án A-D"
   },
-  "Lab 5 - Bai 4.1: Nhan Du Lieu Qua URL QueryString ($_GET['id']) Tu Danh Sach Link San Pham": {
+  "Lab 5 (4.1): Link truyền ?id= & đọc $_GET['id']": {
     "scope": "php,html",
     "prefix": [
-      "!lab5_4.1",
-      "!lab5_4.1_link_get_id_sanpham"
+      "!lab5_4.1"
     ],
     "body": [
       "<?php",
@@ -649,13 +624,12 @@
       "}",
       "?>"
     ],
-    "description": "Lab 5 - Bài 4.1: Từ mảng $arr in ra các liên kết gửi id qua URL (?id=1) và nhận hiển thị id được chọn"
+    "description": "Sinh danh sách thẻ <a>?id=... từ mảng và nhận hiển thị $_GET['id']"
   },
-  "Lab 5 - Bai 4.2: Form Tim Kiem San Pham Bang GET (Textbox, Radio Gan Dung/Chinh Xac, Combobox Loai)": {
+  "Lab 5 (4.2): Form tìm kiếm GET (tên, cách tìm, loại)": {
     "scope": "php,html",
     "prefix": [
-      "!lab5_4.2",
-      "!lab5_4.2_form_timkiem_sanpham_get"
+      "!lab5_4.2"
     ],
     "body": [
       "<?php",
@@ -686,13 +660,12 @@
       "\t<?php endif; ?>",
       "<?php endif; ?>"
     ],
-    "description": "Lab 5 - Bài 4.2: Form GET tìm kiếm sản phẩm (Tên SP, Cách tìm gần đúng/chính xác, Loại sản phẩm tatca/loai1/loai2/loai3)"
+    "description": "Form method=GET gồm Textbox tên SP, Radio gần đúng/chính xác, Select loại & in giá trị đã chọn"
   },
-  "Lab 5 - Bai 4.3: Form Dang Ky Thanh Vien (Ten DN, Mat Khau, Nhap Lai MK, Gioi Tinh, So Thich, Hinh Anh, Tinh)": {
+  "Lab 5 (4.3): Form đăng ký TV + upload ảnh + sticky": {
     "scope": "php,html",
     "prefix": [
-      "!lab5_4.3",
-      "!lab5_4.3_form_dangky_thanhvien"
+      "!lab5_4.3"
     ],
     "body": [
       "<?php",
@@ -761,13 +734,12 @@
       "\t<?php endif; ?>",
       "<?php endif; ?>"
     ],
-    "description": "Lab 5 - Bài 4.3: Form đăng ký thành viên kiểm tra các trường (*), mật khẩu trùng nhau và đuôi file hình (.jpg, .png, .bmp, .gif)"
+    "description": "Form POST đủ trường (*), kiểm mật khẩu trùng nhau, kiểm đuôi ảnh (.jpg/.png/.bmp/.gif) và giữ giá trị"
   },
-  "Lab 5 - Bai 4.4: Dieu Huong Module Admin (mod.php) Bang $_GET['mod']": {
+  "Lab 5 (4.4): Điều hướng module theo ?mod= (switch)": {
     "scope": "php,html",
     "prefix": [
-      "!lab5_4.4",
-      "!lab5_4.4_dieu_huong_module_admin"
+      "!lab5_4.4"
     ],
     "body": [
       "<?php",
@@ -794,13 +766,12 @@
       "}",
       "?>"
     ],
-    "description": "Lab 5 - Bài 4.4: Điều hướng các chức năng trong admin (loai, nhaxb, sach, order, user) bằng tham số URL mod"
+    "description": "Đọc $_GET['mod'] và include đúng file module tương ứng bằng switch/case"
   },
-  "Lab 5 - Bai 5.1: Form Giu Nguyen Gia Tri Vua Nhap Khi Submit Tren Cung 1 File (Sticky Form)": {
+  "Lab 5 (5.1): Sticky form giữ nguyên dữ liệu sau submit": {
     "scope": "php,html",
     "prefix": [
-      "!lab5_5.1",
-      "!lab5_5.1_form_giu_gia_tri_sticky"
+      "!lab5_5.1"
     ],
     "body": [
       "<?php",
@@ -825,13 +796,12 @@
       "\tSở thích: <?= htmlspecialchars(implode(', ', \\$st)) ?>",
       "<?php endif; ?>"
     ],
-    "description": "Lab 5 - Bài 5.1: Form và in kết quả trên cùng 1 file, giữ nguyên các giá trị vừa nhập sau khi bấm Submit"
+    "description": "Form 1 file xử lý & giữ lại giá trị Textbox, Radio và Checkbox[] sau khi bấm Gửi"
   },
-  "Lab 5 - Bai 5.2: Upload Nhieu Hinh Anh Cung Luc (multiple input file)": {
+  "Lab 5 (5.2): Upload nhiều ảnh cùng lúc (multiple)": {
     "scope": "php,html",
     "prefix": [
-      "!lab5_5.2",
-      "!lab5_5.2_upload_nhieu_hinh"
+      "!lab5_5.2"
     ],
     "body": [
       "<?php",
@@ -860,13 +830,12 @@
       "\t<p><?= htmlspecialchars(\\$f) ?><br><img src=\"image/<?= htmlspecialchars(\\$f) ?>\" width=\"150\"></p>",
       "<?php endforeach; ?>"
     ],
-    "description": "Lab 5 - Bài 5.2: Cho phép chọn và upload nhiều hình ảnh cùng lúc lên server"
+    "description": "Input file name='hinh[]' multiple, duyệt lưu nhiều ảnh hợp lệ vào image/"
   },
-  "Lab 5 - Bai 5.3: Form Dang Ky Kiem Tra Bang JavaScript Truoc Khi Kiem Tra Tren Server": {
+  "Lab 5 (5.3): Kiểm tra Form bằng JS + PHP server": {
     "scope": "php,html",
     "prefix": [
-      "!lab5_5.3",
-      "!lab5_5.3_dangky_kiemtra_js_server"
+      "!lab5_5.3"
     ],
     "body": [
       "<?php",
@@ -910,13 +879,12 @@
       "\t<?= \\$err !== '' ? \"<p style='color:red;'>\\$err</p>\" : \"<p>Đăng ký thành công: \" . htmlspecialchars(\\$user) . \"</p>\" ?>",
       "<?php endif; ?>"
     ],
-    "description": "Lab 5 - Bài 5.3: Trang đăng ký thành viên kiểm tra dữ liệu bằng JavaScript (onsubmit) kết hợp kiểm tra trên Server PHP"
+    "description": "Hàm JavaScript onsubmit alert() kết hợp kiểm tra rỗng & khớp mật khẩu trên PHP"
   },
-  "Lab 6 - Bai 3.1: Kiem Tra Du Lieu Chuoi (Username >= 6, Mat Khau >= 8, Ho Ten >= 2 Tu Viet Hoa Chu Dau)": {
+  "Lab 6 (3.1): Check chuỗi (user>=6, pass>=8, tên >=2 từ)": {
     "scope": "php,html",
     "prefix": [
-      "!lab6_3.1",
-      "!lab6_3.1_kiemtra_chuoi_coban"
+      "!lab6_3.1"
     ],
     "body": [
       "<?php",
@@ -950,13 +918,12 @@
       "\t<?php endif; ?>",
       "<?php endif; ?>"
     ],
-    "description": "Lab 6 - Bài 3.1: Kiểm tra tên đăng nhập >= 6 ký tự, mật khẩu >= 8 ký tự khớp nhau, họ tên >= 2 từ và in hoa ký tự đầu mỗi từ (ucwords)"
+    "description": "Kiểm độ dài user >= 6, pass >= 8 khớp nhau, họ tên >= 2 từ tiếng Việt và viết hoa đầu từ"
   },
-  "Lab 6 - Bai 3.2: Ham Lay Phan Mo Rong Cua File Va Ham Tao Mat Khau Ngau Nhien n Ky Tu": {
+  "Lab 6 (3.2): Lấy đuôi file & tạo mật khẩu ngẫu nhiên": {
     "scope": "php,html",
     "prefix": [
-      "!lab6_3.2",
-      "!lab6_3.2_lay_duoi_file_matkhau_ngaunhien"
+      "!lab6_3.2"
     ],
     "body": [
       "<?php",
@@ -980,13 +947,12 @@
       "\tMật khẩu ngẫu nhiên: <?= htmlspecialchars(taoMatKhauNgauNhien(8)) ?>",
       "<?php endif; ?>"
     ],
-    "description": "Lab 6 - Bài 3.2: Hàm trả về phần mở rộng của file upload và hàm phát sinh mật khẩu ngẫu nhiên n ký tự bằng str_shuffle"
+    "description": "Hàm lấy phần mở rộng file (strrpos/substr) và hàm sinh mật khẩu ngẫu nhiên n ký tự"
   },
-  "Lab 6 - Bai 4.1: Ma Hoa Mat Khau SHA1 + MD5 Va Xu Ly Textarea thong_tin (strip_tags, nl2br, addslashes)": {
+  "Lab 6 (4.1): Mã hóa SHA1+MD5 & xử lý textarea": {
     "scope": "php,html",
     "prefix": [
-      "!lab6_4.1",
-      "!lab6_4.1_mahoa_sha1_md5_xuly_textarea"
+      "!lab6_4.1"
     ],
     "body": [
       "<?php",
@@ -1001,7 +967,8 @@
       "if (\\$sm) {",
       "\tif (strlen(\\$user) < 6) \\$err .= 'Tên đăng nhập tối thiểu 6 ký tự!<br>';",
       "\tif (strlen(\\$pass) < 8 || \\$pass !== \\$repass) \\$err .= 'Mật khẩu tối thiểu 8 ký tự và trùng nhau!<br>';",
-      "\tif (str_word_count(\\$hoten) < 2) \\$err .= 'Họ tên phải có ít nhất 2 từ!<br>';",
+      "\t\\$dsTu = \\$hoten === '' ? array() : preg_split('/\\s+/u', \\$hoten);",
+      "\tif (count(\\$dsTu) < 2) \\$err .= 'Họ tên phải có ít nhất 2 từ!<br>';",
       "}",
       "?>",
       "<form action=\"\" method=\"post\">",
@@ -1015,28 +982,26 @@
       "<?php if (\\$sm): ?>",
       "\t<?php if (\\$err !== ''): ?>",
       "\t\t<p style=\"color:red;\"><?= \\$err ?></p>",
-      "\t<?php else: ?>",
-      "\t\t<?php",
-      "\t\t\\$noHtml      = strip_tags(\\$thongtin);",
-      "\t\t\\$withSlashes = addslashes(\\$noHtml);",
-      "\t\t\\$cleanText   = stripslashes(\\$withSlashes);",
-      "\t\t?>",
+      "\t<?php else:",
+      "\t\t\\$khongHTML   = strip_tags(\\$thongtin);",
+      "\t\t\\$coGachCheo  = addslashes(\\$khongHTML);",
+      "\t\t\\$daBoGach    = stripslashes(\\$coGachCheo);",
+      "\t?>",
       "\t\t<hr>",
-      "\t\tHọ tên: <?= htmlspecialchars(ucwords(strtolower(\\$hoten))) ?><br>",
+      "\t\tHọ tên: <?= htmlspecialchars(ucwords(mb_strtolower(\\$hoten, 'UTF-8'))) ?><br>",
       "\t\tMật khẩu SHA1: <?= sha1(\\$pass) ?><br>",
       "\t\tMật khẩu SHA1 + MD5: <?= sha1(md5(\\$pass)) ?><br>",
-      "\t\tThông tin (addslashes): <?= htmlspecialchars(\\$withSlashes) ?><br>",
-      "\t\tThông tin đã xử lý:<br><?= nl2br(htmlspecialchars(\\$cleanText)) ?>",
+      "\t\tThông tin (addslashes): <?= htmlspecialchars(\\$coGachCheo) ?><br>",
+      "\t\tThông tin đã xử lý:<br><?= nl2br(htmlspecialchars(\\$daBoGach)) ?>",
       "\t<?php endif; ?>",
       "<?php endif; ?>"
     ],
-    "description": "Lab 6 - Bài 4.1: In mật khẩu mã hóa SHA1 + MD5, thêm textarea thong_tin (strip_tags, nl2br, addslashes, stripslashes)"
+    "description": "Sửa lỗi UTF-8 họ tên >= 2 từ, mã hóa pass bằng sha1(md5), lọc thẻ HTML và nl2br/addslashes textarea"
   },
-  "Lab 6 - Bai 4.2: Kiem Tra Du Lieu Form Bang Regular Expression (Mat Khau Manh, SDT, Ngay Sinh dd/mm/yyyy)": {
+  "Lab 6 (3.3 & 4.2): Check form bằng Regex (user, mail, MK, ngày)": {
     "scope": "php,html",
     "prefix": [
-      "!lab6_4.2",
-      "!lab6_4.2_regex_matkhau_sdt_ngaysinh"
+      "!lab6_4.2"
     ],
     "body": [
       "<?php",
@@ -1078,14 +1043,12 @@
       "\t<?= \\$err !== '' ? \"<p style='color:red;'>\\$err</p>\" : \"<p style='color:green;'>Tất cả dữ liệu hợp lệ!</p>\" ?>",
       "<?php endif; ?>"
     ],
-    "description": "Lab 6 - Bài 4.2: Kiểm tra Regex cho Username, Email, Mật khẩu (>=8 ký tự, đủ chữ hoa, thường, số), SĐT và Ngày sinh (dd/mm/yyyy hoặc dd-mm-yyyy)"
+    "description": "Kiểm tra Regex: Username, Email, Mật khẩu >= 8 đủ hoa/thường/số, SĐT chỉ số, Ngày sinh dd/mm/yyyy"
   },
-  "Lab 6 - Bai 4.3 & 5.2: Quet Tieu De Tin Tuc Tu Website Bang file_get_contents Va preg_match_all": {
+  "Lab 6 (4.3 & 5.2): Đọc HTML & lọc tiêu đề (preg_match_all)": {
     "scope": "php,html",
     "prefix": [
-      "!lab6_4.3",
-      "!lab6_5.2",
-      "!lab6_4.3_quet_tin_file_get_contents_regex"
+      "!lab6_4.3"
     ],
     "body": [
       "<?php",
@@ -1108,13 +1071,12 @@
       "\t<?php endforeach; ?>",
       "</table>"
     ],
-    "description": "Lab 6 - Bài 4.3 & 5.2: Dùng file_get_contents() và preg_match_all() lọc các thẻ tiêu đề tin tức và hiển thị ra bảng HTML"
+    "description": "Đọc nội dung trang web bằng file_get_contents và lọc tiêu đề tin bằng preg_match_all"
   },
-  "Lab 6 - Bai 5.1: Tim Kiem Va Loc Link, Email, Dien Thoai, Kiem Tra Ten Hinh Anh Bang Regex": {
+  "Lab 6 (5.1): Lọc Link, Email, SĐT & tên ảnh bằng Regex": {
     "scope": "php,html",
     "prefix": [
-      "!lab6_5.1",
-      "!lab6_5.1_loc_link_email_sdt_tenhinh"
+      "!lab6_5.1"
     ],
     "body": [
       "<?php",
@@ -1122,9 +1084,9 @@
       "",
       "preg_match_all('/href=[\"\\']([^\"\\']+)[\"\\']/i', \\$html, \\$links);",
       "preg_match_all('/[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,10}/', \\$html, \\$emails);",
-      "preg_match_all('/(\\(0\\d{1,2}\\)|0\\d{1,2})?\\s?\\d{7,8}/', \\$html, \\$phones);",
+      "preg_match_all('/(\\(0\\d{1,2}\\)|0\\d{1,2})\\s?\\d{7,8}/', \\$html, \\$phones);",
       "",
-      "\\$tenHinh = \"anh_bia_01.jpg\";",
+      "\\$tenHinh   = \"anh_bia_01.jpg\";",
       "\\$hopLeHinh = preg_match('/^[a-zA-Z0-9_-]+\\.(jpg|jpeg|png|gif)\\$/i', \\$tenHinh);",
       "",
       "echo \"Links: \"; print_r(\\$links[1]); echo \"<br>\";",
@@ -1133,9 +1095,9 @@
       "echo \"Tên hình '\\$tenHinh': \" . (\\$hopLeHinh ? \"Hợp lệ\" : \"Không hợp lệ\");",
       "?>"
     ],
-    "description": "Lab 6 - Bài 5.1: Lọc tất cả các link, email, số điện thoại trong trang web và kiểm tra tên file hình ảnh đúng quy định bằng Regex"
+    "description": "Trích xuất href link, email, SĐT từ chuỗi HTML và kiểm tra tên file ảnh hợp lệ"
   },
-  "Form POST: Ho ten >= 2 tu, Email, SDT 10 so, Select goi, Radio giam gia 10%": {
+  "Form Đăng Ký Khóa Học: Tên >=2 từ, Mail, SĐT, Select, Giảm 10%": {
     "scope": "php,html",
     "prefix": [
       "!form_hoten2tu_email_sdt_giamgia"
@@ -1146,18 +1108,18 @@
       "\\$hoten    = trim(\\$_POST['hoten'] ?? '');",
       "\\$email    = trim(\\$_POST['email'] ?? '');",
       "\\$sdt      = trim(\\$_POST['sdt'] ?? '');",
-      "\\$course   = \\$_POST['course'] ?? '';",
-      "\\$typeUser = \\$_POST['type_user'] ?? 'sv';",
+      "\\$khoaHoc  = \\$_POST['course'] ?? '';",
+      "\\$doiTuong = \\$_POST['type_user'] ?? 'sv';",
       "\\$err      = '';",
       "",
-      "\\$gia = array('PHP' => 1500000, 'Python' => 1800000, 'Java' => 2000000);",
+      "\\$bangGia = array('PHP' => 1500000, 'Python' => 1800000, 'Java' => 2000000);",
       "",
       "if (\\$sm) {",
       "\tif (\\$hoten === '' || count(preg_split('/\\s+/', \\$hoten)) < 2) \\$err .= 'Họ và tên phải có ít nhất 2 từ!<br>';",
       "\tif (!filter_var(\\$email, FILTER_VALIDATE_EMAIL))               \\$err .= 'Email không đúng định dạng!<br>';",
       "\tif (!preg_match('/^0\\d{9}\\$/', \\$sdt))                         \\$err .= 'Số điện thoại phải gồm 10 số, bắt đầu bằng 0!<br>';",
-      "\tif (!isset(\\$gia[\\$course]))                                   \\$err .= 'Vui lòng chọn khóa học!<br>';",
-      "\tif (!in_array(\\$typeUser, array('sv', 'dilam')))              \\$err .= 'Đối tượng đăng ký không hợp lệ!<br>';",
+      "\tif (!isset(\\$bangGia[\\$khoaHoc]))                              \\$err .= 'Vui lòng chọn khóa học!<br>';",
+      "\tif (!in_array(\\$doiTuong, array('sv', 'dilam')))              \\$err .= 'Đối tượng đăng ký không hợp lệ!<br>';",
       "}",
       "?>",
       "<meta charset=\"UTF-8\">",
@@ -1168,53 +1130,53 @@
       "\tKhóa học (*):",
       "\t<select name=\"course\">",
       "\t\t<option value=\"\">-- Chọn khóa học --</option>",
-      "\t\t<option value=\"PHP\" <?= \\$course === 'PHP' ? 'selected' : '' ?>>PHP (1.500.000 VNĐ)</option>",
-      "\t\t<option value=\"Python\" <?= \\$course === 'Python' ? 'selected' : '' ?>>Python (1.800.000 VNĐ)</option>",
-      "\t\t<option value=\"Java\" <?= \\$course === 'Java' ? 'selected' : '' ?>>Java (2.000.000 VNĐ)</option>",
+      "\t\t<option value=\"PHP\" <?= \\$khoaHoc === 'PHP' ? 'selected' : '' ?>>PHP (1.500.000 VNĐ)</option>",
+      "\t\t<option value=\"Python\" <?= \\$khoaHoc === 'Python' ? 'selected' : '' ?>>Python (1.800.000 VNĐ)</option>",
+      "\t\t<option value=\"Java\" <?= \\$khoaHoc === 'Java' ? 'selected' : '' ?>>Java (2.000.000 VNĐ)</option>",
       "\t</select><br>",
       "\tĐối tượng (*):",
-      "\t<input type=\"radio\" name=\"type_user\" value=\"sv\" <?= \\$typeUser === 'sv' ? 'checked' : '' ?>> Sinh viên (-10%)",
-      "\t<input type=\"radio\" name=\"type_user\" value=\"dilam\" <?= \\$typeUser === 'dilam' ? 'checked' : '' ?>> Người đi làm (0%)<br>",
+      "\t<input type=\"radio\" name=\"type_user\" value=\"sv\" <?= \\$doiTuong === 'sv' ? 'checked' : '' ?>> Sinh viên (-10%)",
+      "\t<input type=\"radio\" name=\"type_user\" value=\"dilam\" <?= \\$doiTuong === 'dilam' ? 'checked' : '' ?>> Người đi làm (0%)<br>",
       "\t<button type=\"submit\">Đăng ký</button>",
       "</form>",
       "<?php if (\\$sm): ?>",
       "\t<?php if (\\$err !== ''): ?>",
       "\t\t<p style=\"color:red;\"><?= \\$err ?></p>",
       "\t<?php else:",
-      "\t\t\\$goc  = \\$gia[\\$course];",
-      "\t\t\\$giam = \\$typeUser === 'sv' ? \\$goc * 0.1 : 0;",
-      "\t\t\\$tong = \\$goc - \\$giam;",
+      "\t\t\\$giaGoc    = \\$bangGia[\\$khoaHoc];",
+      "\t\t\\$giamGia   = \\$doiTuong === 'sv' ? \\$giaGoc * 0.1 : 0;",
+      "\t\t\\$thanhToan = \\$giaGoc - \\$giamGia;",
       "\t?>",
       "\t\t<hr>",
       "\t\tHọ tên: <?= htmlspecialchars(\\$hoten) ?> | Email: <?= htmlspecialchars(\\$email) ?> | SĐT: <?= htmlspecialchars(\\$sdt) ?><br>",
-      "\t\tKhóa học: <?= htmlspecialchars(\\$course) ?> (Gốc: <?= number_format(\\$goc, 0, ',', '.') ?> VNĐ, Giảm: <?= number_format(\\$giam, 0, ',', '.') ?> VNĐ)<br>",
-      "\t\t<b>Phải đóng: <?= number_format(\\$tong, 0, ',', '.') ?> VNĐ</b>",
+      "\t\tKhóa học: <?= htmlspecialchars(\\$khoaHoc) ?> (Gốc: <?= number_format(\\$giaGoc, 0, ',', '.') ?> VNĐ, Giảm: <?= number_format(\\$giamGia, 0, ',', '.') ?> VNĐ)<br>",
+      "\t\t<b>Phải đóng: <?= number_format(\\$thanhToan, 0, ',', '.') ?> VNĐ</b>",
       "\t<?php endif; ?>",
       "<?php endif; ?>"
     ],
-    "description": "Form POST + Sticky form: kiểm tra Họ tên >= 2 từ, Email chuẩn, SĐT 10 số đầu 0, Select gói, Radio giảm 10% và tính tiền"
+    "description": "Form POST Sticky: Check Họ tên >= 2 từ, Email, SĐT 10 số đầu 0, Select gói, Radio giảm 10% & tính tiền"
   },
-  "Form POST: Ho ten >= 2 tu, Email, MSSV 8 so, Mat khau >= 6 ky tu (an MK)": {
+  "Form Đăng Ký Hội Thảo: Tên >=2 từ, Mail, MSSV 8 số, MK >=6 (ẩn MK)": {
     "scope": "php,html",
     "prefix": [
       "!form_hoten2tu_mssv8so_matkhau"
     ],
     "body": [
       "<?php",
-      "\\$sm       = \\$_SERVER['REQUEST_METHOD'] === 'POST';",
-      "\\$hoten    = trim(\\$_POST['hoten'] ?? '');",
-      "\\$email    = trim(\\$_POST['email'] ?? '');",
-      "\\$mssv     = trim(\\$_POST['mssv'] ?? '');",
-      "\\$password = \\$_POST['password'] ?? '';",
-      "\\$topic    = \\$_POST['topic'] ?? '';",
-      "\\$err      = '';",
+      "\\$sm      = \\$_SERVER['REQUEST_METHOD'] === 'POST';",
+      "\\$hoten   = trim(\\$_POST['hoten'] ?? '');",
+      "\\$email   = trim(\\$_POST['email'] ?? '');",
+      "\\$mssv    = trim(\\$_POST['mssv'] ?? '');",
+      "\\$matKhau = \\$_POST['password'] ?? '';",
+      "\\$chuDe   = \\$_POST['topic'] ?? '';",
+      "\\$err     = '';",
       "",
       "if (\\$sm) {",
       "\tif (\\$hoten === '' || count(preg_split('/\\s+/', \\$hoten)) < 2) \\$err .= 'Họ và tên phải có ít nhất 2 từ!<br>';",
       "\tif (!filter_var(\\$email, FILTER_VALIDATE_EMAIL))               \\$err .= 'Email không đúng định dạng!<br>';",
       "\tif (!preg_match('/^\\d{8}\\$/', \\$mssv))                         \\$err .= 'Mã sinh viên phải gồm đúng 8 chữ số!<br>';",
-      "\tif (strlen(\\$password) < 6)                                   \\$err .= 'Mật khẩu phải có ít nhất 6 ký tự!<br>';",
-      "\tif (!in_array(\\$topic, array('AI', 'IoT', 'Web')))            \\$err .= 'Vui lòng chọn chủ đề hợp lệ!<br>';",
+      "\tif (strlen(\\$matKhau) < 6)                                    \\$err .= 'Mật khẩu phải có ít nhất 6 ký tự!<br>';",
+      "\tif (!in_array(\\$chuDe, array('AI', 'IoT', 'Web')))            \\$err .= 'Vui lòng chọn chủ đề hợp lệ!<br>';",
       "}",
       "?>",
       "<meta charset=\"UTF-8\">",
@@ -1226,9 +1188,9 @@
       "\tChủ đề (*):",
       "\t<select name=\"topic\">",
       "\t\t<option value=\"\">-- Chọn chủ đề --</option>",
-      "\t\t<option value=\"AI\" <?= \\$topic === 'AI' ? 'selected' : '' ?>>AI</option>",
-      "\t\t<option value=\"IoT\" <?= \\$topic === 'IoT' ? 'selected' : '' ?>>IoT</option>",
-      "\t\t<option value=\"Web\" <?= \\$topic === 'Web' ? 'selected' : '' ?>>Web</option>",
+      "\t\t<option value=\"AI\" <?= \\$chuDe === 'AI' ? 'selected' : '' ?>>AI</option>",
+      "\t\t<option value=\"IoT\" <?= \\$chuDe === 'IoT' ? 'selected' : '' ?>>IoT</option>",
+      "\t\t<option value=\"Web\" <?= \\$chuDe === 'Web' ? 'selected' : '' ?>>Web</option>",
       "\t</select><br>",
       "\t<button type=\"submit\">Đăng ký</button>",
       "</form>",
@@ -1239,13 +1201,13 @@
       "\t\t<hr>",
       "\t\t<p style=\"color:green;\"><b>Đăng ký hội thảo thành công!</b></p>",
       "\t\tHọ tên: <?= htmlspecialchars(\\$hoten) ?> | Email: <?= htmlspecialchars(\\$email) ?><br>",
-      "\t\tMSSV: <?= htmlspecialchars(\\$mssv) ?> | Chủ đề: <?= htmlspecialchars(\\$topic) ?>",
+      "\t\tMSSV: <?= htmlspecialchars(\\$mssv) ?> | Chủ đề: <?= htmlspecialchars(\\$chuDe) ?>",
       "\t<?php endif; ?>",
       "<?php endif; ?>"
     ],
-    "description": "Form POST + Sticky form: kiểm tra Họ tên >= 2 từ, Email chuẩn, MSSV đúng 8 chữ số, Mật khẩu >= 6 ký tự (ẩn khi in kết quả)"
+    "description": "Form POST Sticky: Check Họ tên >= 2 từ, Email, MSSV đúng 8 số, Mật khẩu >= 6 ký tự (không in MK ra màn hình)"
   },
-  "Form POST: Dat hang / Dat ve (Ho ten >= 2 tu, SDT, So luong > 0, Phi ship / Loai ve, Tinh tien)": {
+  "Form Đặt Hàng / Đặt Vé: Tên, SĐT, ĐC, SL >0, Ship + Tổng tiền": {
     "scope": "php,html",
     "prefix": [
       "!form_dathang_soluong_phiship_tinhtien"
@@ -1256,21 +1218,21 @@
       "\\$hoten    = trim(\\$_POST['hoten'] ?? '');",
       "\\$sdt      = trim(\\$_POST['sdt'] ?? '');",
       "\\$diachi   = trim(\\$_POST['diachi'] ?? '');",
-      "\\$product  = \\$_POST['product'] ?? '';",
-      "\\$quantity = trim(\\$_POST['quantity'] ?? '');",
-      "\\$ship     = \\$_POST['ship'] ?? 'Standard';",
+      "\\$sanPham  = \\$_POST['product'] ?? '';",
+      "\\$soLuong  = trim(\\$_POST['quantity'] ?? '');",
+      "\\$giaoHang = \\$_POST['ship'] ?? 'Standard';",
       "\\$err      = '';",
       "",
-      "\\$gia = array('Laptop' => 15000000, 'Smartphone' => 8000000, 'Tablet' => 6000000);",
-      "\\$phi = array('Standard' => 30000, 'Express' => 60000);",
+      "\\$bangGia = array('Laptop' => 15000000, 'Smartphone' => 8000000, 'Tablet' => 6000000);",
+      "\\$phiShip = array('Standard' => 30000, 'Express' => 60000);",
       "",
       "if (\\$sm) {",
       "\tif (\\$hoten === '' || count(preg_split('/\\s+/', \\$hoten)) < 2) \\$err .= 'Họ và tên phải có ít nhất 2 từ!<br>';",
       "\tif (!preg_match('/^0\\d{9}\\$/', \\$sdt))                         \\$err .= 'Số điện thoại phải gồm 10 số, bắt đầu bằng 0!<br>';",
       "\tif (strlen(\\$diachi) < 5)                                     \\$err .= 'Địa chỉ nhận hàng phải có ít nhất 5 ký tự!<br>';",
-      "\tif (!isset(\\$gia[\\$product]))                                  \\$err .= 'Vui lòng chọn sản phẩm!<br>';",
-      "\tif (!preg_match('/^\\d+\\$/', \\$quantity) || (int)\\$quantity <= 0) \\$err .= 'Số lượng phải là số nguyên dương!<br>';",
-      "\tif (!isset(\\$phi[\\$ship]))                                     \\$err .= 'Hình thức giao hàng không hợp lệ!<br>';",
+      "\tif (!isset(\\$bangGia[\\$sanPham]))                              \\$err .= 'Vui lòng chọn sản phẩm!<br>';",
+      "\tif (!preg_match('/^\\d+\\$/', \\$soLuong) || (int)\\$soLuong <= 0)  \\$err .= 'Số lượng phải là số nguyên dương!<br>';",
+      "\tif (!isset(\\$phiShip[\\$giaoHang]))                             \\$err .= 'Hình thức giao hàng không hợp lệ!<br>';",
       "}",
       "?>",
       "<meta charset=\"UTF-8\">",
@@ -1281,15 +1243,15 @@
       "\tSản phẩm (*):",
       "\t<select name=\"product\">",
       "\t\t<option value=\"\">-- Chọn sản phẩm --</option>",
-      "\t\t<option value=\"Laptop\" <?= \\$product === 'Laptop' ? 'selected' : '' ?>>Laptop (15.000.000 VNĐ)</option>",
-      "\t\t<option value=\"Smartphone\" <?= \\$product === 'Smartphone' ? 'selected' : '' ?>>Smartphone (8.000.000 VNĐ)</option>",
-      "\t\t<option value=\"Tablet\" <?= \\$product === 'Tablet' ? 'selected' : '' ?>>Tablet (6.000.000 VNĐ)</option>",
+      "\t\t<option value=\"Laptop\" <?= \\$sanPham === 'Laptop' ? 'selected' : '' ?>>Laptop (15.000.000 VNĐ)</option>",
+      "\t\t<option value=\"Smartphone\" <?= \\$sanPham === 'Smartphone' ? 'selected' : '' ?>>Smartphone (8.000.000 VNĐ)</option>",
+      "\t\t<option value=\"Tablet\" <?= \\$sanPham === 'Tablet' ? 'selected' : '' ?>>Tablet (6.000.000 VNĐ)</option>",
       "\t</select><br>",
-      "\tSố lượng (*): <input type=\"text\" name=\"quantity\" value=\"<?= htmlspecialchars(\\$quantity) ?>\"><br>",
+      "\tSố lượng (*): <input type=\"text\" name=\"quantity\" value=\"<?= htmlspecialchars(\\$soLuong) ?>\"><br>",
       "\tGiao hàng (*):",
       "\t<select name=\"ship\">",
-      "\t\t<option value=\"Standard\" <?= \\$ship === 'Standard' ? 'selected' : '' ?>>Standard (30.000 VNĐ)</option>",
-      "\t\t<option value=\"Express\" <?= \\$ship === 'Express' ? 'selected' : '' ?>>Express (60.000 VNĐ)</option>",
+      "\t\t<option value=\"Standard\" <?= \\$giaoHang === 'Standard' ? 'selected' : '' ?>>Standard (30.000 VNĐ)</option>",
+      "\t\t<option value=\"Express\" <?= \\$giaoHang === 'Express' ? 'selected' : '' ?>>Express (60.000 VNĐ)</option>",
       "\t</select><br>",
       "\t<button type=\"submit\">Gửi đơn</button>",
       "</form>",
@@ -1297,34 +1259,34 @@
       "\t<?php if (\\$err !== ''): ?>",
       "\t\t<p style=\"color:red;\"><?= \\$err ?></p>",
       "\t<?php else:",
-      "\t\t\\$tienHang = \\$gia[\\$product] * (int)\\$quantity;",
-      "\t\t\\$phiShip  = \\$phi[\\$ship];",
+      "\t\t\\$tienHang = \\$bangGia[\\$sanPham] * (int)\\$soLuong;",
+      "\t\t\\$tienShip = \\$phiShip[\\$giaoHang];",
       "\t?>",
       "\t\t<hr>",
       "\t\tHọ tên: <?= htmlspecialchars(\\$hoten) ?> | SĐT: <?= htmlspecialchars(\\$sdt) ?> | ĐC: <?= htmlspecialchars(\\$diachi) ?><br>",
-      "\t\tSản phẩm: <?= htmlspecialchars(\\$product) ?> x <?= (int)\\$quantity ?> = <?= number_format(\\$tienHang, 0, ',', '.') ?> VNĐ<br>",
-      "\t\tPhí giao (<?= htmlspecialchars(\\$ship) ?>): <?= number_format(\\$phiShip, 0, ',', '.') ?> VNĐ<br>",
-      "\t\t<b>Tổng thanh toán: <?= number_format(\\$tienHang + \\$phiShip, 0, ',', '.') ?> VNĐ</b>",
+      "\t\tSản phẩm: <?= htmlspecialchars(\\$sanPham) ?> x <?= (int)\\$soLuong ?> = <?= number_format(\\$tienHang, 0, ',', '.') ?> VNĐ<br>",
+      "\t\tPhí giao (<?= htmlspecialchars(\\$giaoHang) ?>): <?= number_format(\\$tienShip, 0, ',', '.') ?> VNĐ<br>",
+      "\t\t<b>Tổng thanh toán: <?= number_format(\\$tienHang + \\$tienShip, 0, ',', '.') ?> VNĐ</b>",
       "\t<?php endif; ?>",
       "<?php endif; ?>"
     ],
-    "description": "Gộp Form đặt hàng & đặt vé: POST + Sticky form, check Họ tên >= 2 từ, SĐT 10 số, Số lượng nguyên dương, Phí/Loại và tính tổng tiền"
+    "description": "Form POST Sticky: Check Họ tên >= 2 từ, SĐT 10 số, Địa chỉ >= 5 ký tự, Số lượng nguyên dương, Phí giao & tính tổng tiền"
   },
-  "Form POST: Ho ten >= 2 tu, CCCD 12 so, SDT 10 so, Checkbox dich vu + Tinh tien": {
+  "Form Đặt Phòng: Tên >=2 từ, CCCD 12 số, SĐT, Checkbox dịch vụ": {
     "scope": "php,html",
     "prefix": [
       "!form_cccd12so_checkbox_tinhtien"
     ],
     "body": [
       "<?php",
-      "\\$sm       = \\$_SERVER['REQUEST_METHOD'] === 'POST';",
-      "\\$hoten    = trim(\\$_POST['hoten'] ?? '');",
-      "\\$cccd     = trim(\\$_POST['cccd'] ?? '');",
-      "\\$sdt      = trim(\\$_POST['sdt'] ?? '');",
-      "\\$roomType = \\$_POST['room_type'] ?? '';",
-      "\\$nights   = trim(\\$_POST['nights'] ?? '');",
-      "\\$services = isset(\\$_POST['services']) && is_array(\\$_POST['services']) ? \\$_POST['services'] : array();",
-      "\\$err      = '';",
+      "\\$sm        = \\$_SERVER['REQUEST_METHOD'] === 'POST';",
+      "\\$hoten     = trim(\\$_POST['hoten'] ?? '');",
+      "\\$cccd      = trim(\\$_POST['cccd'] ?? '');",
+      "\\$sdt       = trim(\\$_POST['sdt'] ?? '');",
+      "\\$loaiPhong = \\$_POST['room_type'] ?? '';",
+      "\\$soDem     = trim(\\$_POST['nights'] ?? '');",
+      "\\$dichVu    = isset(\\$_POST['services']) && is_array(\\$_POST['services']) ? \\$_POST['services'] : array();",
+      "\\$err       = '';",
       "",
       "\\$giaPhong = array('Standard' => 500000, 'Deluxe' => 800000, 'Suite' => 1200000);",
       "\\$giaDV    = array('Ăn sáng' => 100000, 'Giặt ủi' => 50000);",
@@ -1333,8 +1295,8 @@
       "\tif (\\$hoten === '' || count(preg_split('/\\s+/', \\$hoten)) < 2) \\$err .= 'Họ và tên phải có ít nhất 2 từ!<br>';",
       "\tif (!preg_match('/^\\d{12}\\$/', \\$cccd))                        \\$err .= 'Số CCCD phải gồm đúng 12 chữ số!<br>';",
       "\tif (!preg_match('/^0\\d{9}\\$/', \\$sdt))                         \\$err .= 'Số điện thoại phải gồm 10 số, bắt đầu bằng 0!<br>';",
-      "\tif (!isset(\\$giaPhong[\\$roomType]))                            \\$err .= 'Vui lòng chọn loại phòng!<br>';",
-      "\tif (!preg_match('/^\\d+\\$/', \\$nights) || (int)\\$nights <= 0)    \\$err .= 'Số đêm lưu trú phải là số nguyên dương!<br>';",
+      "\tif (!isset(\\$giaPhong[\\$loaiPhong]))                           \\$err .= 'Vui lòng chọn loại phòng!<br>';",
+      "\tif (!preg_match('/^\\d+\\$/', \\$soDem) || (int)\\$soDem <= 0)      \\$err .= 'Số đêm lưu trú phải là số nguyên dương!<br>';",
       "}",
       "?>",
       "<meta charset=\"UTF-8\">",
@@ -1345,80 +1307,80 @@
       "\tLoại phòng (*):",
       "\t<select name=\"room_type\">",
       "\t\t<option value=\"\">-- Chọn loại phòng --</option>",
-      "\t\t<option value=\"Standard\" <?= \\$roomType === 'Standard' ? 'selected' : '' ?>>Standard (500.000 VNĐ/đêm)</option>",
-      "\t\t<option value=\"Deluxe\" <?= \\$roomType === 'Deluxe' ? 'selected' : '' ?>>Deluxe (800.000 VNĐ/đêm)</option>",
-      "\t\t<option value=\"Suite\" <?= \\$roomType === 'Suite' ? 'selected' : '' ?>>Suite (1.200.000 VNĐ/đêm)</option>",
+      "\t\t<option value=\"Standard\" <?= \\$loaiPhong === 'Standard' ? 'selected' : '' ?>>Standard (500.000 VNĐ/đêm)</option>",
+      "\t\t<option value=\"Deluxe\" <?= \\$loaiPhong === 'Deluxe' ? 'selected' : '' ?>>Deluxe (800.000 VNĐ/đêm)</option>",
+      "\t\t<option value=\"Suite\" <?= \\$loaiPhong === 'Suite' ? 'selected' : '' ?>>Suite (1.200.000 VNĐ/đêm)</option>",
       "\t</select><br>",
-      "\tSố đêm (*): <input type=\"number\" name=\"nights\" min=\"1\" value=\"<?= htmlspecialchars(\\$nights) ?>\"><br>",
+      "\tSố đêm (*): <input type=\"number\" name=\"nights\" min=\"1\" value=\"<?= htmlspecialchars(\\$soDem) ?>\"><br>",
       "\tDịch vụ thêm:",
-      "\t<input type=\"checkbox\" name=\"services[]\" value=\"Ăn sáng\" <?= in_array('Ăn sáng', \\$services) ? 'checked' : '' ?>> Ăn sáng (100k)",
-      "\t<input type=\"checkbox\" name=\"services[]\" value=\"Giặt ủi\" <?= in_array('Giặt ủi', \\$services) ? 'checked' : '' ?>> Giặt ủi (50k)<br>",
+      "\t<input type=\"checkbox\" name=\"services[]\" value=\"Ăn sáng\" <?= in_array('Ăn sáng', \\$dichVu) ? 'checked' : '' ?>> Ăn sáng (100k)",
+      "\t<input type=\"checkbox\" name=\"services[]\" value=\"Giặt ủi\" <?= in_array('Giặt ủi', \\$dichVu) ? 'checked' : '' ?>> Giặt ủi (50k)<br>",
       "\t<button type=\"submit\">Đặt phòng</button>",
       "</form>",
       "<?php if (\\$sm): ?>",
       "\t<?php if (\\$err !== ''): ?>",
       "\t\t<p style=\"color:red;\"><?= \\$err ?></p>",
       "\t<?php else:",
-      "\t\t\\$tienPhong = \\$giaPhong[\\$roomType] * (int)\\$nights;",
+      "\t\t\\$tienPhong = \\$giaPhong[\\$loaiPhong] * (int)\\$soDem;",
       "\t\t\\$tienDV    = 0;",
-      "\t\tforeach (\\$services as \\$sv) if (isset(\\$giaDV[\\$sv])) \\$tienDV += \\$giaDV[\\$sv] * (int)\\$nights;",
+      "\t\tforeach (\\$dichVu as \\$dv) if (isset(\\$giaDV[\\$dv])) \\$tienDV += \\$giaDV[\\$dv] * (int)\\$soDem;",
       "\t?>",
       "\t\t<hr>",
       "\t\tKhách hàng: <?= htmlspecialchars(\\$hoten) ?> (CCCD: <?= htmlspecialchars(\\$cccd) ?> | SĐT: <?= htmlspecialchars(\\$sdt) ?>)<br>",
-      "\t\tPhòng: <?= htmlspecialchars(\\$roomType) ?> x <?= (int)\\$nights ?> đêm | Dịch vụ: <?= \\$services ? htmlspecialchars(implode(', ', \\$services)) : 'Không có' ?><br>",
+      "\t\tPhòng: <?= htmlspecialchars(\\$loaiPhong) ?> x <?= (int)\\$soDem ?> đêm | Dịch vụ: <?= \\$dichVu ? htmlspecialchars(implode(', ', \\$dichVu)) : 'Không có' ?><br>",
       "\t\t<b>Tổng tiền: <?= number_format(\\$tienPhong + \\$tienDV, 0, ',', '.') ?> VNĐ</b>",
       "\t<?php endif; ?>",
       "<?php endif; ?>"
     ],
-    "description": "Form POST đặt phòng/dịch vụ: kiểm tra Họ tên >= 2 từ, CCCD 12 chữ số, SĐT 10 số, Số đêm > 0, Checkbox nhiều dịch vụ cộng thêm"
+    "description": "Form POST Sticky: Check Họ tên >= 2 từ, CCCD 12 số, SĐT 10 số, Số đêm > 0, Checkbox dịch vụ thêm & tính tiền"
   },
-  "Mang 2 chieu + Loc $_GET + Link phan loai + Thong ke tong so va tong tien": {
+  "Mảng 2D + Lọc $_GET theo loại + Đếm & Tổng tiền VNĐ": {
     "scope": "php,html",
     "prefix": [
       "!mang2d_locget_tongtien"
     ],
     "body": [
       "<?php",
-      "\\$products = array(",
+      "\\$dsSanPham = array(",
       "\tarray('id' => 1, 'name' => 'Chuột Logitech G102', 'price' => 400000, 'type' => 'mouse'),",
       "\tarray('id' => 2, 'name' => 'Bàn phím cơ Akko', 'price' => 850000, 'type' => 'keyboard'),",
       "\tarray('id' => 3, 'name' => 'Chuột Razer DeathAdder', 'price' => 650000, 'type' => 'mouse'),",
       "\tarray('id' => 4, 'name' => 'Bàn phím Keychron K2', 'price' => 1200000, 'type' => 'keyboard')",
       ");",
       "",
-      "\\$type = \\$_GET['type'] ?? '';",
-      "\\$ds   = array();",
-      "foreach (\\$products as \\$p) {",
-      "\tif (!in_array(\\$type, array('mouse', 'keyboard')) || \\$p['type'] === \\$type) \\$ds[] = \\$p;",
+      "\\$loai     = \\$_GET['type'] ?? '';",
+      "\\$dsLoc    = array();",
+      "foreach (\\$dsSanPham as \\$sp) {",
+      "\tif (!in_array(\\$loai, array('mouse', 'keyboard')) || \\$sp['type'] === \\$loai) \\$dsLoc[] = \\$sp;",
       "}",
-      "\\$tong = 0;",
-      "foreach (\\$ds as \\$p) \\$tong += \\$p['price'];",
+      "\\$tongTien = 0;",
+      "foreach (\\$dsLoc as \\$sp) \\$tongTien += \\$sp['price'];",
       "?>",
       "<meta charset=\"UTF-8\">",
       "<p><a href=\"?\">Tất cả</a> | <a href=\"?type=mouse\">Chuột</a> | <a href=\"?type=keyboard\">Bàn phím</a></p>",
       "<table border=\"1\" cellpadding=\"5\" cellspacing=\"0\">",
       "\t<tr><th>ID</th><th>Tên sản phẩm</th><th>Giá (VNĐ)</th><th>Loại</th></tr>",
-      "\t<?php foreach (\\$ds as \\$item): ?>",
+      "\t<?php foreach (\\$dsLoc as \\$sp): ?>",
       "\t<tr>",
-      "\t\t<td><?= \\$item['id'] ?></td>",
-      "\t\t<td><?= htmlspecialchars(\\$item['name']) ?></td>",
-      "\t\t<td><?= number_format(\\$item['price'], 0, ',', '.') ?></td>",
-      "\t\t<td><?= htmlspecialchars(\\$item['type']) ?></td>",
+      "\t\t<td><?= \\$sp['id'] ?></td>",
+      "\t\t<td><?= htmlspecialchars(\\$sp['name']) ?></td>",
+      "\t\t<td><?= number_format(\\$sp['price'], 0, ',', '.') ?></td>",
+      "\t\t<td><?= htmlspecialchars(\\$sp['type']) ?></td>",
       "\t</tr>",
       "\t<?php endforeach; ?>",
       "</table>",
-      "<p>Tổng số: <b><?= count(\\$ds) ?></b> | Tổng giá trị: <b><?= number_format(\\$tong, 0, ',', '.') ?> VNĐ</b></p>"
+      "<p>Tổng số: <b><?= count(\\$dsLoc) ?></b> | Tổng giá trị: <b><?= number_format(\\$tongTien, 0, ',', '.') ?> VNĐ</b></p>"
     ],
-    "description": "Gộp products & books: Mảng 2 chiều, lọc $_GET theo nhóm (fallback hiển thị tất cả), link lọc tự nhận trang hiện tại, đếm tổng và tổng tiền VNĐ"
+    "description": "Mảng 2 chiều sản phẩm, link lọc ?type= (sai/rỗng hiện tất cả), in bảng HTML và tổng số lượng + tổng giá trị"
   },
-  "Mang 2 chieu + Loc $_GET + Thong ke tong, trung binh + Vong lap tim tat ca Max": {
+  "Mảng 2D + Lọc $_GET + Thống kê Tổng, TB & Tất cả Max": {
     "scope": "php,html",
     "prefix": [
       "!mang2d_locget_tb_timtatca_max"
     ],
     "body": [
       "<?php",
-      "\\$employees = array(",
+      "\\$dsNhanVien = array(",
       "\tarray('id' => 'NV01', 'name' => 'Nguyễn Văn Hùng', 'dept' => 'IT', 'salary' => 18000000),",
       "\tarray('id' => 'NV02', 'name' => 'Trần Thị Mai', 'dept' => 'HR', 'salary' => 12000000),",
       "\tarray('id' => 'NV03', 'name' => 'Lê Quốc Bảo', 'dept' => 'IT', 'salary' => 22000000),",
@@ -1426,47 +1388,48 @@
       "\tarray('id' => 'NV05', 'name' => 'Võ Minh Tuấn', 'dept' => 'Sales', 'salary' => 22000000)",
       ");",
       "",
-      "\\$dept = \\$_GET['dept'] ?? '';",
-      "\\$ds   = array();",
-      "foreach (\\$employees as \\$x) {",
-      "\tif (!in_array(\\$dept, array('IT', 'HR', 'Sales')) || \\$x['dept'] === \\$dept) \\$ds[] = \\$x;",
+      "\\$phongBan = \\$_GET['dept'] ?? '';",
+      "\\$dsLoc    = array();",
+      "foreach (\\$dsNhanVien as \\$nv) {",
+      "\tif (!in_array(\\$phongBan, array('IT', 'HR', 'Sales')) || \\$nv['dept'] === \\$phongBan) \\$dsLoc[] = \\$nv;",
       "}",
       "",
-      "\\$tong = 0; \\$max = count(\\$ds) > 0 ? \\$ds[0]['salary'] : 0;",
-      "foreach (\\$ds as \\$x) {",
-      "\t\\$tong += \\$x['salary'];",
-      "\tif (\\$x['salary'] > \\$max) \\$max = \\$x['salary'];",
+      "\\$tongLuong   = 0;",
+      "\\$luongMax    = count(\\$dsLoc) > 0 ? \\$dsLoc[0]['salary'] : 0;",
+      "foreach (\\$dsLoc as \\$nv) {",
+      "\t\\$tongLuong += \\$nv['salary'];",
+      "\tif (\\$nv['salary'] > \\$luongMax) \\$luongMax = \\$nv['salary'];",
       "}",
-      "\\$tb = count(\\$ds) > 0 ? round(\\$tong / count(\\$ds), 2) : 0;",
+      "\\$luongTB = count(\\$dsLoc) > 0 ? round(\\$tongLuong / count(\\$dsLoc), 2) : 0;",
       "?>",
       "<meta charset=\"UTF-8\">",
       "<p><a href=\"?\">Tất cả</a> | <a href=\"?dept=IT\">Phòng IT</a> | <a href=\"?dept=HR\">Phòng HR</a> | <a href=\"?dept=Sales\">Phòng Sales</a></p>",
       "<table border=\"1\" cellpadding=\"5\" cellspacing=\"0\">",
       "\t<tr><th>Mã NV</th><th>Họ và tên</th><th>Phòng ban</th><th>Lương (VNĐ)</th></tr>",
-      "\t<?php foreach (\\$ds as \\$x): ?>",
+      "\t<?php foreach (\\$dsLoc as \\$nv): ?>",
       "\t<tr>",
-      "\t\t<td><?= htmlspecialchars(\\$x['id']) ?></td>",
-      "\t\t<td><?= htmlspecialchars(\\$x['name']) ?></td>",
-      "\t\t<td><?= htmlspecialchars(\\$x['dept']) ?></td>",
-      "\t\t<td><?= number_format(\\$x['salary'], 0, ',', '.') ?></td>",
+      "\t\t<td><?= htmlspecialchars(\\$nv['id']) ?></td>",
+      "\t\t<td><?= htmlspecialchars(\\$nv['name']) ?></td>",
+      "\t\t<td><?= htmlspecialchars(\\$nv['dept']) ?></td>",
+      "\t\t<td><?= number_format(\\$nv['salary'], 0, ',', '.') ?></td>",
       "\t</tr>",
       "\t<?php endforeach; ?>",
       "</table>",
-      "<p>Tổng NV: <b><?= count(\\$ds) ?></b> | Tổng lương: <b><?= number_format(\\$tong, 0, ',', '.') ?> VNĐ</b> | Trung bình: <b><?= number_format(\\$tb, 0, ',', '.') ?> VNĐ</b></p>",
-      "<p>Lương cao nhất (<?= number_format(\\$max, 0, ',', '.') ?> VNĐ):",
-      "<?php foreach (\\$ds as \\$x) if (\\$x['salary'] == \\$max) echo htmlspecialchars(\\$x['id'] . ' - ' . \\$x['name']) . ' (' . htmlspecialchars(\\$x['dept']) . '); '; ?>",
+      "<p>Tổng NV: <b><?= count(\\$dsLoc) ?></b> | Tổng lương: <b><?= number_format(\\$tongLuong, 0, ',', '.') ?> VNĐ</b> | Trung bình: <b><?= number_format(\\$luongTB, 0, ',', '.') ?> VNĐ</b></p>",
+      "<p>Lương cao nhất (<?= number_format(\\$luongMax, 0, ',', '.') ?> VNĐ):",
+      "<?php foreach (\\$dsLoc as \\$nv) if (\\$nv['salary'] == \\$luongMax) echo htmlspecialchars(\\$nv['id'] . ' - ' . \\$nv['name']) . ' (' . htmlspecialchars(\\$nv['dept']) . '); '; ?>",
       "</p>"
     ],
-    "description": "Mảng 2 chiều + Lọc $_GET + Thống kê tổng số, tổng giá trị, trung bình + Vòng lặp tìm tất cả phần tử đạt Max không hardcode"
+    "description": "Lọc mảng 2 chiều nhân viên qua ?dept=, tính tổng lương, trung bình và tìm tất cả người có lương cao nhất"
   },
-  "Mang 2 chieu: Thong ke Dat/Khong dat (>= 5.0), Diem TB lop, Tim tat ca SV cao nhat": {
+  "Mảng 2D Điểm SV: Đếm Đạt/Rớt (>=5.0), TB lớp, Tất cả Max": {
     "scope": "php,html",
     "prefix": [
       "!mang2d_diem_datrot_tb_timmax"
     ],
     "body": [
       "<?php",
-      "\\$students = array(",
+      "\\$dsSinhVien = array(",
       "\tarray('mssv' => 'DH52300001', 'hoten' => 'Nguyễn Văn An', 'diem' => 8.5),",
       "\tarray('mssv' => 'DH52300002', 'hoten' => 'Trần Thị Bình', 'diem' => 4.5),",
       "\tarray('mssv' => 'DH52300003', 'hoten' => 'Lê Hoàng Cường', 'diem' => 9.0),",
@@ -1474,18 +1437,19 @@
       "\tarray('mssv' => 'DH52300005', 'hoten' => 'Võ Quốc Huy', 'diem' => 9.0)",
       ");",
       "",
-      "\\$dat = 0; \\$rot = 0; \\$tong = 0; \\$max = count(\\$students) > 0 ? \\$students[0]['diem'] : 0;",
-      "foreach (\\$students as \\$sv) {",
-      "\t\\$tong += \\$sv['diem'];",
-      "\tif (\\$sv['diem'] >= 5.0) \\$dat++; else \\$rot++;",
-      "\tif (\\$sv['diem'] > \\$max) \\$max = \\$sv['diem'];",
+      "\\$soDat = 0; \\$soRot = 0; \\$tongDiem = 0;",
+      "\\$diemMax = count(\\$dsSinhVien) > 0 ? \\$dsSinhVien[0]['diem'] : 0;",
+      "foreach (\\$dsSinhVien as \\$sv) {",
+      "\t\\$tongDiem += \\$sv['diem'];",
+      "\tif (\\$sv['diem'] >= 5.0) \\$soDat++; else \\$soRot++;",
+      "\tif (\\$sv['diem'] > \\$diemMax) \\$diemMax = \\$sv['diem'];",
       "}",
-      "\\$tb = count(\\$students) > 0 ? round(\\$tong / count(\\$students), 2) : 0;",
+      "\\$diemTB = count(\\$dsSinhVien) > 0 ? round(\\$tongDiem / count(\\$dsSinhVien), 2) : 0;",
       "?>",
       "<meta charset=\"UTF-8\">",
       "<table border=\"1\" cellpadding=\"5\" cellspacing=\"0\">",
       "\t<tr><th>MSSV</th><th>Họ và tên</th><th>Điểm</th><th>Kết quả</th></tr>",
-      "\t<?php foreach (\\$students as \\$sv): ?>",
+      "\t<?php foreach (\\$dsSinhVien as \\$sv): ?>",
       "\t<tr>",
       "\t\t<td><?= htmlspecialchars(\\$sv['mssv']) ?></td>",
       "\t\t<td><?= htmlspecialchars(\\$sv['hoten']) ?></td>",
@@ -1494,21 +1458,21 @@
       "\t</tr>",
       "\t<?php endforeach; ?>",
       "</table>",
-      "<p>Tổng SV: <b><?= count(\\$students) ?></b> | Đạt: <b><?= \\$dat ?></b> | Không đạt: <b><?= \\$rot ?></b> | Điểm TB: <b><?= number_format(\\$tb, 2, '.', '') ?></b></p>",
-      "<p>Điểm cao nhất (<?= \\$max ?>):",
-      "<?php foreach (\\$students as \\$sv) if (\\$sv['diem'] == \\$max) echo htmlspecialchars(\\$sv['mssv'] . ' - ' . \\$sv['hoten']) . '; '; ?>",
+      "<p>Tổng SV: <b><?= count(\\$dsSinhVien) ?></b> | Đạt: <b><?= \\$soDat ?></b> | Không đạt: <b><?= \\$soRot ?></b> | Điểm TB: <b><?= number_format(\\$diemTB, 2, '.', '') ?></b></p>",
+      "<p>Điểm cao nhất (<?= \\$diemMax ?>):",
+      "<?php foreach (\\$dsSinhVien as \\$sv) if (\\$sv['diem'] == \\$diemMax) echo htmlspecialchars(\\$sv['mssv'] . ' - ' . \\$sv['hoten']) . '; '; ?>",
       "</p>"
     ],
-    "description": "Bảng điểm SV (Đạt >= 5.0 / Không đạt), đếm Tổng/Đạt/Không đạt, Điểm TB làm tròn 2 chữ số, vòng lặp tìm tất cả SV điểm cao nhất"
+    "description": "Bảng điểm sinh viên từ mảng 2 chiều: phân loại Đạt/Không đạt (>= 5.0), điểm TB làm tròn 2 số và tìm tất cả SV cao nhất"
   },
-  "Tim kiem GET: Tu khoa trim + stripos (khong phan biet hoa thuong) + Loc gia toi da": {
+  "Tìm Kiếm GET: Từ khóa stripos + Lọc giá tối đa": {
     "scope": "php,html",
     "prefix": [
       "!timkiem_get_stripos_locgia"
     ],
     "body": [
       "<?php",
-      "\\$products = array(",
+      "\\$dsSanPham = array(",
       "\tarray('id' => 1, 'name' => 'iPhone 15 Pro', 'price' => 25000000),",
       "\tarray('id' => 2, 'name' => 'Samsung Galaxy S24', 'price' => 20000000),",
       "\tarray('id' => 3, 'name' => 'Xiaomi Redmi Note 13', 'price' => 5500000),",
@@ -1516,62 +1480,62 @@
       "\tarray('id' => 5, 'name' => 'iPhone 13', 'price' => 13500000)",
       ");",
       "",
-      "\\$keyword  = trim(\\$_GET['keyword'] ?? '');",
-      "\\$maxPrice = trim(\\$_GET['max_price'] ?? '');",
-      "\\$ds       = array();",
-      "foreach (\\$products as \\$p) {",
-      "\tif ((\\$keyword === '' || stripos(\\$p['name'], \\$keyword) !== false) && (\\$maxPrice === '' || !is_numeric(\\$maxPrice) || \\$p['price'] <= (float)\\$maxPrice)) {",
-      "\t\t\\$ds[] = \\$p;",
-      "\t}",
+      "\\$tuKhoa   = trim(\\$_GET['keyword'] ?? '');",
+      "\\$giaToiDa = trim(\\$_GET['max_price'] ?? '');",
+      "\\$ketQua   = array();",
+      "foreach (\\$dsSanPham as \\$sp) {",
+      "\t\\$khopTen = (\\$tuKhoa === '' || stripos(\\$sp['name'], \\$tuKhoa) !== false);",
+      "\t\\$khopGia = (\\$giaToiDa === '' || !is_numeric(\\$giaToiDa) || \\$sp['price'] <= (float)\\$giaToiDa);",
+      "\tif (\\$khopTen && \\$khopGia) \\$ketQua[] = \\$sp;",
       "}",
       "?>",
       "<meta charset=\"UTF-8\">",
       "<form action=\"\" method=\"get\">",
-      "\tTừ khóa: <input type=\"text\" name=\"keyword\" value=\"<?= htmlspecialchars(\\$keyword) ?>\">",
-      "\tGiá tối đa: <input type=\"number\" name=\"max_price\" value=\"<?= htmlspecialchars(\\$maxPrice) ?>\">",
+      "\tTừ khóa: <input type=\"text\" name=\"keyword\" value=\"<?= htmlspecialchars(\\$tuKhoa) ?>\">",
+      "\tGiá tối đa: <input type=\"number\" name=\"max_price\" value=\"<?= htmlspecialchars(\\$giaToiDa) ?>\">",
       "\t<button type=\"submit\">Tìm kiếm</button>",
       "</form>",
-      "<?php if (empty(\\$ds)): ?>",
+      "<?php if (empty(\\$ketQua)): ?>",
       "\t<p style=\"color:red;\">Không tìm thấy sản phẩm phù hợp!</p>",
       "<?php else: ?>",
       "\t<table border=\"1\" cellpadding=\"5\" cellspacing=\"0\">",
       "\t\t<tr><th>ID</th><th>Tên sản phẩm</th><th>Giá (VNĐ)</th></tr>",
-      "\t\t<?php foreach (\\$ds as \\$item): ?>",
-      "\t\t<tr><td><?= \\$item['id'] ?></td><td><?= htmlspecialchars(\\$item['name']) ?></td><td><?= number_format(\\$item['price'], 0, ',', '.') ?></td></tr>",
+      "\t\t<?php foreach (\\$ketQua as \\$sp): ?>",
+      "\t\t<tr><td><?= \\$sp['id'] ?></td><td><?= htmlspecialchars(\\$sp['name']) ?></td><td><?= number_format(\\$sp['price'], 0, ',', '.') ?></td></tr>",
       "\t\t<?php endforeach; ?>",
       "\t</table>",
-      "\t<p>Tìm thấy: <b><?= count(\\$ds) ?></b> sản phẩm</p>",
+      "\t<p>Tìm thấy: <b><?= count(\\$ketQua) ?></b> sản phẩm</p>",
       "<?php endif; ?>"
     ],
-    "description": "Gộp tìm kiếm khóa học & sản phẩm: GET keyword (trim + stripos, rỗng hiện tất cả) + tùy chọn lọc giá max_price + đếm kết quả"
+    "description": "Form GET tìm theo từ khóa (stripos không phân biệt hoa thường) kết hợp lọc giá <= max_price và đếm kết quả"
   },
-  "Upload 1 anh <= 1MB (jpg, jpeg, png), tao thu muc, move_uploaded_file, hien 200px": {
+  "Upload 1 Ảnh <= 1MB (jpg/jpeg/png), tự mkdir, hiện 200px": {
     "scope": "php,html",
     "prefix": [
       "!upload_1anh_1mb_hien200px"
     ],
     "body": [
       "<?php",
-      "\\$sm       = \\$_SERVER['REQUEST_METHOD'] === 'POST';",
-      "\\$err      = '';",
-      "\\$fileName = '';",
+      "\\$sm      = \\$_SERVER['REQUEST_METHOD'] === 'POST';",
+      "\\$err     = '';",
+      "\\$tenFile = '';",
       "",
       "if (\\$sm) {",
-      "\t\\$f = \\$_FILES['${2:image}'] ?? null;",
-      "\tif (!\\$f || (\\$f['name'] ?? '') === '' || \\$f['error'] === UPLOAD_ERR_NO_FILE) {",
+      "\t\\$file = \\$_FILES['${2:image}'] ?? null;",
+      "\tif (!\\$file || (\\$file['name'] ?? '') === '' || \\$file['error'] === UPLOAD_ERR_NO_FILE) {",
       "\t\t\\$err = 'Vui lòng chọn file ảnh!';",
-      "\t} elseif (\\$f['error'] !== 0) {",
+      "\t} elseif (\\$file['error'] !== 0) {",
       "\t\t\\$err = 'Lỗi khi upload file!';",
       "\t} else {",
-      "\t\t\\$ext = strtolower(pathinfo(\\$f['name'], PATHINFO_EXTENSION));",
-      "\t\tif (!in_array(\\$ext, array('jpg', 'jpeg', 'png'))) {",
+      "\t\t\\$duoi = strtolower(pathinfo(\\$file['name'], PATHINFO_EXTENSION));",
+      "\t\tif (!in_array(\\$duoi, array('jpg', 'jpeg', 'png'))) {",
       "\t\t\t\\$err = 'Chỉ chấp nhận file jpg, jpeg, png!';",
-      "\t\t} elseif (\\$f['size'] > 1048576) {",
+      "\t\t} elseif (\\$file['size'] > 1048576) {",
       "\t\t\t\\$err = 'Dung lượng file không được vượt quá 1 MB!';",
       "\t\t} else {",
       "\t\t\tif (!is_dir('${1:uploads}')) mkdir('${1:uploads}', 0777, true);",
-      "\t\t\t\\$fileName = time() . '_' . basename(\\$f['name']);",
-      "\t\t\tif (!move_uploaded_file(\\$f['tmp_name'], '${1:uploads}/' . \\$fileName)) \\$err = 'Không thể lưu tập tin!';",
+      "\t\t\t\\$tenFile = time() . '_' . basename(\\$file['name']);",
+      "\t\t\tif (!move_uploaded_file(\\$file['tmp_name'], '${1:uploads}/' . \\$tenFile)) \\$err = 'Không thể lưu tập tin!';",
       "\t\t}",
       "\t}",
       "}",
@@ -1586,14 +1550,14 @@
       "\t\t<p style=\"color:red;\"><?= htmlspecialchars(\\$err) ?></p>",
       "\t<?php else: ?>",
       "\t\t<p style=\"color:green;\">Upload thành công!</p>",
-      "\t\tTên file: <b><?= htmlspecialchars(\\$fileName) ?></b> (<?= round(\\$f['size'] / 1024, 2) ?> KB)<br>",
-      "\t\t<img src=\"${1:uploads}/<?= htmlspecialchars(\\$fileName) ?>\" style=\"max-width:200px;\">",
+      "\t\tTên file: <b><?= htmlspecialchars(\\$tenFile) ?></b> (<?= round(\\$file['size'] / 1024, 2) ?> KB)<br>",
+      "\t\t<img src=\"${1:uploads}/<?= htmlspecialchars(\\$tenFile) ?>\" style=\"max-width:200px;\">",
       "\t<?php endif; ?>",
       "<?php endif; ?>"
     ],
-    "description": "Gộp Upload 1 ảnh: Kiểm tra chọn file, error === OK, đuôi jpg/jpeg/png, <= 1MB (1.048.576 byte), tự mkdir, move_uploaded_file và hiện max-width 200px"
+    "description": "Upload 1 file ảnh: check chọn file, đuôi jpg/jpeg/png, <= 1MB (1048576B), tự tạo thư mục, lưu & hiện max-width 200px"
   },
-  "Session Gio hang ($_SESSION): Them SP, Xoa tung dong, Xoa het, Tinh thanh tien & tong tien": {
+  "Session Giỏ Hàng ($_SESSION): Thêm SP, Xóa dòng, Xóa hết, Tổng": {
     "scope": "php,html",
     "prefix": [
       "!session_giohang_themxoa_tongtien"
@@ -1603,38 +1567,38 @@
       "if (session_status() === PHP_SESSION_NONE && !headers_sent()) session_start();",
       "if (!isset(\\$_SESSION['cart_items'])) \\$_SESSION['cart_items'] = array();",
       "",
-      "\\$err   = '';",
-      "\\$name  = trim(\\$_POST['name'] ?? '');",
-      "\\$qty   = trim(\\$_POST['qty'] ?? '');",
-      "\\$price = trim(\\$_POST['price'] ?? '');",
+      "\\$err    = '';",
+      "\\$tenSP  = trim(\\$_POST['name'] ?? '');",
+      "\\$soLuong = trim(\\$_POST['qty'] ?? '');",
+      "\\$donGia = trim(\\$_POST['price'] ?? '');",
       "",
       "if (isset(\\$_GET['del'])) {",
-      "\t\\$idx = (int)\\$_GET['del'];",
-      "\tif (isset(\\$_SESSION['cart_items'][\\$idx])) {",
-      "\t\tunset(\\$_SESSION['cart_items'][\\$idx]);",
+      "\t\\$viTri = (int)\\$_GET['del'];",
+      "\tif (isset(\\$_SESSION['cart_items'][\\$viTri])) {",
+      "\t\tunset(\\$_SESSION['cart_items'][\\$viTri]);",
       "\t\t\\$_SESSION['cart_items'] = array_values(\\$_SESSION['cart_items']);",
       "\t}",
       "}",
       "if (isset(\\$_POST['clear_all'])) \\$_SESSION['cart_items'] = array();",
       "",
       "if (isset(\\$_POST['add_item'])) {",
-      "\tif (\\$name === '')                                       \\$err = 'Tên sản phẩm không được trống!';",
-      "\telseif (!preg_match('/^\\d+\\$/', \\$qty) || (int)\\$qty <= 0) \\$err = 'Số lượng phải là số nguyên dương!';",
-      "\telseif (!is_numeric(\\$price) || (float)\\$price <= 0)      \\$err = 'Đơn giá phải lớn hơn 0!';",
+      "\tif (\\$tenSP === '')                                               \\$err = 'Tên sản phẩm không được trống!';",
+      "\telseif (!preg_match('/^\\d+\\$/', \\$soLuong) || (int)\\$soLuong <= 0)  \\$err = 'Số lượng phải là số nguyên dương!';",
+      "\telseif (!is_numeric(\\$donGia) || (float)\\$donGia <= 0)             \\$err = 'Đơn giá phải lớn hơn 0!';",
       "\telse {",
-      "\t\t\\$_SESSION['cart_items'][] = array('name' => \\$name, 'qty' => (int)\\$qty, 'price' => (float)\\$price);",
-      "\t\t\\$name = \\$qty = \\$price = '';",
+      "\t\t\\$_SESSION['cart_items'][] = array('name' => \\$tenSP, 'qty' => (int)\\$soLuong, 'price' => (float)\\$donGia);",
+      "\t\t\\$tenSP = \\$soLuong = \\$donGia = '';",
       "\t}",
       "}",
-      "\\$tong = 0;",
-      "foreach (\\$_SESSION['cart_items'] as \\$it) \\$tong += \\$it['qty'] * \\$it['price'];",
+      "\\$tongTien = 0;",
+      "foreach (\\$_SESSION['cart_items'] as \\$sp) \\$tongTien += \\$sp['qty'] * \\$sp['price'];",
       "?>",
       "<meta charset=\"UTF-8\">",
       "<?php if (\\$err !== ''): ?><p style=\"color:red;\"><?= htmlspecialchars(\\$err) ?></p><?php endif; ?>",
       "<form action=\"\" method=\"post\">",
-      "\tTên SP: <input type=\"text\" name=\"name\" value=\"<?= htmlspecialchars(\\$name) ?>\"><br>",
-      "\tSố lượng: <input type=\"number\" name=\"qty\" min=\"1\" value=\"<?= htmlspecialchars(\\$qty) ?>\"><br>",
-      "\tĐơn giá: <input type=\"number\" name=\"price\" min=\"0\" value=\"<?= htmlspecialchars(\\$price) ?>\"><br>",
+      "\tTên SP: <input type=\"text\" name=\"name\" value=\"<?= htmlspecialchars(\\$tenSP) ?>\"><br>",
+      "\tSố lượng: <input type=\"number\" name=\"qty\" min=\"1\" value=\"<?= htmlspecialchars(\\$soLuong) ?>\"><br>",
+      "\tĐơn giá: <input type=\"number\" name=\"price\" min=\"0\" value=\"<?= htmlspecialchars(\\$donGia) ?>\"><br>",
       "\t<button type=\"submit\" name=\"add_item\">Thêm</button>",
       "\t<button type=\"submit\" name=\"clear_all\">Xóa hết</button>",
       "</form>",
@@ -1643,23 +1607,23 @@
       "<?php else: ?>",
       "\t<table border=\"1\" cellpadding=\"5\" cellspacing=\"0\">",
       "\t\t<tr><th>STT</th><th>Tên SP</th><th>SL</th><th>Đơn giá</th><th>Thành tiền</th><th>Xóa</th></tr>",
-      "\t\t<?php foreach (\\$_SESSION['cart_items'] as \\$i => \\$it): ?>",
+      "\t\t<?php foreach (\\$_SESSION['cart_items'] as \\$stt => \\$sp): ?>",
       "\t\t<tr>",
-      "\t\t\t<td><?= \\$i + 1 ?></td>",
-      "\t\t\t<td><?= htmlspecialchars(\\$it['name']) ?></td>",
-      "\t\t\t<td><?= \\$it['qty'] ?></td>",
-      "\t\t\t<td><?= number_format(\\$it['price'], 0, ',', '.') ?></td>",
-      "\t\t\t<td><?= number_format(\\$it['qty'] * \\$it['price'], 0, ',', '.') ?></td>",
-      "\t\t\t<td><a href=\"?del=<?= \\$i ?>\">Xóa</a></td>",
+      "\t\t\t<td><?= \\$stt + 1 ?></td>",
+      "\t\t\t<td><?= htmlspecialchars(\\$sp['name']) ?></td>",
+      "\t\t\t<td><?= \\$sp['qty'] ?></td>",
+      "\t\t\t<td><?= number_format(\\$sp['price'], 0, ',', '.') ?></td>",
+      "\t\t\t<td><?= number_format(\\$sp['qty'] * \\$sp['price'], 0, ',', '.') ?></td>",
+      "\t\t\t<td><a href=\"?del=<?= \\$stt ?>\">Xóa</a></td>",
       "\t\t</tr>",
       "\t\t<?php endforeach; ?>",
       "\t</table>",
-      "\t<p><b>Tổng tiền: <?= number_format(\\$tong, 0, ',', '.') ?> VNĐ</b></p>",
+      "\t<p><b>Tổng tiền: <?= number_format(\\$tongTien, 0, ',', '.') ?> VNĐ</b></p>",
       "<?php endif; ?>"
     ],
-    "description": "Gộp quản lý danh sách/giỏ hàng lưu $_SESSION: Thêm SP (tên, SL > 0, giá > 0), xóa từng dòng ?del=, xóa toàn bộ, tính Thành tiền & Tổng tiền"
+    "description": "Quản lý danh sách/giỏ hàng trong $_SESSION['cart_items']: Thêm SP (SL>0, giá>0), xóa dòng ?del=, xóa hết, tính tổng tiền"
   },
-  "Form Sinh vien: Check MSSV 10 ky tu DH/DH5, Sticky Form, Upload anh (co mau default.png)": {
+  "Đề Nghĩa Câu 1: Form SV (DH51/52 + Ảnh hinh1/2 + Hiện 2 cột)": {
     "scope": "php,html",
     "prefix": [
       "!form_sv_mssvdh_uploadanh_macdinh"
@@ -1673,136 +1637,162 @@
       "\\$sothich  = isset(\\$_POST['sothich${1:22}']) && is_array(\\$_POST['sothich${1:22}']) ? \\$_POST['sothich${1:22}'] : array();",
       "\\$err      = '';",
       "\\$tenFile  = '';",
-      "\\$sizeFile = 0;",
       "",
       "if (\\$sm) {",
-      "\tif (strlen(\\$mssv) !== 10 || strpos(\\$mssv, '${2:DH}') !== 0) {",
-      "\t\t\\$err .= 'MSSV phải chứa 10 ký tự và bắt đầu bằng ${2:DH}!<br>';",
-      "\t}",
-      "\tif (\\$hoten === '') {",
-      "\t\t\\$err .= 'Họ tên phải có dữ liệu!<br>';",
-      "\t}",
-      "\tif (\\$gioitinh === '') {",
-      "\t\t\\$err .= 'Giới tính phải chọn 1 trong 2!<br>';",
-      "\t}",
-      "\tif (\\$err === '' && isset(\\$_FILES['${3:img}']) && (\\$_FILES['${3:img}']['name'] ?? '') !== '') {",
-      "\t\tif (\\$_FILES['${3:img}']['error'] === 0) {",
-      "\t\t\tif (!is_dir('${4:hinh2}')) mkdir('${4:hinh2}', 0777, true);",
-      "\t\t\t\\$tenFile  = \\$_FILES['${3:img}']['name'];",
-      "\t\t\t\\$sizeFile = \\$_FILES['${3:img}']['size'];",
-      "\t\t\tmove_uploaded_file(\\$_FILES['${3:img}']['tmp_name'], '${4:hinh2}/' . \\$tenFile);",
-      "\t\t}",
+      "\tif (strlen(\\$mssv) != 10 || strpos(\\$mssv, '${2:DH52}') !== 0) \\$err .= 'MSSV phải đủ 10 ký tự và bắt đầu bằng ${2:DH52}!<br>';",
+      "\tif (\\$hoten == '')                                             \\$err .= 'Họ tên phải có dữ liệu!<br>';",
+      "\tif (\\$gioitinh == '')                                          \\$err .= 'Giới tính phải chọn 1 trong 2!<br>';",
+      "\tif (\\$err == '' && isset(\\$_FILES['hinh${1:22}']) && \\$_FILES['hinh${1:22}']['error'] == 0) {",
+      "\t\tif (!is_dir('${3:hinh2}')) mkdir('${3:hinh2}', 0777, true);",
+      "\t\t\\$tenFile = \\$_FILES['hinh${1:22}']['name'];",
+      "\t\tmove_uploaded_file(\\$_FILES['hinh${1:22}']['tmp_name'], '${3:hinh2}/' . \\$tenFile);",
       "\t}",
       "}",
       "?>",
-      "<h2>Nhập thông tin sinh viên</h2>",
+      "<meta charset=\"UTF-8\">",
       "<form action=\"\" method=\"post\" enctype=\"multipart/form-data\">",
       "\tMSSV: <input type=\"text\" name=\"masv${1:22}\" value=\"<?= htmlspecialchars(\\$mssv) ?>\"><br>",
-      "\tHọ và tên: <input type=\"text\" name=\"hoten${1:22}\" value=\"<?= htmlspecialchars(\\$hoten) ?>\"><br>",
+      "\tHọ tên: <input type=\"text\" name=\"hoten${1:22}\" value=\"<?= htmlspecialchars(\\$hoten) ?>\"><br>",
       "\tGiới tính:",
-      "\t<input type=\"radio\" name=\"gioitinh${1:22}\" value=\"Nam\" <?= (\\$gioitinh === 'Nam') ? 'checked' : '' ?>>Nam",
-      "\t<input type=\"radio\" name=\"gioitinh${1:22}\" value=\"Nữ\" <?= (\\$gioitinh === 'Nữ') ? 'checked' : '' ?>>Nữ<br>",
+      "\t<input type=\"radio\" name=\"gioitinh${1:22}\" value=\"Nam\" <?= \\$gioitinh == 'Nam' ? 'checked' : '' ?>> Nam",
+      "\t<input type=\"radio\" name=\"gioitinh${1:22}\" value=\"Nữ\" <?= \\$gioitinh == 'Nữ' ? 'checked' : '' ?>> Nữ<br>",
       "\tSở thích:",
-      "\t<input type=\"checkbox\" name=\"sothich${1:22}[]\" value=\"Thể thao\" <?= in_array('Thể thao', \\$sothich) ? 'checked' : '' ?>>Thể thao",
-      "\t<input type=\"checkbox\" name=\"sothich${1:22}[]\" value=\"Du lịch\" <?= in_array('Du lịch', \\$sothich) ? 'checked' : '' ?>>Du lịch<br>",
-      "\tHình đại diện: <input type=\"file\" name=\"${3:img}\"><br>",
+      "\t<input type=\"checkbox\" name=\"sothich${1:22}[]\" value=\"Thể thao\" <?= in_array('Thể thao', \\$sothich) ? 'checked' : '' ?>> Thể thao",
+      "\t<input type=\"checkbox\" name=\"sothich${1:22}[]\" value=\"Du lịch\" <?= in_array('Du lịch', \\$sothich) ? 'checked' : '' ?>> Du lịch<br>",
+      "\tHình đại diện: <input type=\"file\" name=\"hinh${1:22}\"><br>",
       "\t<input type=\"submit\" value=\"Gửi\">",
       "</form>",
       "<?php if (\\$sm): ?>",
-      "\t<?php if (\\$err !== ''): ?>",
-      "\t\t<div style=\"color:red; margin-top:10px;\"><?= \\$err ?></div>",
+      "\t<?php if (\\$err != ''): ?>",
+      "\t\t<p style=\"color:red;\"><?= \\$err ?></p>",
       "\t<?php else: ?>",
-      "\t\t<div style=\"border:1px solid #999; padding:10px; margin-top:10px; width:350px;\">",
-      "\t\t\t<h3>Thông tin đã nhập:</h3>",
-      "\t\t\t- MSSV: <?= htmlspecialchars(\\$mssv) ?><br>",
-      "\t\t\t- Họ và tên: <?= htmlspecialchars(\\$hoten) ?><br>",
-      "\t\t\t- Giới tính: <?= htmlspecialchars(\\$gioitinh) ?><br>",
-      "\t\t\t- Sở thích: <?= !empty(\\$sothich) ? htmlspecialchars(implode(', ', \\$sothich)) : 'Chưa chọn sở thích' ?><br>",
-      "\t\t\t<?php if (\\$tenFile !== ''): ?>",
-      "\t\t\t\t- Tên file: <?= htmlspecialchars(\\$tenFile) ?><br>",
-      "\t\t\t\t- Dung lượng file: <?= \\$sizeFile ?> byte<br>",
-      "\t\t\t\t<img src=\"${4:hinh2}/<?= htmlspecialchars(\\$tenFile) ?>\" style=\"max-width:200px; margin-top:5px;\">",
-      "\t\t\t<?php else: ?>",
-      "\t\t\t\t<span style=\"color:red;\">Chưa có hình ảnh</span>",
-      "\t\t\t\t<!-- Nếu đề yêu cầu ảnh mặc định thì thay bằng: <img src=\"default.png\" width=\"150\" height=\"150\"> -->",
-      "\t\t\t<?php endif; ?>",
-      "\t\t</div>",
+      "\t\t<table cellpadding=\"8\" style=\"border:1px solid #999; margin-top:10px;\">",
+      "\t\t\t<tr>",
+      "\t\t\t\t<td>",
+      "\t\t\t\t\t<b>Thông tin sinh viên</b><br>",
+      "\t\t\t\t\t- MSSV: <?= htmlspecialchars(\\$mssv) ?><br>",
+      "\t\t\t\t\t- Họ tên: <?= htmlspecialchars(\\$hoten) ?><br>",
+      "\t\t\t\t\t- Giới tính: <?= htmlspecialchars(\\$gioitinh) ?><br>",
+      "\t\t\t\t\t- Sở thích: <?= !empty(\\$sothich) ? htmlspecialchars(implode(', ', \\$sothich)) : '<span style=\"color:red;\">Chưa chọn sở thích</span>' ?>",
+      "\t\t\t\t</td>",
+      "\t\t\t\t<td align=\"center\">",
+      "\t\t\t\t\t<?php if (\\$tenFile != ''): ?>",
+      "\t\t\t\t\t\t<img src=\"${3:hinh2}/<?= htmlspecialchars(\\$tenFile) ?>\" style=\"max-width:${4:220}px;\"><br>Hình ảnh",
+      "\t\t\t\t\t<?php else: ?>",
+      "\t\t\t\t\t\t<span style=\"color:red;\">Chưa có hình ảnh</span>",
+      "\t\t\t\t\t<?php endif; ?>",
+      "\t\t\t\t</td>",
+      "\t\t\t</tr>",
+      "\t\t</table>",
       "\t<?php endif; ?>",
       "<?php endif; ?>"
     ],
-    "description": "Gộp Form SV Đề 1-2-3: Check MSSV 10 ký tự bắt đầu DH, họ tên, giới tính, sở thích (sticky), upload ảnh hoặc dùng default.png 150x150"
+    "description": "Đề 1 & Đề 2 Câu 1: Check MSSV 10 ký tự (DH51/DH52), bỏ trống sở thích/ảnh báo riêng, Sticky Form, upload hinh1/2 và hiện 2 cột"
   },
-  "Bang Gio hang Bootstrap: Tinh Gia KM, Thanh tien, Tiet kiem va Tong cong": {
+  "Đề Nghĩa Câu 2+3 (Đề 1): Bảng $giohang STT, Ảnh & CSS offline": {
+    "scope": "php,html",
+    "prefix": [
+      "!bang_giohang_hinhanh_stt"
+    ],
+    "body": [
+      "<?php",
+      "// Nho doi key ('ten','hinh','sl','gia') cho khop voi mang \\$giohang cho san trong cau2.php",
+      "\\$giohang = \\$giohang ?? array(",
+      "\tarray('ten' => 'Iphone 15', 'hinh' => 'img/ip15.jpg', 'sl' => 15, 'gia' => 25000000),",
+      "\tarray('ten' => 'Samsung',   'hinh' => 'img/ss.jpg',   'sl' => 12, 'gia' => 20990000),",
+      "\tarray('ten' => 'Man Hinh',  'hinh' => 'img/mh.jpg',   'sl' => 2,  'gia' => 2100000),",
+      "\tarray('ten' => 'Mouse',     'hinh' => '',             'sl' => 3,  'gia' => 190000)",
+      ");",
+      "\\$stt = 1; \\$tong = 0;",
+      "?>",
+      "<meta charset=\"UTF-8\">",
+      "<style>",
+      "\t.khung { border: 1px solid #ccc; padding: 15px; width: 700px; }",
+      "\t.khung table { width: 100%; border-collapse: collapse; }",
+      "\t.khung th, .khung td { padding: 8px; border-bottom: 1px solid #ddd; text-align: left; }",
+      "</style>",
+      "<div class=\"khung\">",
+      "\t<h3>Giỏ hàng #1</h3>",
+      "\t<table>",
+      "\t\t<tr><th>STT</th><th>Tên sản phẩm</th><th>Hình ảnh</th><th>Số lượng</th><th>Đơn giá</th><th>Thành tiền</th></tr>",
+      "\t\t<?php foreach (\\$giohang as \\$sp):",
+      "\t\t\t\\$thanhTien = \\$sp['sl'] * \\$sp['gia'];",
+      "\t\t\t\\$tong     += \\$thanhTien;",
+      "\t\t?>",
+      "\t\t<tr>",
+      "\t\t\t<td><?= \\$stt++ ?></td>",
+      "\t\t\t<td><?= htmlspecialchars(\\$sp['ten']) ?></td>",
+      "\t\t\t<td><?php if (!empty(\\$sp['hinh'])): ?><img src=\"<?= htmlspecialchars(\\$sp['hinh']) ?>\" width=\"50\"><?php endif; ?></td>",
+      "\t\t\t<td><?= \\$sp['sl'] ?></td>",
+      "\t\t\t<td><?= number_format(\\$sp['gia']) ?> VNĐ</td>",
+      "\t\t\t<td><?= number_format(\\$thanhTien) ?> VNĐ</td>",
+      "\t\t</tr>",
+      "\t\t<?php endforeach; ?>",
+      "\t\t<tr><td colspan=\"6\">Tổng tiền: <b><?= number_format(\\$tong) ?> VNĐ</b></td></tr>",
+      "\t</table>",
+      "</div>"
+    ],
+    "description": "Đề 1 Câu 2+3: In $giohang (STT, Tên SP, Hình ảnh bỏ qua ô rỗng, Số lượng, Đơn giá, Thành tiền) + 3 dòng CSS offline"
+  },
+  "Đề Nghĩa Câu 2+3 (Đề 2,3): Bảng $cart KM, Tiết kiệm (Offline)": {
     "scope": "php,html",
     "prefix": [
       "!bang_giohang_khuyenmai_tietkiem"
     ],
     "body": [
-      "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css\" rel=\"stylesheet\">",
-      "<div class=\"container mt-3\">",
-      "\t<h4>Giỏ hàng</h4>",
-      "\t<table class=\"table table-bordered text-center align-middle\">",
-      "\t\t<thead class=\"table-light\">",
-      "\t\t\t<tr>",
-      "\t\t\t\t<th>ID</th>",
-      "\t\t\t\t<th>Tên SP</th>",
-      "\t\t\t\t<th>Số Lượng</th>",
-      "\t\t\t\t<th>Giá Gốc</th>",
-      "\t\t\t\t<th>Giá Khuyến Mãi</th>",
-      "\t\t\t\t<th>Thành Tiền</th>",
-      "\t\t\t\t<th>Tiết Kiệm</th>",
-      "\t\t\t</tr>",
-      "\t\t</thead>",
-      "\t\t<tbody>",
-      "\t\t\t<?php",
-      "\t\t\t\\$tongThanhTien = 0;",
-      "\t\t\t\\$tongTietKiem  = 0;",
-      "\t\t\tforeach ((${1:\\$cart} ?? array()) as \\$id => \\$sp):",
-      "\t\t\t\t\\$sl        = \\$sp['soluong'];",
-      "\t\t\t\t\\$giaGoc    = \\$sp['dongia'];",
-      "\t\t\t\t\\$km        = \\$sp['khuyenmai'];",
-      "\t\t\t\t\\$giaKM     = \\$giaGoc * (100 - \\$km) / 100;",
-      "\t\t\t\t\\$thanhTien = \\$sl * \\$giaKM;",
-      "\t\t\t\t\\$tietKiem  = \\$sl * (\\$giaGoc - \\$giaKM);",
-      "\t\t\t\t\\$tongThanhTien += \\$thanhTien;",
-      "\t\t\t\t\\$tongTietKiem  += \\$tietKiem;",
-      "\t\t\t?>",
-      "\t\t\t<tr>",
-      "\t\t\t\t<td><?= htmlspecialchars((string)\\$id) ?></td>",
-      "\t\t\t\t<td><?= htmlspecialchars(\\$sp['tenSP']) ?></td>",
-      "\t\t\t\t<td><?= \\$sl ?></td>",
-      "\t\t\t\t<td><?= number_format(\\$giaGoc, 0, ',', '.') ?> VNĐ</td>",
-      "\t\t\t\t<td><?= number_format(\\$giaKM, 0, ',', '.') ?> VNĐ</td>",
-      "\t\t\t\t<td><?= number_format(\\$thanhTien, 0, ',', '.') ?> VNĐ</td>",
-      "\t\t\t\t<td><?= number_format(\\$tietKiem, 0, ',', '.') ?> VNĐ</td>",
-      "\t\t\t</tr>",
-      "\t\t\t<?php endforeach; ?>",
-      "\t\t\t<tr class=\"fw-bold\">",
-      "\t\t\t\t<td colspan=\"5\" class=\"text-end\">Tổng Tiền:</td>",
-      "\t\t\t\t<td><?= number_format(\\$tongThanhTien, 0, ',', '.') ?> VNĐ</td>",
-      "\t\t\t\t<td><?= number_format(\\$tongTietKiem, 0, ',', '.') ?> VNĐ</td>",
-      "\t\t\t</tr>",
-      "\t\t</tbody>",
-      "\t</table>",
-      "</div>"
+      "<meta charset=\"UTF-8\">",
+      "<style>",
+      "\ttable { width: 100%; border-collapse: collapse; }",
+      "\tth, td { padding: 8px; border-bottom: 1px solid #ddd; text-align: center; }",
+      "</style>",
+      "<h4>Giỏ hàng #2</h4>",
+      "<table>",
+      "\t<tr>",
+      "\t\t<th>ID</th><th>Tên SP</th><th>Số Lượng</th><th>Giá Gốc</th>",
+      "\t\t<th>Giá Khuyến Mãi</th><th>Thành Tiền</th><th>Tiết Kiệm</th>",
+      "\t</tr>",
+      "\t<?php",
+      "\t\\$tongThanhTien = 0; \\$tongTietKiem = 0;",
+      "\tforeach ((${1:\\$cart} ?? array()) as \\$id => \\$sp):",
+      "\t\t\\$sl        = \\$sp['soluong'];",
+      "\t\t\\$giaGoc    = \\$sp['dongia'];",
+      "\t\t\\$km        = \\$sp['khuyenmai'];",
+      "\t\t\\$giaKM     = \\$giaGoc * (100 - \\$km) / 100;",
+      "\t\t\\$thanhTien = \\$sl * \\$giaKM;",
+      "\t\t\\$tietKiem  = \\$sl * (\\$giaGoc - \\$giaKM);",
+      "\t\t\\$tongThanhTien += \\$thanhTien;",
+      "\t\t\\$tongTietKiem  += \\$tietKiem;",
+      "\t?>",
+      "\t<tr>",
+      "\t\t<td><?= htmlspecialchars((string)\\$id) ?></td>",
+      "\t\t<td><?= htmlspecialchars(\\$sp['tenSP']) ?></td>",
+      "\t\t<td><?= \\$sl ?></td>",
+      "\t\t<td><?= number_format(\\$giaGoc, 0, ',', '.') ?> VNĐ</td>",
+      "\t\t<td><?= number_format(\\$giaKM, 0, ',', '.') ?> VNĐ</td>",
+      "\t\t<td><?= number_format(\\$thanhTien, 0, ',', '.') ?> VNĐ</td>",
+      "\t\t<td><?= number_format(\\$tietKiem, 0, ',', '.') ?> VNĐ</td>",
+      "\t</tr>",
+      "\t<?php endforeach; ?>",
+      "\t<tr>",
+      "\t\t<td colspan=\"5\" align=\"right\"><b>Tổng Tiền:</b></td>",
+      "\t\t<td><b><?= number_format(\\$tongThanhTien, 0, ',', '.') ?> VNĐ</b></td>",
+      "\t\t<td><b><?= number_format(\\$tongTietKiem, 0, ',', '.') ?> VNĐ</b></td>",
+      "\t</tr>",
+      "</table>"
     ],
-    "description": "Bảng giỏ hàng $cart (có Bootstrap 5): tính Giá khuyến mãi, Thành tiền, Tiền tiết kiệm và Tổng cộng"
+    "description": "Đề 2 & 3 Câu 2+3: In $cart tính Giá KM, Thành tiền, Tiết kiệm, Tổng cộng (dùng CSS thuần offline, không cần CDN)"
   },
-  "Session 1 SV: Nhap thong tin, Tinh nam sinh tu tuoi, Doi ten anh img_time, Nut Xem diem": {
+  "Đề Nghĩa (Đề 4 - thongtin.php): Session 1 SV, năm sinh, img_time": {
     "scope": "php,html",
     "prefix": [
       "!session_1sv_namsinh_doitenanh"
     ],
     "body": [
       "<?php",
-      "if (session_status() === PHP_SESSION_NONE && !headers_sent()) {",
-      "\tsession_start();",
-      "}",
-      "if (isset(\\$_POST['btnReset'])) {",
-      "\tunset(\\$_SESSION['sv']);",
-      "}",
-      "\\$err = '';",
-      "\\$msg = '';",
+      "if (session_status() === PHP_SESSION_NONE && !headers_sent()) session_start();",
+      "if (isset(\\$_POST['btnReset'])) unset(\\$_SESSION['sv']);",
+      "",
+      "\\$err = ''; \\$msg = '';",
       "if (isset(\\$_POST['btnSend'])) {",
       "\t\\$hoten = trim(\\$_POST['hoten${1:44}'] ?? '');",
       "\t\\$mssv  = trim(\\$_POST['masv${1:44}'] ?? '');",
@@ -1814,45 +1804,36 @@
       "\tif (\\$tuoi === '' || \\$email === '') \\$err .= 'Tuổi và email không được để trống!<br>';",
       "",
       "\t\\$tenFile = '';",
-      "\tif (\\$err === '' && isset(\\$_FILES['hinh${1:44}']) && (\\$_FILES['hinh${1:44}']['name'] ?? '') !== '') {",
-      "\t\tif (\\$_FILES['hinh${1:44}']['error'] === 0) {",
-      "\t\t\tif (!is_dir('${2:hinh4}')) mkdir('${2:hinh4}', 0777, true);",
-      "\t\t\t\\$ext     = pathinfo(\\$_FILES['hinh${1:44}']['name'], PATHINFO_EXTENSION);",
-      "\t\t\t\\$tenFile = 'img_' . time() . '_' . \\$ext;",
-      "\t\t\tmove_uploaded_file(\\$_FILES['hinh${1:44}']['tmp_name'], '${2:hinh4}/' . \\$tenFile);",
-      "\t\t}",
+      "\tif (\\$err === '' && isset(\\$_FILES['hinh${1:44}']) && (\\$_FILES['hinh${1:44}']['name'] ?? '') !== '' && \\$_FILES['hinh${1:44}']['error'] === 0) {",
+      "\t\tif (!is_dir('${2:hinh4}')) mkdir('${2:hinh4}', 0777, true);",
+      "\t\t\\$duoi    = pathinfo(\\$_FILES['hinh${1:44}']['name'], PATHINFO_EXTENSION);",
+      "\t\t\\$tenFile = 'img_' . time() . '_' . \\$duoi;",
+      "\t\tmove_uploaded_file(\\$_FILES['hinh${1:44}']['tmp_name'], '${2:hinh4}/' . \\$tenFile);",
       "\t}",
       "\tif (\\$err === '') {",
       "\t\t\\$_SESSION['sv'] = array(",
-      "\t\t\t'hoten'   => \\$hoten,",
-      "\t\t\t'mssv'    => \\$mssv,",
-      "\t\t\t'tuoi'    => (int)\\$tuoi,",
-      "\t\t\t'namsinh' => (int)date('Y') - (int)\\$tuoi,",
-      "\t\t\t'email'   => \\$email,",
-      "\t\t\t'hinh'    => \\$tenFile",
+      "\t\t\t'hoten' => \\$hoten, 'mssv' => \\$mssv, 'tuoi' => (int)\\$tuoi,",
+      "\t\t\t'namsinh' => (int)date('Y') - (int)\\$tuoi, 'email' => \\$email, 'hinh' => \\$tenFile",
       "\t\t);",
       "\t\t\\$msg = 'Thông tin đã được lưu.';",
       "\t}",
       "}",
       "\\$sv = \\$_SESSION['sv'] ?? null;",
       "?>",
-      "<h3>Nhập thông tin sinh viên</h3>",
+      "<meta charset=\"UTF-8\">",
       "<form action=\"\" method=\"post\" enctype=\"multipart/form-data\">",
-      "\tHọ và tên: <input type=\"text\" name=\"hoten${1:44}\" value=\"<?= htmlspecialchars(\\$sv['hoten'] ?? '') ?>\"><br>",
+      "\tHọ tên: <input type=\"text\" name=\"hoten${1:44}\" value=\"<?= htmlspecialchars(\\$sv['hoten'] ?? '') ?>\"><br>",
       "\tMSSV: <input type=\"text\" name=\"masv${1:44}\" value=\"<?= htmlspecialchars(\\$sv['mssv'] ?? '') ?>\"><br>",
       "\tTuổi: <input type=\"number\" name=\"tuoi${1:44}\" value=\"<?= htmlspecialchars((string)(\\$sv['tuoi'] ?? '')) ?>\"><br>",
       "\tEmail: <input type=\"text\" name=\"email${1:44}\" value=\"<?= htmlspecialchars(\\$sv['email'] ?? '') ?>\"><br>",
-      "\tẢnh đại diện: <input type=\"file\" name=\"hinh${1:44}\"><br>",
+      "\tẢnh: <input type=\"file\" name=\"hinh${1:44}\"><br>",
       "\t<input type=\"submit\" name=\"btnSend\" value=\"Gửi\">",
       "\t<input type=\"submit\" name=\"btnReset\" value=\"Làm mới\">",
       "\t<a href=\"diem.php\"><button type=\"button\">Xem điểm</button></a>",
       "</form>",
-      "<?php if (\\$err !== ''): ?>",
-      "\t<div style=\"color:red;\"><?= \\$err ?></div>",
-      "<?php endif; ?>",
+      "<?php if (\\$err !== ''): ?><p style=\"color:red;\"><?= \\$err ?></p><?php endif; ?>",
       "<?php if (\\$sv): ?>",
       "\t<?php if (\\$msg !== ''): ?><p style=\"color:blue;\">&#10003; <?= \\$msg ?></p><?php endif; ?>",
-      "\t<h4>Thông tin Sinh viên</h4>",
       "\t<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\">",
       "\t\t<tr><td>Họ tên</td><td><?= htmlspecialchars(\\$sv['hoten']) ?></td></tr>",
       "\t\t<tr><td>MSSV</td><td><?= htmlspecialchars(\\$sv['mssv']) ?></td></tr>",
@@ -1860,60 +1841,47 @@
       "\t\t<tr><td>Năm sinh</td><td><?= \\$sv['namsinh'] ?></td></tr>",
       "\t\t<tr><td>Email</td><td><?= htmlspecialchars(\\$sv['email']) ?></td></tr>",
       "\t</table>",
-      "\t<?php if (\\$sv['hinh'] !== ''): ?>",
-      "\t\t<p>Ảnh đại diện:</p>",
-      "\t\t<img src=\"${2:hinh4}/<?= htmlspecialchars(\\$sv['hinh']) ?>\" width=\"200\" height=\"200\">",
-      "\t<?php else: ?>",
-      "\t\t<p style=\"color:red;\">Chưa chọn file hình</p>",
-      "\t<?php endif; ?>",
+      "\t<?= \\$sv['hinh'] !== '' ? '<img src=\"${2:hinh4}/' . htmlspecialchars(\\$sv['hinh']) . '\" width=\"200\" height=\"200\">' : '<p style=\"color:red;\">Chưa chọn file hình</p>' ?>",
       "<?php endif; ?>"
     ],
-    "description": "Lưu 1 sinh viên vào $_SESSION['sv'], tính năm sinh từ tuổi, đổi tên ảnh img_time(), nút Làm mới và chuyển sang trang diem.php"
+    "description": "Lưu 1 SV vào $_SESSION['sv'], tính năm sinh từ tuổi, đổi tên ảnh img_time_ext, nút Làm mới & link diem.php"
   },
-  "Session Doc 1 SV + In bang diem Toan Ly Hoa va Diem trung binh": {
+  "Đề Nghĩa (Đề 4 - diem.php): Đọc Session 1 SV & Bảng điểm TB": {
     "scope": "php,html",
     "prefix": [
       "!session_docsv_bangdiem_tb"
     ],
     "body": [
       "<?php",
-      "if (session_status() === PHP_SESSION_NONE && !headers_sent()) {",
-      "\tsession_start();",
-      "}",
+      "if (session_status() === PHP_SESSION_NONE && !headers_sent()) session_start();",
       "\\$sv = \\$_SESSION['sv'] ?? null;",
       "?>",
+      "<meta charset=\"UTF-8\">",
       "<?php if (!\\$sv): ?>",
       "\t<p style=\"color:red;\">Không tồn tại thông tin</p>",
       "\t<a href=\"thongtin.php\"><button type=\"button\">Quay lại</button></a>",
       "<?php else: ?>",
-      "\t<h3>Thông tin & Bảng điểm sinh viên</h3>",
       "\t<p>Họ tên: <b><?= htmlspecialchars(\\$sv['hoten']) ?></b> | MSSV: <b><?= htmlspecialchars(\\$sv['mssv']) ?></b></p>",
       "\t<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\">",
-      "\t\t<tr>",
-      "\t\t\t<th>Đợt</th>",
-      "\t\t\t<th>Toán</th>",
-      "\t\t\t<th>Lý</th>",
-      "\t\t\t<th>Hóa</th>",
-      "\t\t\t<th>Điểm TB</th>",
-      "\t\t</tr>",
-      "\t\t<?php foreach ((${1:\\$info['diem']} ?? array()) as \\$dot => \\$mon): ",
-      "\t\t\t\\$dtb = (\\$mon['toan'] + \\$mon['ly'] + \\$mon['hoa']) / 3;",
+      "\t\t<tr><th>Đợt</th><th>Toán</th><th>Lý</th><th>Hóa</th><th>Điểm TB</th></tr>",
+      "\t\t<?php foreach ((${1:\\$info['diem']} ?? array()) as \\$dot => \\$diemMon):",
+      "\t\t\t\\$diemTB = (\\$diemMon['toan'] + \\$diemMon['ly'] + \\$diemMon['hoa']) / 3;",
       "\t\t?>",
       "\t\t<tr>",
       "\t\t\t<td><?= htmlspecialchars((string)\\$dot) ?></td>",
-      "\t\t\t<td><?= \\$mon['toan'] ?></td>",
-      "\t\t\t<td><?= \\$mon['ly'] ?></td>",
-      "\t\t\t<td><?= \\$mon['hoa'] ?></td>",
-      "\t\t\t<td><?= round(\\$dtb, 2) ?></td>",
+      "\t\t\t<td><?= \\$diemMon['toan'] ?></td>",
+      "\t\t\t<td><?= \\$diemMon['ly'] ?></td>",
+      "\t\t\t<td><?= \\$diemMon['hoa'] ?></td>",
+      "\t\t\t<td><?= round(\\$diemTB, 2) ?></td>",
       "\t\t</tr>",
       "\t\t<?php endforeach; ?>",
       "\t</table>",
       "\t<br><a href=\"thongtin.php\"><button type=\"button\">Quay lại</button></a>",
       "<?php endif; ?>"
     ],
-    "description": "Đọc $_SESSION['sv'], kiểm tra tồn tại và in bảng điểm Toán - Lý - Hóa cùng Điểm TB làm tròn 2 chữ số"
+    "description": "Đọc $_SESSION['sv'], báo lỗi nếu trống và in bảng điểm Toán - Lý - Hóa + Điểm TB làm tròn 2 chữ số"
   },
-  "Session Nhieu SV: Quan ly danh sach $_SESSION, Check DH + Email + Upload anh + Xoa DS": {
+  "Session Nhiều SV: Thêm danh sách, Check DH, Email, Ảnh, Xóa DS": {
     "scope": "php,html",
     "prefix": [
       "!session_nhieusv_themxoa_uploadanh"
@@ -1923,7 +1891,7 @@
       "if (session_status() === PHP_SESSION_NONE && !headers_sent()) session_start();",
       "if (!isset(\\$_SESSION['danhsach_sv'])) \\$_SESSION['danhsach_sv'] = array();",
       "",
-      "\\$msg = ''; \\$loi = '';",
+      "\\$msg = ''; \\$err = '';",
       "if (isset(\\$_POST['xoa_ds'])) {",
       "\t\\$_SESSION['danhsach_sv'] = array();",
       "\t\\$msg = 'Đã xóa toàn bộ danh sách sinh viên!';",
@@ -1935,19 +1903,19 @@
       "\\$sothich  = isset(\\$_POST['sothich']) && is_array(\\$_POST['sothich']) ? \\$_POST['sothich'] : array();",
       "",
       "if (isset(\\$_POST['them_sv'])) {",
-      "\tif (strlen(\\$mssv) !== 10 || strpos(\\$mssv, 'DH') !== 0)     \\$loi .= 'MSSV phải có 10 ký tự và bắt đầu bằng DH!<br>';",
-      "\tif (\\$hoten === '')                                         \\$loi .= 'Họ tên không được trống!<br>';",
-      "\tif (!preg_match('/^\\d+\\$/', \\$tuoi) || (int)\\$tuoi <= 0)      \\$loi .= 'Tuổi phải là số nguyên dương!<br>';",
-      "\tif (!filter_var(\\$email, FILTER_VALIDATE_EMAIL))            \\$loi .= 'Email không đúng định dạng!<br>';",
-      "\tif (\\$gioitinh === '')                                      \\$loi .= 'Vui lòng chọn giới tính!<br>';",
+      "\tif (strlen(\\$mssv) !== 10 || strpos(\\$mssv, 'DH') !== 0)     \\$err .= 'MSSV phải có 10 ký tự và bắt đầu bằng DH!<br>';",
+      "\tif (\\$hoten === '')                                         \\$err .= 'Họ tên không được trống!<br>';",
+      "\tif (!preg_match('/^\\d+\\$/', \\$tuoi) || (int)\\$tuoi <= 0)      \\$err .= 'Tuổi phải là số nguyên dương!<br>';",
+      "\tif (!filter_var(\\$email, FILTER_VALIDATE_EMAIL))            \\$err .= 'Email không đúng định dạng!<br>';",
+      "\tif (\\$gioitinh === '')                                      \\$err .= 'Vui lòng chọn giới tính!<br>';",
       "",
       "\t\\$tenHinh = '';",
-      "\tif (\\$loi === '' && isset(\\$_FILES['hinh']) && (\\$_FILES['hinh']['name'] ?? '') !== '' && \\$_FILES['hinh']['error'] === 0) {",
+      "\tif (\\$err === '' && isset(\\$_FILES['hinh']) && (\\$_FILES['hinh']['name'] ?? '') !== '' && \\$_FILES['hinh']['error'] === 0) {",
       "\t\tif (!is_dir('hinh')) mkdir('hinh', 0777, true);",
       "\t\t\\$tenHinh = 'img_' . time() . '.' . pathinfo(\\$_FILES['hinh']['name'], PATHINFO_EXTENSION);",
       "\t\tmove_uploaded_file(\\$_FILES['hinh']['tmp_name'], 'hinh/' . \\$tenHinh);",
       "\t}",
-      "\tif (\\$loi === '') {",
+      "\tif (\\$err === '') {",
       "\t\t\\$_SESSION['danhsach_sv'][] = array(",
       "\t\t\t'mssv' => \\$mssv, 'hoten' => \\$hoten, 'tuoi' => (int)\\$tuoi, 'namsinh' => (int)date('Y') - (int)\\$tuoi,",
       "\t\t\t'email' => \\$email, 'gioitinh' => \\$gioitinh, 'sothich' => implode(', ', \\$sothich), 'hinh' => \\$tenHinh",
@@ -1958,7 +1926,7 @@
       "}",
       "?>",
       "<meta charset=\"UTF-8\">",
-      "<?php if (\\$loi !== ''): ?><div style=\"color:red;\"><?= \\$loi ?></div><?php endif; ?>",
+      "<?php if (\\$err !== ''): ?><div style=\"color:red;\"><?= \\$err ?></div><?php endif; ?>",
       "<?php if (\\$msg !== ''): ?><div style=\"color:green;\"><?= htmlspecialchars(\\$msg) ?></div><?php endif; ?>",
       "<form action=\"\" method=\"post\" enctype=\"multipart/form-data\">",
       "\tMSSV: <input type=\"text\" name=\"mssv\" value=\"<?= htmlspecialchars(\\$mssv) ?>\"><br>",
@@ -1991,129 +1959,109 @@
       "</table>",
       "<?php endif; ?>"
     ],
-    "description": "Quản lý danh sách nhiều sinh viên trong $_SESSION['danhsach_sv']: check MSSV DH, tuổi, email, upload ảnh vào hinh/, nút Làm mới & Xóa DS"
+    "description": "Quản lý danh sách SV trong $_SESSION['danhsach_sv']: Check MSSV DH, tuổi, email, upload ảnh hinh/, Làm mới & Xóa DS"
   },
-  "PDO MySQL: Tim kiem LIKE, Cat 15 tu dau mo ta, Anh 30px, Phan trang 10 dong, Dang xuat": {
+  "PDO Tìm Kiếm Sách: LIKE, Cắt 15 từ, Ảnh 30px, Phân 10 trang": {
     "scope": "php,html",
     "prefix": [
       "!pdo_timkiem_cat15tu_phantrang10"
     ],
     "body": [
       "<?php",
-      "if (session_status() === PHP_SESSION_NONE && !headers_sent()) {",
-      "\tsession_start();",
-      "}",
+      "if (session_status() === PHP_SESSION_NONE && !headers_sent()) session_start();",
       "if (isset(\\$_GET['action']) && \\$_GET['action'] === 'logout') {",
-      "\tsession_unset();",
-      "\tsession_destroy();",
-      "\theader('Location: index.php');",
-      "\texit;",
+      "\tsession_unset(); session_destroy();",
+      "\theader('Location: index.php'); exit;",
+      "}",
+      "function cat15Tu(\\$vanBan) {",
+      "\t\\$dsTu = preg_split('/\\s+/u', trim((string)\\$vanBan));",
+      "\treturn count(\\$dsTu) <= 15 ? \\$vanBan : implode(' ', array_slice(\\$dsTu, 0, 15)) . ' ...';",
       "}",
       "",
-      "if (!function_exists('cut15Words')) {",
-      "\tfunction cut15Words(\\$text) {",
-      "\t\t\\$words = preg_split('/\\s+/u', trim((string)\\$text));",
-      "\t\tif (count(\\$words) <= 15) return \\$text;",
-      "\t\treturn implode(' ', array_slice(\\$words, 0, 15)) . ' ...';",
-      "\t}",
-      "}",
-      "",
-      "\\$host = 'localhost';",
-      "\\$db   = 'bookstore';",
-      "\\$user = 'root';",
-      "\\$pass = '';",
-      "",
-      "\\$kw       = trim(\\$_GET['kw'] ?? '');",
-      "\\$page     = max(1, (int)(\\$_GET['page'] ?? 1));",
-      "\\$perPage  = 10;",
-      "\\$offset   = (\\$page - 1) * \\$perPage;",
-      "\\$rows     = array();",
-      "\\$total    = 0;",
+      "\\$tuKhoa = trim(\\$_GET['kw'] ?? '');",
+      "\\$trang  = max(1, (int)(\\$_GET['page'] ?? 1));",
+      "\\$soDong = 10;",
+      "\\$dsSach = array(); \\$tongSach = 0;",
       "",
       "try {",
-      "\t\\$pdo = new PDO(\"mysql:host=\\$host;dbname=\\$db;charset=utf8mb4\", \\$user, \\$pass, array(",
-      "\t\tPDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,",
-      "\t\tPDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC",
+      "\t\\$pdo = new PDO('mysql:host=localhost;dbname=bookstore;charset=utf8mb4', 'root', '', array(",
+      "\t\tPDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC",
       "\t));",
-      "\t\\$sqlCount = \"SELECT COUNT(*) FROM book WHERE book_name LIKE :kw\";",
-      "\t\\$stmtC    = \\$pdo->prepare(\\$sqlCount);",
-      "\t\\$stmtC->execute(array(':kw' => '%' . \\$kw . '%'));",
-      "\t\\$total    = (int)\\$stmtC->fetchColumn();",
+      "\t\\$stDem = \\$pdo->prepare('SELECT COUNT(*) FROM book WHERE book_name LIKE :kw');",
+      "\t\\$stDem->execute(array(':kw' => \"%\\$tuKhoa%\"));",
+      "\t\\$tongSach = (int)\\$stDem->fetchColumn();",
       "",
-      "\t\\$sql = \"SELECT b.book_id, b.book_name, b.description, b.price, b.img, p.pub_name, c.cat_name",
-      "\t        FROM book b",
-      "\t        LEFT JOIN publisher p ON b.pub_id = p.pub_id",
-      "\t        LEFT JOIN category c ON b.cat_id = c.cat_id",
-      "\t        WHERE b.book_name LIKE :kw",
-      "\t        LIMIT :limit OFFSET :offset\";",
-      "\t\\$stmt = \\$pdo->prepare(\\$sql);",
-      "\t\\$stmt->bindValue(':kw', '%' . \\$kw . '%', PDO::PARAM_STR);",
-      "\t\\$stmt->bindValue(':limit', \\$perPage, PDO::PARAM_INT);",
-      "\t\\$stmt->bindValue(':offset', \\$offset, PDO::PARAM_INT);",
-      "\t\\$stmt->execute();",
-      "\t\\$rows = \\$stmt->fetchAll();",
-      "} catch (Exception \\$e) {",
-      "\t// Fallback demo array if DB not connected",
-      "\t\\$rows  = array();",
-      "\t\\$total = 0;",
-      "}",
-      "\\$totalPages = max(1, (int)ceil(\\$total / \\$perPage));",
+      "\t\\$st = \\$pdo->prepare('SELECT b.book_id, b.book_name, b.description, b.price, b.img, p.pub_name, c.cat_name FROM book b LEFT JOIN publisher p ON b.pub_id = p.pub_id LEFT JOIN category c ON b.cat_id = c.cat_id WHERE b.book_name LIKE :kw LIMIT :lim OFFSET :off');",
+      "\t\\$st->bindValue(':kw', \"%\\$tuKhoa%\", PDO::PARAM_STR);",
+      "\t\\$st->bindValue(':lim', \\$soDong, PDO::PARAM_INT);",
+      "\t\\$st->bindValue(':off', (\\$trang - 1) * \\$soDong, PDO::PARAM_INT);",
+      "\t\\$st->execute();",
+      "\t\\$dsSach = \\$st->fetchAll();",
+      "} catch (Exception \\$e) {}",
+      "\\$tongTrang = max(1, (int)ceil(\\$tongSach / \\$soDong));",
       "?>",
-      "<div>",
-      "\tXin chào sinh viên: <b><?= htmlspecialchars(\\$_SESSION['user'] ?? 'DH52033199') ?></b> |",
-      "\t<a href=\"logout.php\">Thoát</a>",
-      "</div>",
-      "<h3>TÌM KIẾM THÔNG TIN SÁCH</h3>",
+      "<meta charset=\"UTF-8\">",
+      "<p>Xin chào: <b><?= htmlspecialchars(\\$_SESSION['user'] ?? 'DH52033199') ?></b> | <a href=\"?action=logout\">Thoát</a></p>",
       "<form action=\"\" method=\"get\">",
-      "\t<input type=\"text\" name=\"kw\" placeholder=\"Tìm theo tên sách!...\" value=\"<?= htmlspecialchars(\\$kw) ?>\">",
+      "\t<input type=\"text\" name=\"kw\" placeholder=\"Tìm theo tên sách...\" value=\"<?= htmlspecialchars(\\$tuKhoa) ?>\">",
       "\t<button type=\"submit\">Tìm</button>",
       "</form>",
-      "<p>Kết quả tìm được là: <?= \\$total ?></p>",
-      "",
-      "<table border=\"1\" cellpadding=\"6\" cellspacing=\"0\" width=\"100%\">",
+      "<p>Kết quả tìm được: <?= \\$tongSach ?></p>",
+      "<table border=\"1\" cellpadding=\"5\" cellspacing=\"0\" width=\"100%\">",
+      "\t<tr><th>Id</th><th>Tên sách</th><th>Mô tả</th><th>Giá</th><th>Ảnh</th><th>NXB</th><th>Loại</th></tr>",
+      "\t<?php foreach (\\$dsSach as \\$sach): ?>",
       "\t<tr>",
-      "\t\t<th>Id</th>",
-      "\t\t<th>Tên sách</th>",
-      "\t\t<th>Mô tả</th>",
-      "\t\t<th>Giá (vnđ)</th>",
-      "\t\t<th>Hình ảnh</th>",
-      "\t\t<th>Nhà xuất bản</th>",
-      "\t\t<th>Loại sách</th>",
-      "\t</tr>",
-      "\t<?php foreach (\\$rows as \\$r): ?>",
-      "\t<tr>",
-      "\t\t<td><?= htmlspecialchars(\\$r['book_id']) ?></td>",
-      "\t\t<td><?= htmlspecialchars(\\$r['book_name']) ?></td>",
-      "\t\t<td><?= htmlspecialchars(cut15Words(\\$r['description'])) ?></td>",
-      "\t\t<td><?= number_format((float)\\$r['price'], 0, ',', '.') ?></td>",
-      "\t\t<td><img src=\"images/book/<?= htmlspecialchars(\\$r['img']) ?>\" width=\"30\"></td>",
-      "\t\t<td><?= htmlspecialchars(\\$r['pub_name'] ?? '') ?></td>",
-      "\t\t<td><?= htmlspecialchars(\\$r['cat_name'] ?? '') ?></td>",
+      "\t\t<td><?= htmlspecialchars(\\$sach['book_id']) ?></td>",
+      "\t\t<td><?= htmlspecialchars(\\$sach['book_name']) ?></td>",
+      "\t\t<td><?= htmlspecialchars(cat15Tu(\\$sach['description'])) ?></td>",
+      "\t\t<td><?= number_format((float)\\$sach['price'], 0, ',', '.') ?></td>",
+      "\t\t<td><img src=\"images/book/<?= htmlspecialchars(\\$sach['img']) ?>\" width=\"30\"></td>",
+      "\t\t<td><?= htmlspecialchars(\\$sach['pub_name'] ?? '') ?></td>",
+      "\t\t<td><?= htmlspecialchars(\\$sach['cat_name'] ?? '') ?></td>",
       "\t</tr>",
       "\t<?php endforeach; ?>",
       "</table>",
-      "",
-      "<?php if (\\$totalPages > 1): ?>",
+      "<?php if (\\$tongTrang > 1): ?>",
       "<p>",
-      "\t<?php if (\\$page > 1): ?>",
-      "\t\t<a href=\"?kw=<?= urlencode(\\$kw) ?>&page=<?= \\$page - 1 ?>\">&laquo; Trước</a>",
-      "\t<?php endif; ?>",
-      "\t<?php for (\\$i = 1; \\$i <= \\$totalPages; \\$i++): ?>",
-      "\t\t<?php if (\\$i == \\$page): ?>",
-      "\t\t\t<b><?= \\$i ?></b>",
-      "\t\t<?php else: ?>",
-      "\t\t\t<a href=\"?kw=<?= urlencode(\\$kw) ?>&page=<?= \\$i ?>\"><?= \\$i ?></a>",
-      "\t\t<?php endif; ?>",
+      "\t<?php if (\\$trang > 1): ?><a href=\"?kw=<?= urlencode(\\$tuKhoa) ?>&page=<?= \\$trang - 1 ?>\">&laquo; Trước</a> <?php endif; ?>",
+      "\t<?php for (\\$i = 1; \\$i <= \\$tongTrang; \\$i++): ?>",
+      "\t\t<?= \\$i == \\$trang ? \"<b>\\$i</b> \" : \"<a href='?kw=\" . urlencode(\\$tuKhoa) . \"&page=\\$i'>\\$i</a> \" ?>",
       "\t<?php endfor; ?>",
-      "\t<?php if (\\$page < \\$totalPages): ?>",
-      "\t\t<a href=\"?kw=<?= urlencode(\\$kw) ?>&page=<?= \\$page + 1 ?>\">Sau &raquo;</a>",
-      "\t<?php endif; ?>",
+      "\t<?php if (\\$trang < \\$tongTrang): ?><a href=\"?kw=<?= urlencode(\\$tuKhoa) ?>&page=<?= \\$trang + 1 ?>\">Sau &raquo;</a><?php endif; ?>",
       "</p>",
       "<?php endif; ?>"
     ],
-    "description": "Truy vấn CSDL PDO MySQL: tìm kiếm LIKE :kw, cắt 15 từ đầu mô tả, ảnh 30px, phân trang 10 kết quả/trang và xử lý Đăng xuất"
+    "description": "PDO MySQL tìm kiếm sách LIKE :kw, cắt 15 từ mô tả, ảnh 30px, phân trang 10 dòng và nút Thoát"
   },
-  "Form Dang nhap: Kiem tra rong + Luu $_SESSION + Dang xuat": {
+  "PDO CSDL: Thêm, Sửa, Xóa, Lấy danh sách SQL (prepare)": {
+    "scope": "php,html",
+    "prefix": [
+      "!pdo_themsuaxoa"
+    ],
+    "body": [
+      "<?php",
+      "\\$ds = array();",
+      "try {",
+      "\t\\$pdo = new PDO('mysql:host=localhost;dbname=${1:testdb};charset=utf8', 'root', '');",
+      "\tif (isset(\\$_POST['them']) && trim(\\$_POST['ten'] ?? '') != '') {",
+      "\t\t\\$st = \\$pdo->prepare('INSERT INTO sanpham(ten, gia) VALUES (?, ?)');",
+      "\t\t\\$st->execute(array(trim(\\$_POST['ten']), (int)(\\$_POST['gia'] ?? 0)));",
+      "\t}",
+      "\tif (isset(\\$_POST['sua']) && isset(\\$_POST['id'])) {",
+      "\t\t\\$st = \\$pdo->prepare('UPDATE sanpham SET ten = ?, gia = ? WHERE id = ?');",
+      "\t\t\\$st->execute(array(trim(\\$_POST['ten'] ?? ''), (int)(\\$_POST['gia'] ?? 0), (int)\\$_POST['id']));",
+      "\t}",
+      "\tif (isset(\\$_GET['del'])) {",
+      "\t\t\\$st = \\$pdo->prepare('DELETE FROM sanpham WHERE id = ?');",
+      "\t\t\\$st->execute(array((int)\\$_GET['del']));",
+      "\t}",
+      "\t\\$ds = \\$pdo->query('SELECT * FROM sanpham')->fetchAll(PDO::FETCH_ASSOC);",
+      "} catch (Exception \\$e) {}",
+      "?>"
+    ],
+    "description": "Khung PDO MySQL dùng prepare() an toàn để Thêm (INSERT), Sửa (UPDATE), Xóa (DELETE) và đọc SELECT"
+  },
+  "Form Đăng Nhập Session: Check rỗng, Lưu $_SESSION, Đăng xuất": {
     "scope": "php,html",
     "prefix": [
       "!dangnhap_session_dangxuat"
@@ -2123,49 +2071,93 @@
       "if (session_status() === PHP_SESSION_NONE && !headers_sent()) session_start();",
       "if (isset(\\$_GET['logout'])) unset(\\$_SESSION['user']);",
       "",
-      "\\$sm = \\$_POST['submit'] ?? '';",
-      "\\$username = trim(\\$_POST['username'] ?? '');",
-      "\\$password = trim(\\$_POST['password'] ?? '');",
-      "\\$err = '';",
+      "\\$sm      = \\$_POST['submit'] ?? '';",
+      "\\$tenDN   = trim(\\$_POST['username'] ?? '');",
+      "\\$matKhau = trim(\\$_POST['password'] ?? '');",
+      "\\$err     = '';",
       "",
       "if (\\$sm !== '') {",
-      "\tif (\\$username === '') \\$err .= 'Phải nhập tên đăng nhập!<br>';",
-      "\tif (\\$password === '') \\$err .= 'Phải nhập mật khẩu!<br>';",
-      "\tif (\\$err === '') \\$_SESSION['user'] = \\$username;",
+      "\tif (\\$tenDN === '')   \\$err .= 'Phải nhập tên đăng nhập!<br>';",
+      "\tif (\\$matKhau === '') \\$err .= 'Phải nhập mật khẩu!<br>';",
+      "\tif (\\$err === '') \\$_SESSION['user'] = \\$tenDN;",
       "}",
       "?>",
       "<meta charset=\"UTF-8\">",
       "<form action=\"\" method=\"post\">",
-      "\tTên đăng nhập: <input type=\"text\" name=\"username\" value=\"<?= htmlspecialchars(\\$username) ?>\"><br>",
+      "\tTên đăng nhập: <input type=\"text\" name=\"username\" value=\"<?= htmlspecialchars(\\$tenDN) ?>\"><br>",
       "\tMật khẩu: <input type=\"password\" name=\"password\"><br>",
       "\t<input type=\"submit\" name=\"submit\" value=\"Đăng nhập\">",
       "</form>",
       "<?php if (\\$sm !== ''): ?>",
-      "\t<?= \\$err !== '' ? \"<p style='color:red;'>\\$err</p>\" : \"<p style='color:green;'>Đăng nhập thành công! Xin chào: \" . htmlspecialchars(\\$username) . \"</p>\" ?>",
+      "\t<?= \\$err !== '' ? \"<p style='color:red;'>\\$err</p>\" : \"<p style='color:green;'>Đăng nhập thành công! Xin chào: \" . htmlspecialchars(\\$tenDN) . \"</p>\" ?>",
       "<?php endif; ?>",
       "<?php if (!empty(\\$_SESSION['user'])): ?>",
       "\t<p>Session hiện tại: <b><?= htmlspecialchars(\\$_SESSION['user']) ?></b> | <a href=\"?logout=1\">Đăng xuất</a></p>",
       "<?php endif; ?>"
     ],
-    "description": "Form Dang nhap + Kiem tra rong + Luu SESSION + Nut Dang xuat"
+    "description": "Form POST đăng nhập kiểm tra rỗng, lưu $_SESSION['user'] và nút Đăng xuất ?logout=1"
   },
-  "Khung HTML5 + session_start() + CSS ke bang co ban": {
+  "Phân Trang Mảng Thuần PHP (array_slice theo ?page=)": {
+    "scope": "php,html",
+    "prefix": [
+      "!mang_phantrang_arrayslice"
+    ],
+    "body": [
+      "<?php",
+      "\\$ds       = \\$ds ?? range(1, 12);",
+      "\\$soDong   = 5;",
+      "\\$trang    = max(1, (int)(\\$_GET['page'] ?? 1));",
+      "\\$tongTrang = max(1, (int)ceil(count(\\$ds) / \\$soDong));",
+      "\\$dsHien   = array_slice(\\$ds, (\\$trang - 1) * \\$soDong, \\$soDong);",
+      "?>",
+      "<meta charset=\"UTF-8\">",
+      "<?php foreach (\\$dsHien as \\$muc) echo \"Mục: \\$muc<br>\"; ?>",
+      "<p>Trang:",
+      "<?php for (\\$i = 1; \\$i <= \\$tongTrang; \\$i++): ?>",
+      "\t<a href=\"?page=<?= \\$i ?>\"><?= \\$i == \\$trang ? \"<b>[\\$i]</b>\" : \\$i ?></a>",
+      "<?php endfor; ?>",
+      "</p>"
+    ],
+    "description": "Chia mảng thành nhiều trang (5 mục/trang) bằng array_slice và sinh link số trang ?page="
+  },
+  "OOP Cơ Bản: Khai báo Class, __construct & Method": {
+    "scope": "php,html",
+    "prefix": [
+      "!oop_class_coban"
+    ],
+    "body": [
+      "<?php",
+      "class SanPham {",
+      "\tpublic \\$ten;",
+      "\tpublic \\$gia;",
+      "\tfunction __construct(\\$ten, \\$gia) {",
+      "\t\t\\$this->ten = \\$ten;",
+      "\t\t\\$this->gia = \\$gia;",
+      "\t}",
+      "\tfunction hienThi() {",
+      "\t\treturn \\$this->ten . ' - ' . number_format(\\$this->gia) . ' VNĐ';",
+      "\t}",
+      "}",
+      "\\$sp = new SanPham('Laptop', 15000000);",
+      "echo \\$sp->hienThi();",
+      "?>"
+    ],
+    "description": "Mẫu lập trình hướng đối tượng PHP: class, thuộc tính, hàm khởi tạo __construct và gọi phương thức"
+  },
+  "Khung HTML5 + session_start() + CSS kẻ bảng sẵn": {
     "scope": "php,html",
     "prefix": [
       "!khung_html5_session_bangcss"
     ],
     "body": [
       "<?php",
-      "if (session_status() === PHP_SESSION_NONE && !headers_sent()) {",
-      "\tsession_start();",
-      "}",
-      "${1}",
+      "if (session_status() === PHP_SESSION_NONE && !headers_sent()) session_start();",
+      "${1:}",
       "?>",
       "<!DOCTYPE html>",
-      "<html lang=\"en\">",
+      "<html lang=\"vi\">",
       "<head>",
       "\t<meta charset=\"UTF-8\">",
-      "\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
       "\t<title>${2:Document}</title>",
       "\t<style>",
       "\t\ttable { border-collapse: collapse; margin-top: 10px; }",
@@ -2177,9 +2169,9 @@
       "</body>",
       "</html>"
     ],
-    "description": "Khung trang HTML5 + PHP session_start + CSS ke bang"
+    "description": "Tạo nhanh khung HTML5 kèm session_start() và CSS border-collapse kẻ bảng sẵn"
   },
-  "Bo 3 ham lay du lieu Form an toan (postIndex, getIndex, requestIndex)": {
+  "Bộ 3 Hàm Đọc Form An Toàn (postIndex, getIndex, requestIndex)": {
     "scope": "php,html",
     "prefix": [
       "!ham_laydulieu_post_get"
@@ -2187,172 +2179,160 @@
     "body": [
       "<?php",
       "if (!function_exists('postIndex')) {",
-      "\tfunction postIndex(\\$index, \\$value = '') {",
-      "\t\treturn isset(\\$_POST[\\$index]) ? trim(\\$_POST[\\$index]) : \\$value;",
+      "\tfunction postIndex(\\$tenBien, \\$macDinh = '') {",
+      "\t\treturn isset(\\$_POST[\\$tenBien]) ? trim(\\$_POST[\\$tenBien]) : \\$macDinh;",
       "\t}",
-      "\tfunction getIndex(\\$index, \\$value = '') {",
-      "\t\treturn isset(\\$_GET[\\$index]) ? trim(\\$_GET[\\$index]) : \\$value;",
+      "\tfunction getIndex(\\$tenBien, \\$macDinh = '') {",
+      "\t\treturn isset(\\$_GET[\\$tenBien]) ? trim(\\$_GET[\\$tenBien]) : \\$macDinh;",
       "\t}",
-      "\tfunction requestIndex(\\$index, \\$value = '') {",
-      "\t\treturn isset(\\$_REQUEST[\\$index]) ? trim(\\$_REQUEST[\\$index]) : \\$value;",
+      "\tfunction requestIndex(\\$tenBien, \\$macDinh = '') {",
+      "\t\treturn isset(\\$_REQUEST[\\$tenBien]) ? trim(\\$_REQUEST[\\$tenBien]) : \\$macDinh;",
       "\t}",
       "}",
       "?>"
     ],
-    "description": "Bo 3 ham postIndex, getIndex, requestIndex lay du lieu Form"
+    "description": "3 hàm tiện ích đọc $_POST, $_GET, $_REQUEST tự trim khoảng trắng và có giá trị mặc định"
   },
-  "4 mau giu gia tri Sticky Form (Textbox, Radio, Checkbox, Select)": {
+  "4 Mẫu Sticky Form (Giữ Input, Radio, Checkbox, Select)": {
     "scope": "php,html",
     "prefix": [
       "!sticky_giugiatriform"
     ],
     "body": [
-      "value=\"<?= htmlspecialchars(\\$val ?? '') ?>\"",
-      "<?= ((\\$radio ?? '') == '1') ? 'checked' : '' ?>",
-      "<?= in_array('item', \\$checkArr ?? array()) ? 'checked' : '' ?>",
-      "<?= ((\\$select ?? '') == 'opt1') ? 'selected' : '' ?>"
+      "value=\"<?= htmlspecialchars(\\$giaTriText ?? '') ?>\"",
+      "<?= ((\\$giaTriRadio ?? '') == '1') ? 'checked' : '' ?>",
+      "<?= in_array('item', \\$mangCheck ?? array()) ? 'checked' : '' ?>",
+      "<?= ((\\$giaTriSelect ?? '') == 'opt1') ? 'selected' : '' ?>"
     ],
-    "description": "4 mau giu lai gia tri Textbox, Radio, Checkbox mang, Select sau khi Submit"
+    "description": "4 dòng gắn vào thẻ HTML để giữ giá trị Textbox, Radio, Checkbox[] và Select sau khi submit"
   },
-  "Khoi tao nhanh mang 2 chieu mau (id, name, price, cat)": {
+  "Khởi Tạo Mảng 2 Chiều Mẫu (id, name, price, cat)": {
     "scope": "php,html",
     "prefix": [
       "!mang2d_khoitaomau"
     ],
     "body": [
       "<?php",
-      "\\$arr = array(",
+      "\\$dsSanPham = array(",
       "\tarray('${1:id}' => '${2:SP01}', '${3:name}' => '${4:Product 1}', '${5:price}' => ${6:100000}, '${7:cat}' => 'loai1'),",
       "\tarray('${1:id}' => 'SP02', '${3:name}' => 'Product 2', '${5:price}' => 200000, '${7:cat}' => 'loai2'),",
       "\tarray('${1:id}' => 'SP03', '${3:name}' => 'Product 3', '${5:price}' => 300000, '${7:cat}' => 'loai1')",
       ");",
       "?>"
     ],
-    "description": "Khoi tao mang 2 chieu chua danh sach san pham mau"
+    "description": "Tạo nhanh mảng 2 chiều sản phẩm mẫu có tabstop để sửa tên key và dữ liệu"
   },
-  "In mang 2 chieu ra bang HTML co cot STT va link Xoa ?del=": {
+  "Bảng HTML Từ Mảng 2D: Có cột STT & Link Xóa ?del=": {
     "scope": "php,html",
     "prefix": [
       "!bang2d_html_stt_nutxoa"
     ],
     "body": [
       "<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\">",
-      "\t<tr>",
-      "\t\t<th>STT</th>",
-      "\t\t<th>${1:ID}</th>",
-      "\t\t<th>${2:Name}</th>",
-      "\t\t<th>${3:Price}</th>",
-      "\t\t<th>Action</th>",
-      "\t</tr>",
-      "\t<?php \\$stt = 1; foreach ((${4:\\$arr} ?? array()) as ${5:\\$r}): ?>",
+      "\t<tr><th>STT</th><th>${1:ID}</th><th>${2:Tên}</th><th>${3:Giá}</th><th>Xóa</th></tr>",
+      "\t<?php \\$stt = 1; foreach ((${4:\\$dsSanPham} ?? array()) as ${5:\\$sp}): ?>",
       "\t<tr>",
       "\t\t<td><?= \\$stt++ ?></td>",
-      "\t\t<td><?= htmlspecialchars((string)(${5:\\$r}['${6:id}'] ?? '')) ?></td>",
-      "\t\t<td><?= htmlspecialchars((string)(${5:\\$r}['${7:name}'] ?? '')) ?></td>",
-      "\t\t<td><?= htmlspecialchars((string)(${5:\\$r}['${8:price}'] ?? '')) ?></td>",
-      "\t\t<td><a href=\"?del=<?= urlencode((string)(${5:\\$r}['${6:id}'] ?? '')) ?>\">Xóa</a></td>",
+      "\t\t<td><?= htmlspecialchars((string)(${5:\\$sp}['${6:id}'] ?? '')) ?></td>",
+      "\t\t<td><?= htmlspecialchars((string)(${5:\\$sp}['${7:name}'] ?? '')) ?></td>",
+      "\t\t<td><?= htmlspecialchars((string)(${5:\\$sp}['${8:price}'] ?? '')) ?></td>",
+      "\t\t<td><a href=\"?del=<?= urlencode((string)(${5:\\$sp}['${6:id}'] ?? '')) ?>\">Xóa</a></td>",
       "\t</tr>",
       "\t<?php endforeach; ?>",
       "</table>"
     ],
-    "description": "Duyet mang 2 chieu in ra bang HTML <table> co STT va nut Xoa"
+    "description": "In mảng 2 chiều ra bảng HTML có cột STT tự tăng và nút Xóa ?del=id"
   },
-  "Loc mang 2 chieu theo ten (stripos/strcasecmp) va theo loai": {
+  "Lọc Mảng 2D: Theo Tên (gần/chính xác) & Theo Loại": {
     "scope": "php,html",
     "prefix": [
       "!mang2d_loc_ten_loai"
     ],
     "body": [
       "<?php",
-      "\\$tensp   = trim(\\$_GET['${1:tensp}'] ?? '');",
-      "\\$cachtim = \\$_GET['${2:cachtim}'] ?? 'gandung';",
+      "\\$tuKhoa  = trim(\\$_GET['${1:tensp}'] ?? '');",
+      "\\$cachTim = \\$_GET['${2:cachtim}'] ?? 'gandung';",
       "\\$loai    = \\$_GET['${3:loai}'] ?? 'tatca';",
       "\\$ketQua  = array();",
-      "foreach ((${4:\\$arr} ?? array()) as \\$r) {",
-      "\t\\$khopTen  = (\\$tensp === '') || (\\$cachtim === 'chinhxac' ? (strcasecmp(\\$r['${5:name}'], \\$tensp) === 0) : (stripos(\\$r['${5:name}'], \\$tensp) !== false));",
-      "\t\\$khopLoai = (\\$loai === 'tatca' || \\$loai === '' || (\\$r['${6:cat}'] ?? '') === \\$loai);",
-      "\tif (\\$khopTen && \\$khopLoai) {",
-      "\t\t\\$ketQua[] = \\$r;",
-      "\t}",
+      "foreach ((${4:\\$dsSanPham} ?? array()) as \\$sp) {",
+      "\t\\$khopTen  = (\\$tuKhoa === '') || (\\$cachTim === 'chinhxac' ? (strcasecmp(\\$sp['${5:name}'], \\$tuKhoa) === 0) : (stripos(\\$sp['${5:name}'], \\$tuKhoa) !== false));",
+      "\t\\$khopLoai = (\\$loai === 'tatca' || \\$loai === '' || (\\$sp['${6:cat}'] ?? '') === \\$loai);",
+      "\tif (\\$khopTen && \\$khopLoai) \\$ketQua[] = \\$sp;",
       "}",
-      "${4:\\$arr} = \\$ketQua;",
+      "${4:\\$dsSanPham} = \\$ketQua;",
       "?>"
     ],
-    "description": "Loc mang 2 chieu theo ten (stripos / strcasecmp) va theo loai"
+    "description": "Lọc mảng 2 chiều theo tên (stripos gần đúng / strcasecmp chính xác) và theo loại từ $_GET"
   },
-  "Them, Sua, Xoa phan tu tren mang 2 chieu theo id": {
+  "Mảng 2D CRUD: Thêm, Sửa, Xóa phần tử theo id": {
     "scope": "php,html",
     "prefix": [
       "!mang2d_themsuaxoa_thuong"
     ],
     "body": [
       "<?php",
-      "\\$arr = \\$arr ?? array();",
-      "\\$id = trim(\\$_REQUEST['id'] ?? '');",
-      "\\$name = trim(\\$_REQUEST['name'] ?? '');",
-      "\\$price = (int)(\\$_REQUEST['price'] ?? 0);",
+      "\\$dsSanPham = \\$dsSanPham ?? array();",
+      "\\$maSP      = trim(\\$_REQUEST['id'] ?? '');",
+      "\\$tenSP     = trim(\\$_REQUEST['name'] ?? '');",
+      "\\$giaSP     = (int)(\\$_REQUEST['price'] ?? 0);",
       "",
-      "if (isset(\\$_POST['add']) && \\$id !== '') {",
-      "\t\\$arr[] = array('id' => \\$id, 'name' => \\$name, 'price' => \\$price);",
+      "if (isset(\\$_POST['add']) && \\$maSP !== '') {",
+      "\t\\$dsSanPham[] = array('id' => \\$maSP, 'name' => \\$tenSP, 'price' => \\$giaSP);",
       "}",
-      "if (isset(\\$_POST['update']) && \\$id !== '') {",
-      "\tforeach (\\$arr as \\$k => \\$v) {",
-      "\t\tif (\\$v['id'] == \\$id) {",
-      "\t\t\t\\$arr[\\$k]['name'] = \\$name;",
-      "\t\t\t\\$arr[\\$k]['price'] = \\$price;",
+      "if (isset(\\$_POST['update']) && \\$maSP !== '') {",
+      "\tforeach (\\$dsSanPham as \\$k => \\$sp) {",
+      "\t\tif (\\$sp['id'] == \\$maSP) {",
+      "\t\t\t\\$dsSanPham[\\$k]['name']  = \\$tenSP;",
+      "\t\t\t\\$dsSanPham[\\$k]['price'] = \\$giaSP;",
       "\t\t}",
       "\t}",
       "}",
       "if (isset(\\$_GET['del'])) {",
-      "\tforeach (\\$arr as \\$k => \\$v) {",
-      "\t\tif (\\$v['id'] == \\$_GET['del']) unset(\\$arr[\\$k]);",
+      "\tforeach (\\$dsSanPham as \\$k => \\$sp) {",
+      "\t\tif (\\$sp['id'] == \\$_GET['del']) unset(\\$dsSanPham[\\$k]);",
       "\t}",
-      "\t\\$arr = array_values(\\$arr);",
+      "\t\\$dsSanPham = array_values(\\$dsSanPham);",
       "}",
       "?>"
     ],
-    "description": "Them, Sua, Xoa phan tu trong mang 2 chieu theo id"
+    "description": "Thao tác Thêm (add), Sửa (update) và Xóa (?del=) trên mảng 2 chiều theo mã id"
   },
-  "Sap xep mang (asort) va lay ngau nhien phan tu (array_rand)": {
+  "Mảng: Sắp xếp (asort) & Lấy ngẫu nhiên m phần tử (array_rand)": {
     "scope": "php,html",
     "prefix": [
       "!mang_sapxep_ngaunhien_arrayrand"
     ],
     "body": [
       "<?php",
-      "\\$arr = \\$arr ?? array('a' => 3, 'b' => 1, 'c' => 2);",
-      "asort(${1:\\$arr});",
-      "\\$count = count(${1:\\$arr});",
-      "if (\\$count > 0) {",
-      "\t\\$num = min(${2:2}, \\$count);",
-      "\t\\$randKeys = (array)array_rand(${1:\\$arr}, \\$num);",
-      "\tforeach (\\$randKeys as \\$k) {",
-      "\t\t\\$item = ${1:\\$arr}[\\$k];",
+      "\\$mang = ${1:\\$mang} ?? array('a' => 3, 'b' => 1, 'c' => 2);",
+      "asort(${1:\\$mang});",
+      "\\$soPT = count(${1:\\$mang});",
+      "if (\\$soPT > 0) {",
+      "\t\\$soLay   = min(${2:2}, \\$soPT);",
+      "\t\\$keyNgau = (array)array_rand(${1:\\$mang}, \\$soLay);",
+      "\tforeach (\\$keyNgau as \\$k) {",
+      "\t\t\\$phanTu = ${1:\\$mang}[\\$k];",
       "\t}",
       "}",
       "?>"
     ],
-    "description": "Sap xep mang asort va lay ngau nhien m phan tu bang array_rand"
+    "description": "Sắp xếp mảng giữ nguyên key (asort) và chọn ngẫu nhiên m phần tử bằng array_rand"
   },
-  "Khoi tao session_start(), doc $_SESSION va xu ly ?logout=1": {
+  "Session Nhanh: Khởi tạo session_start, đọc $_SESSION & ?logout=1": {
     "scope": "php,html",
     "prefix": [
       "!session_batdau_doc_dangxuat"
     ],
     "body": [
       "<?php",
-      "if (session_status() === PHP_SESSION_NONE && !headers_sent()) {",
-      "\tsession_start();",
-      "}",
-      "if (isset(\\$_GET['logout'])) {",
-      "\tunset(\\$_SESSION['${1:user}']);",
-      "}",
-      "\\$currentUser = \\$_SESSION['${1:user}'] ?? '';",
+      "if (session_status() === PHP_SESSION_NONE && !headers_sent()) session_start();",
+      "if (isset(\\$_GET['logout'])) unset(\\$_SESSION['${1:user}']);",
+      "\\$nguoiDung = \\$_SESSION['${1:user}'] ?? '';",
       "?>"
     ],
-    "description": "Khoi tao session_start(), doc $_SESSION va xu ly ?logout=1"
+    "description": "Bắt đầu session an toàn, xử lý xóa session khi có ?logout=1 và đọc biến user hiện tại"
   },
-  "Tao setcookie(), doc $_COOKIE va xoa Cookie": {
+  "Cookie: Tạo setcookie(), Đọc $_COOKIE & Xóa ?clear_cookie": {
     "scope": "php,html",
     "prefix": [
       "!cookie_tao_doc_xoa"
@@ -2365,9 +2345,9 @@
       "if (isset(\\$_GET['clear_cookie']) && !headers_sent()) {",
       "\tsetcookie('${2:user_cookie}', '', time() - 3600, '/');",
       "}",
-      "\\$cookieVal = \\$_COOKIE['${2:user_cookie}'] ?? '';",
+      "\\$giaTriCookie = \\$_COOKIE['${2:user_cookie}'] ?? '';",
       "?>"
     ],
-    "description": "Thiet lap setcookie(), doc $_COOKIE va xoa Cookie"
+    "description": "Lưu Cookie sống 1 giờ khi POST, đọc $_COOKIE và xóa Cookie khi có ?clear_cookie"
   }
 }
