@@ -2,7 +2,7 @@
   "Lab 1 (3.1 & 4.1): Kiểm tra cấu hình PHP phpinfo()": {
     "scope": "php,html",
     "prefix": [
-      "!lab1_4.1"
+      "_lab1_4.1"
     ],
     "body": [
       "<?php",
@@ -14,7 +14,7 @@
   "Lab 1 (5.1): Cấu hình VirtualHost trong httpd.conf": {
     "scope": "php,html",
     "prefix": [
-      "!lab1_5.1"
+      "_lab1_5.1"
     ],
     "body": [
       "<VirtualHost *:80>",
@@ -33,7 +33,7 @@
   "Lab 1 (5.2): .htaccess (Rewrite, Chặn IP/Hotlink, Bảo vệ)": {
     "scope": "php,html",
     "prefix": [
-      "!lab1_5.2"
+      "_lab1_5.2"
     ],
     "body": [
       "RewriteEngine On",
@@ -63,7 +63,7 @@
   "Lab 2 (4.1): Biến cục bộ vs Toàn cục (bỏ global)": {
     "scope": "php,html",
     "prefix": [
-      "!lab2_4.1"
+      "_lab2_4.1"
     ],
     "body": [
       "<?php",
@@ -84,7 +84,7 @@
   "Lab 2 (4.2): Khai báo hằng số define('PI', 3.14)": {
     "scope": "php,html",
     "prefix": [
-      "!lab2_4.2"
+      "_lab2_4.2"
     ],
     "body": [
       "<?php",
@@ -99,7 +99,7 @@
   "Lab 2 (4.3): So sánh == vs === (ép kiểu chuỗi/số)": {
     "scope": "php,html",
     "prefix": [
-      "!lab2_4.3"
+      "_lab2_4.3"
     ],
     "body": [
       "<?php",
@@ -124,7 +124,7 @@
   "Lab 2 (4.4–4.9): isset() & include / require (_once)": {
     "scope": "php,html",
     "prefix": [
-      "!lab2_4.4"
+      "_lab2_4.4"
     ],
     "body": [
       "<?php",
@@ -142,7 +142,7 @@
   "Lab 2 (5.1): Tính phần nguyên & phần dư của $a / $b": {
     "scope": "php,html",
     "prefix": [
-      "!lab2_5.1"
+      "_lab2_5.1"
     ],
     "body": [
       "<?php",
@@ -160,7 +160,7 @@
   "Lab 2 (5.2): Kiểm tra số nguyên (is_int) hay số thực": {
     "scope": "php,html",
     "prefix": [
-      "!lab2_5.2"
+      "_lab2_5.2"
     ],
     "body": [
       "<?php",
@@ -179,7 +179,7 @@
   "Lab 2 (5.3): Giải phương trình bậc 2 (ax² + bx + c = 0)": {
     "scope": "php,html",
     "prefix": [
-      "!lab2_5.3"
+      "_lab2_5.3"
     ],
     "body": [
       "<?php",
@@ -212,7 +212,7 @@
   "Lab 3 (4.1): Tổng các số chẵn từ 2 đến 100 (for)": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_4.1"
+      "_lab3_4.1"
     ],
     "body": [
       "<?php",
@@ -228,7 +228,7 @@
   "Lab 3 (4.2): Tìm n nhỏ nhất để 1+2+...+n > 1000": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_4.2"
+      "_lab3_4.2"
     ],
     "body": [
       "<?php",
@@ -246,7 +246,7 @@
   "Lab 3 (4.3): Hàm kiểm tra số nguyên tố (do...while)": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_4.3"
+      "_lab3_4.3"
     ],
     "body": [
       "<?php",
@@ -270,7 +270,7 @@
   "Lab 3 (4.4): Hàm BCC() & BanCo() trả về bảng HTML": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_4.4"
+      "_lab3_4.4"
     ],
     "body": [
       "<?php",
@@ -310,7 +310,7 @@
   "Lab 3 (5.1): In n số nguyên tố đầu tiên": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_5.1"
+      "_lab3_5.1"
     ],
     "body": [
       "<?php",
@@ -340,7 +340,7 @@
   "Lab 3 (5.2): Kiểm tra chuỗi đối xứng (abcba)": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_5.2"
+      "_lab3_5.2"
     ],
     "body": [
       "<?php",
@@ -363,7 +363,7 @@
   "Lab 3 (5.3): Tổng từng chữ số trong chuỗi (-> 21)": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_5.3"
+      "_lab3_5.3"
     ],
     "body": [
       "<?php",
@@ -386,7 +386,7 @@
   "Lab 3 (5.4): Vẽ hình chữ nhật rỗng bằng dấu *": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_5.4"
+      "_lab3_5.4"
     ],
     "body": [
       "<?php",
@@ -413,7 +413,7 @@
   "Lab 3 (5.5): Tổng các con số trong chuỗi (-> 2037)": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_5.5"
+      "_lab3_5.5"
     ],
     "body": [
       "<?php",
@@ -431,7 +431,7 @@
   "Lab 3 (5.6): Xóa khoảng trắng dư thừa trong chuỗi": {
     "scope": "php,html",
     "prefix": [
-      "!lab3_5.6"
+      "_lab3_5.6"
     ],
     "body": [
       "<?php",
@@ -448,7 +448,7 @@
   "Lab 4 (4.1): Tìm, sửa giá trị & xóa phần tử mảng": {
     "scope": "php,html",
     "prefix": [
-      "!lab4_4.1"
+      "_lab4_4.1"
     ],
     "body": [
       "<?php",
@@ -469,7 +469,7 @@
   "Lab 4 (4.2): Đếm & lọc phần tử > 0 sang mảng mới": {
     "scope": "php,html",
     "prefix": [
-      "!lab4_4.2"
+      "_lab4_4.2"
     ],
     "body": [
       "<?php",
@@ -497,7 +497,7 @@
   "Lab 4 (4.3): Sắp xếp giảm dần (rsort, arsort, krsort)": {
     "scope": "php,html",
     "prefix": [
-      "!lab4_4.3"
+      "_lab4_4.3"
     ],
     "body": [
       "<?php",
@@ -518,7 +518,7 @@
   "Lab 4 (5.1): Hàm showArray() in mảng 1D thành bảng": {
     "scope": "php,html",
     "prefix": [
-      "!lab4_5.1"
+      "_lab4_5.1"
     ],
     "body": [
       "<?php",
@@ -540,7 +540,7 @@
   "Lab 4 (5.2): In mảng 2 chiều sản phẩm (STT, Mã, Tên)": {
     "scope": "php,html",
     "prefix": [
-      "!lab4_5.2"
+      "_lab4_5.2"
     ],
     "body": [
       "<?php",
@@ -574,7 +574,7 @@
   "Lab 4 (5.3): Lấy ngẫu nhiên m câu trắc nghiệm (array_rand)": {
     "scope": "php,html",
     "prefix": [
-      "!lab4_5.3"
+      "_lab4_5.3"
     ],
     "body": [
       "<?php",
@@ -604,7 +604,7 @@
   "Lab 5 (4.1): Link truyền ?id= & đọc $_GET['id']": {
     "scope": "php,html",
     "prefix": [
-      "!lab5_4.1"
+      "_lab5_4.1"
     ],
     "body": [
       "<?php",
@@ -629,7 +629,7 @@
   "Lab 5 (4.2): Form tìm kiếm GET (tên, cách tìm, loại)": {
     "scope": "php,html",
     "prefix": [
-      "!lab5_4.2"
+      "_lab5_4.2"
     ],
     "body": [
       "<?php",
@@ -665,7 +665,7 @@
   "Lab 5 (4.3): Form đăng ký TV + upload ảnh + sticky": {
     "scope": "php,html",
     "prefix": [
-      "!lab5_4.3"
+      "_lab5_4.3"
     ],
     "body": [
       "<?php",
@@ -739,7 +739,7 @@
   "Lab 5 (4.4): Điều hướng module theo ?mod= (switch)": {
     "scope": "php,html",
     "prefix": [
-      "!lab5_4.4"
+      "_lab5_4.4"
     ],
     "body": [
       "<?php",
@@ -771,7 +771,7 @@
   "Lab 5 (5.1): Sticky form giữ nguyên dữ liệu sau submit": {
     "scope": "php,html",
     "prefix": [
-      "!lab5_5.1"
+      "_lab5_5.1"
     ],
     "body": [
       "<?php",
@@ -801,7 +801,7 @@
   "Lab 5 (5.2): Upload nhiều ảnh cùng lúc (multiple)": {
     "scope": "php,html",
     "prefix": [
-      "!lab5_5.2"
+      "_lab5_5.2"
     ],
     "body": [
       "<?php",
@@ -835,7 +835,7 @@
   "Lab 5 (5.3): Kiểm tra Form bằng JS + PHP server": {
     "scope": "php,html",
     "prefix": [
-      "!lab5_5.3"
+      "_lab5_5.3"
     ],
     "body": [
       "<?php",
@@ -884,7 +884,7 @@
   "Lab 6 (3.1): Check chuỗi (user>=6, pass>=8, tên >=2 từ)": {
     "scope": "php,html",
     "prefix": [
-      "!lab6_3.1"
+      "_lab6_3.1"
     ],
     "body": [
       "<?php",
@@ -923,7 +923,7 @@
   "Lab 6 (3.2): Lấy đuôi file & tạo mật khẩu ngẫu nhiên": {
     "scope": "php,html",
     "prefix": [
-      "!lab6_3.2"
+      "_lab6_3.2"
     ],
     "body": [
       "<?php",
@@ -952,7 +952,7 @@
   "Lab 6 (4.1): Mã hóa SHA1+MD5 & xử lý textarea": {
     "scope": "php,html",
     "prefix": [
-      "!lab6_4.1"
+      "_lab6_4.1"
     ],
     "body": [
       "<?php",
@@ -1001,7 +1001,7 @@
   "Lab 6 (3.3 & 4.2): Check form bằng Regex (user, mail, MK, ngày)": {
     "scope": "php,html",
     "prefix": [
-      "!lab6_4.2"
+      "_lab6_4.2"
     ],
     "body": [
       "<?php",
@@ -1048,7 +1048,7 @@
   "Lab 6 (4.3 & 5.2): Đọc HTML & lọc tiêu đề (preg_match_all)": {
     "scope": "php,html",
     "prefix": [
-      "!lab6_4.3"
+      "_lab6_4.3"
     ],
     "body": [
       "<?php",
@@ -1076,7 +1076,7 @@
   "Lab 6 (5.1): Lọc Link, Email, SĐT & tên ảnh bằng Regex": {
     "scope": "php,html",
     "prefix": [
-      "!lab6_5.1"
+      "_lab6_5.1"
     ],
     "body": [
       "<?php",
@@ -1100,7 +1100,7 @@
   "Form Đăng Ký Khóa Học: Tên >=2 từ, Mail, SĐT, Select, Giảm 10%": {
     "scope": "php,html",
     "prefix": [
-      "!form_hoten2tu_email_sdt_giamgia"
+      "_form_hoten2tu_email_sdt_giamgia"
     ],
     "body": [
       "<?php",
@@ -1159,7 +1159,7 @@
   "Form Đăng Ký Hội Thảo: Tên >=2 từ, Mail, MSSV 8 số, MK >=6 (ẩn MK)": {
     "scope": "php,html",
     "prefix": [
-      "!form_hoten2tu_mssv8so_matkhau"
+      "_form_hoten2tu_mssv8so_matkhau"
     ],
     "body": [
       "<?php",
@@ -1210,7 +1210,7 @@
   "Form Đặt Hàng / Đặt Vé: Tên, SĐT, ĐC, SL >0, Ship + Tổng tiền": {
     "scope": "php,html",
     "prefix": [
-      "!form_dathang_soluong_phiship_tinhtien"
+      "_form_dathang_soluong_phiship_tinhtien"
     ],
     "body": [
       "<?php",
@@ -1275,7 +1275,7 @@
   "Form Đặt Phòng: Tên >=2 từ, CCCD 12 số, SĐT, Checkbox dịch vụ": {
     "scope": "php,html",
     "prefix": [
-      "!form_cccd12so_checkbox_tinhtien"
+      "_form_cccd12so_checkbox_tinhtien"
     ],
     "body": [
       "<?php",
@@ -1337,7 +1337,7 @@
   "Mảng 2D + Lọc $_GET theo loại + Đếm & Tổng tiền VNĐ": {
     "scope": "php,html",
     "prefix": [
-      "!mang2d_locget_tongtien"
+      "_mang2d_locget_tongtien"
     ],
     "body": [
       "<?php",
@@ -1376,7 +1376,7 @@
   "Mảng 2D + Lọc $_GET + Thống kê Tổng, TB & Tất cả Max": {
     "scope": "php,html",
     "prefix": [
-      "!mang2d_locget_tb_timtatca_max"
+      "_mang2d_locget_tb_timtatca_max"
     ],
     "body": [
       "<?php",
@@ -1425,7 +1425,7 @@
   "Mảng 2D Điểm SV: Đếm Đạt/Rớt (>=5.0), TB lớp, Tất cả Max": {
     "scope": "php,html",
     "prefix": [
-      "!mang2d_diem_datrot_tb_timmax"
+      "_mang2d_diem_datrot_tb_timmax"
     ],
     "body": [
       "<?php",
@@ -1468,7 +1468,7 @@
   "Tìm Kiếm GET: Từ khóa stripos + Lọc giá tối đa": {
     "scope": "php,html",
     "prefix": [
-      "!timkiem_get_stripos_locgia"
+      "_timkiem_get_stripos_locgia"
     ],
     "body": [
       "<?php",
@@ -1512,7 +1512,7 @@
   "Upload 1 Ảnh <= 1MB (jpg/jpeg/png), tự mkdir, hiện 200px": {
     "scope": "php,html",
     "prefix": [
-      "!upload_1anh_1mb_hien200px"
+      "_upload_1anh_1mb_hien200px"
     ],
     "body": [
       "<?php",
@@ -1560,7 +1560,7 @@
   "Session Giỏ Hàng ($_SESSION): Thêm SP, Xóa dòng, Xóa hết, Tổng": {
     "scope": "php,html",
     "prefix": [
-      "!session_giohang_themxoa_tongtien"
+      "_session_giohang_themxoa_tongtien"
     ],
     "body": [
       "<?php",
@@ -1626,7 +1626,7 @@
   "Đề Nghĩa Câu 1: Form SV (DH51/52 + Ảnh hinh1/2 + Hiện 2 cột)": {
     "scope": "php,html",
     "prefix": [
-      "!form_sv_mssvdh_uploadanh_macdinh"
+      "_form_sv_mssvdh_uploadanh_macdinh"
     ],
     "body": [
       "<?php",
@@ -1697,7 +1697,7 @@
   "Đề Nghĩa Câu 2+3 (Đề 1): Bảng $giohang STT, Ảnh & CSS offline": {
     "scope": "php,html",
     "prefix": [
-      "!bang_giohang_hinhanh_stt"
+      "_bang_giohang_hinhanh_stt"
     ],
     "body": [
       "<?php",
@@ -1742,7 +1742,7 @@
   "Đề Nghĩa Câu 2+3 (Đề 2,3): Bảng $cart KM, Tiết kiệm (Offline)": {
     "scope": "php,html",
     "prefix": [
-      "!bang_giohang_khuyenmai_tietkiem"
+      "_bang_giohang_khuyenmai_tietkiem"
     ],
     "body": [
       "<meta charset=\"UTF-8\">",
@@ -1790,7 +1790,7 @@
   "Đề Nghĩa (Đề 4 - thongtin.php): Session 1 SV, năm sinh, img_time": {
     "scope": "php,html",
     "prefix": [
-      "!session_1sv_namsinh_doitenanh"
+      "_session_1sv_namsinh_doitenanh"
     ],
     "body": [
       "<?php",
@@ -1858,7 +1858,7 @@
   "Đề Nghĩa (Đề 4 - diem.php): Đọc Session 1 SV & Bảng điểm TB": {
     "scope": "php,html",
     "prefix": [
-      "!session_docsv_bangdiem_tb"
+      "_session_docsv_bangdiem_tb"
     ],
     "body": [
       "<?php",
@@ -1893,7 +1893,7 @@
   "Session Nhiều SV: Thêm danh sách, Check DH, Email, Ảnh, Xóa DS": {
     "scope": "php,html",
     "prefix": [
-      "!session_nhieusv_themxoa_uploadanh"
+      "_session_nhieusv_themxoa_uploadanh"
     ],
     "body": [
       "<?php",
@@ -1978,7 +1978,7 @@
   "PDO Tìm Kiếm Sách: LIKE, Cắt 15 từ, Ảnh 30px, Phân 10 trang": {
     "scope": "php,html",
     "prefix": [
-      "!pdo_timkiem_cat15tu_phantrang10"
+      "_pdo_timkiem_cat15tu_phantrang10"
     ],
     "body": [
       "<?php",
@@ -2050,7 +2050,7 @@
   "PDO CSDL: Thêm, Sửa, Xóa, Lấy danh sách SQL (prepare)": {
     "scope": "php,html",
     "prefix": [
-      "!pdo_themsuaxoa"
+      "_pdo_themsuaxoa"
     ],
     "body": [
       "<?php",
@@ -2078,7 +2078,7 @@
   "Form Đăng Nhập Session: Check rỗng, Lưu $_SESSION, Đăng xuất": {
     "scope": "php,html",
     "prefix": [
-      "!dangnhap_session_dangxuat"
+      "_dangnhap_session_dangxuat"
     ],
     "body": [
       "<?php",
@@ -2114,7 +2114,7 @@
   "Phân Trang Mảng Thuần PHP (array_slice theo ?page=)": {
     "scope": "php,html",
     "prefix": [
-      "!mang_phantrang_arrayslice"
+      "_mang_phantrang_arrayslice"
     ],
     "body": [
       "<?php",
@@ -2137,7 +2137,7 @@
   "OOP Cơ Bản: Khai báo Class, __construct & Method": {
     "scope": "php,html",
     "prefix": [
-      "!oop_class_coban"
+      "_oop_class_coban"
     ],
     "body": [
       "<?php",
@@ -2161,7 +2161,7 @@
   "Khung HTML5 + session_start() + CSS kẻ bảng sẵn": {
     "scope": "php,html",
     "prefix": [
-      "!khung_html5_session_bangcss"
+      "_khung_html5_session_bangcss"
     ],
     "body": [
       "<?php",
@@ -2188,7 +2188,7 @@
   "Bộ 3 Hàm Đọc Form An Toàn (postIndex, getIndex, requestIndex)": {
     "scope": "php,html",
     "prefix": [
-      "!ham_laydulieu_post_get"
+      "_ham_laydulieu_post_get"
     ],
     "body": [
       "<?php",
@@ -2210,7 +2210,7 @@
   "4 Mẫu Sticky Form (Giữ Input, Radio, Checkbox, Select)": {
     "scope": "php,html",
     "prefix": [
-      "!sticky_giugiatriform"
+      "_sticky_giugiatriform"
     ],
     "body": [
       "value=\"<?= htmlspecialchars(\\$giaTriText ?? '') ?>\"",
@@ -2223,7 +2223,7 @@
   "Khởi Tạo Mảng 2 Chiều Mẫu (id, name, price, cat)": {
     "scope": "php,html",
     "prefix": [
-      "!mang2d_khoitaomau"
+      "_mang2d_khoitaomau"
     ],
     "body": [
       "<?php",
@@ -2239,7 +2239,7 @@
   "Bảng HTML Từ Mảng 2D: Có cột STT & Link Xóa ?del=": {
     "scope": "php,html",
     "prefix": [
-      "!bang2d_html_stt_nutxoa"
+      "_bang2d_html_stt_nutxoa"
     ],
     "body": [
       "<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\">",
@@ -2260,7 +2260,7 @@
   "Lọc Mảng 2D: Theo Tên (gần/chính xác) & Theo Loại": {
     "scope": "php,html",
     "prefix": [
-      "!mang2d_loc_ten_loai"
+      "_mang2d_loc_ten_loai"
     ],
     "body": [
       "<?php",
@@ -2281,7 +2281,7 @@
   "Mảng 2D CRUD: Thêm, Sửa, Xóa phần tử theo id": {
     "scope": "php,html",
     "prefix": [
-      "!mang2d_themsuaxoa_thuong"
+      "_mang2d_themsuaxoa_thuong"
     ],
     "body": [
       "<?php",
@@ -2314,7 +2314,7 @@
   "Mảng: Sắp xếp (asort) & Lấy ngẫu nhiên m phần tử (array_rand)": {
     "scope": "php,html",
     "prefix": [
-      "!mang_sapxep_ngaunhien_arrayrand"
+      "_mang_sapxep_ngaunhien_arrayrand"
     ],
     "body": [
       "<?php",
@@ -2335,7 +2335,7 @@
   "Session Nhanh: Khởi tạo session_start, đọc $_SESSION & ?logout=1": {
     "scope": "php,html",
     "prefix": [
-      "!session_batdau_doc_dangxuat"
+      "_session_batdau_doc_dangxuat"
     ],
     "body": [
       "<?php",
@@ -2349,7 +2349,7 @@
   "Cookie: Tạo setcookie(), Đọc $_COOKIE & Xóa ?clear_cookie": {
     "scope": "php,html",
     "prefix": [
-      "!cookie_tao_doc_xoa"
+      "_cookie_tao_doc_xoa"
     ],
     "body": [
       "<?php",
